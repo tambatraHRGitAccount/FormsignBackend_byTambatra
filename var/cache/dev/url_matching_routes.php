@@ -114,9 +114,18 @@ return [
                                 .')'
                             .')'
                         .')'
+                        .'|receipts(?'
+                            .'|/([^/\\.]++)(?:\\.([^/]++))?(*:1337)'
+                            .'|(?:\\.([^/]++))?(?'
+                                .'|(*:1364)'
+                            .')'
+                            .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
+                                .'|(*:1403)'
+                            .')'
+                        .')'
                     .')'
                 .')'
-                .'|/_error/(\\d+)(?:\\.([^/]++))?(*:1330)'
+                .'|/_error/(\\d+)(?:\\.([^/]++))?(*:1444)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -206,7 +215,16 @@ return [
             [['_route' => '_api_/policy_cover_types/{id}{._format}_put', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PolicyCoverType', '_api_operation_name' => '_api_/policy_cover_types/{id}{._format}_put'], ['id', '_format'], ['PUT' => 0], null, false, true, null],
             [['_route' => '_api_/policy_cover_types/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PolicyCoverType', '_api_operation_name' => '_api_/policy_cover_types/{id}{._format}_delete'], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        1330 => [
+        1337 => [[['_route' => '_api_/receipts/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Receipt', '_api_operation_name' => '_api_/receipts/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        1364 => [
+            [['_route' => '_api_/receipts{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Receipt', '_api_operation_name' => '_api_/receipts{._format}_get_collection'], ['_format'], ['GET' => 0], null, false, true, null],
+            [['_route' => '_api_/receipts{._format}_post', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Receipt', '_api_operation_name' => '_api_/receipts{._format}_post'], ['_format'], ['POST' => 0], null, false, true, null],
+        ],
+        1403 => [
+            [['_route' => '_api_/receipts/{id}{._format}_put', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Receipt', '_api_operation_name' => '_api_/receipts/{id}{._format}_put'], ['id', '_format'], ['PUT' => 0], null, false, true, null],
+            [['_route' => '_api_/receipts/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Receipt', '_api_operation_name' => '_api_/receipts/{id}{._format}_delete'], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
+        ],
+        1444 => [
             [['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

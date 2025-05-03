@@ -21,6 +21,7 @@ return [PHP_INT_MAX, static fn () => \Symfony\Component\VarExporter\Internal\Hyd
                     'App\\Entity\\Person',
                     'App\\Entity\\Policy',
                     'App\\Entity\\PolicyCoverType',
+                    'App\\Entity\\Receipt',
                 ],
             ],
         ],
