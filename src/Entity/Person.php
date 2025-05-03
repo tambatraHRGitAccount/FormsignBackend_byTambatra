@@ -9,11 +9,26 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
 use Doctrine\ORM\Mapping\InheritanceType;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 #[InheritanceType('JOINED')]
 #[DiscriminatorColumn(name: 'discr', type: 'string')]
 #[DiscriminatorMap(['person' => Person::class, 'customer' => Customer::class])]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put(),
+        new Delete(),
+    ]
+)]
 class Person
 {
     #[ORM\Id]
@@ -109,7 +124,6 @@ class Person
 
         return $this;
     }
-
 
     public function getStreet(): ?string
     {
@@ -267,8 +281,11 @@ class Person
         return $this;
     }
 
-    public function getAge() : int {
-        return $this->dateOfBirth ? (int) $this->dateOfBirth->diff(new \DateTime())->format('%y') : 0;
+    public function getAge(): int
+    {
+        if (!$this->dateOfBirth) {
+            return 0;
+        }
+        return (int) $this->dateOfBirth->diff(new \DateTime())->format('%y');
     }
-    
 }

@@ -4,8 +4,8 @@ services:
     container_name: crm_database
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: crm_app
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE: crm_db
     ports:
       - "3306:3306"
     volumes:

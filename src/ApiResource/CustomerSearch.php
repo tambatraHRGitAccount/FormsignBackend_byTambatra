@@ -13,7 +13,7 @@ use App\State\CustomerSearchProvider;
     uriTemplate: '/customers-search',
 )]
 #[QueryParameter(key: 'surname')]
-#[QueryParameter(key: 'forname')]
+#[QueryParameter(key: 'forename')]
 #[QueryParameter(key: 'contact_surname')]
 #[QueryParameter(key: 'swanclientref')]
 #[QueryParameter(key: 'crmclientref')]
@@ -26,15 +26,24 @@ class CustomerSearch
         public ?PersonTitle $title = null,
         public ?string $surname = null,
         public ?string $forename = null,
+        public ?string $crmClientRef = null,
+        public ?string $swanClientRef = null,
+        public ?string $phone1 = null,
+        public ?string $status = null
     ) {
     }
 
-    public static function mapFromCustomer(Customer $customer) : CustomerSearch {
+    public static function mapFromCustomer(Customer $customer): CustomerSearch
+    {
         return new CustomerSearch(
-            $customer->getId(),
-            $customer->getTitle(),
-            $customer->getSurname(),
-            $customer->getForename()
+            id: $customer->getId(),
+            title: $customer->getTitle(),
+            surname: $customer->getSurname(),
+            forename: $customer->getForename(),
+            crmClientRef: $customer->getCrmClientRef(),
+            swanClientRef: $customer->getSwanClientRef(),
+            phone1: $customer->getPhone1(),
+            status: $customer->getStatus()?->value
         );
     }
 }

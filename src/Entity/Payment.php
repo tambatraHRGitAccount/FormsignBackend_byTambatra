@@ -2,16 +2,29 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Enum\ModeOfPayment;
 use App\Repository\PaymentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put(),
+        new Delete(),
+    ]
+)]
 class Payment
 {
     #[ORM\Id]
@@ -39,6 +52,9 @@ class Payment
 
     #[ORM\Column(nullable: true, enumType: ModeOfPayment::class)]
     private ?ModeOfPayment $modeOfPayment = null;
+
+    #[ORM\ManyToOne]
+    private ?Customer $customer = null;
 
     /**
      * @var Collection<int, PaymentChildren>
@@ -140,6 +156,18 @@ class Payment
         return $this;
     }
 
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, PaymentChildren>
      */
@@ -169,5 +197,4 @@ class Payment
 
         return $this;
     }
-
 }

@@ -16,11 +16,11 @@ class CustomerRepository extends ServiceEntityRepository
         parent::__construct($registry, Customer::class);
     }
 
-    public function findAllByFilter(array $filters) : array
+    public function findAllByFilter(array $filters): array
     {
         $qb = $this
-                ->createQueryBuilder('c')
-                ->leftJoin('c.personToContact', 'contact');
+            ->createQueryBuilder('c')
+            ->leftJoin('c.personToContact', 'contact');
 
         if (!empty($filters['surname'])) {
             $qb->andWhere('c.surname LIKE :surname')
@@ -48,8 +48,15 @@ class CustomerRepository extends ServiceEntityRepository
         }
 
         if (!empty($filters['phone'])) {
-            $qb->andWhere('c.phone LIKE :phone')
-               ->setParameter('phone', '%' . $filters['phone'] . '%');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    'c.phone1 LIKE :phone',
+                    'c.phone2 LIKE :phone',
+                    'c.phone3 LIKE :phone',
+                    'c.phone4 LIKE :phone'
+                )
+            )
+            ->setParameter('phone', '%' . $filters['phone'] . '%');
         }
 
         if (!empty($filters['status'])) {
@@ -58,32 +65,7 @@ class CustomerRepository extends ServiceEntityRepository
         }
 
         return $qb->orderBy('c.surname', 'ASC')
-              ->getQuery()
-              ->getResult();
+            ->getQuery()
+            ->getResult();
     }
-
-    //    /**
-    //     * @return Customer[] Returns an array of Customer objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Customer
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

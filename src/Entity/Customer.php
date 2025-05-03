@@ -3,7 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
 use App\Enum\CustomerStatus;
 use App\Enum\KycIndicator;
 use App\Enum\MaritalStatus;
@@ -11,76 +15,107 @@ use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => ['person:read', 'customer:read']]),
+        new GetCollection(normalizationContext: ['groups' => ['person:read', 'customer:read']]),
+        new Post(denormalizationContext: ['groups' => ['person:write', 'customer:write']]),
+        new Put(denormalizationContext: ['groups' => ['person:write', 'customer:write']]),
+        new Delete(),
+    ]
+)]
 class Customer extends Person
 {
     #[ORM\Column(nullable: true, enumType: CustomerStatus::class)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?CustomerStatus $status = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $remark = null;
 
-    #[ORM\ManyToOne(cascade: ["persist"])]
+    #[ORM\ManyToOne(cascade: ['persist'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?Person $personToContact = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $crmClientRef = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $swanClientRef = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $DTClientRef = null;
+    #[Groups(['customer:read', 'customer:write'])]
+    private ?string $dtclientRef = null;
 
     #[ORM\Column(length: 150, nullable: true)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $jobTitle = null;
 
     #[ORM\Column(length: 150, nullable: true)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $vanillaLoversLtd = null;
 
     #[ORM\Column(length: 150, nullable: true)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $employerAddress = null;
 
     #[ORM\Column(length: 150, nullable: true)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $brn = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $sourceOfFunds = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $averageMontlyIncome = null;
+    #[Groups(['customer:read', 'customer:write'])]
+    private ?int $averageMonthlyIncome = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?int $drivingLicence = null;
 
     #[ORM\Column(nullable: true, enumType: MaritalStatus::class)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?MaritalStatus $maritalStatus = null;
 
     #[ORM\Column(nullable: true, enumType: KycIndicator::class)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?KycIndicator $kycIndicator = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?int $prospectNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?string $employerName = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist'])]
+    #[Groups(['customer:read', 'customer:write'])]
     private ?Person $spouse = null;
 
     /**
      * @var Collection<int, Document>
      */
     #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'customer')]
+    #[Groups(['customer:read'])]
     private Collection $documents;
 
     public function __construct()
     {
+        parent::__construct();
         $this->documents = new ArrayCollection();
+        $this->discr = 'customer';
     }
 
+    // Getters and setters (unchanged from your code, but with Groups annotations)
     public function getStatus(): ?CustomerStatus
     {
         return $this->status;
@@ -89,7 +124,6 @@ class Customer extends Person
     public function setStatus(?CustomerStatus $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -101,7 +135,6 @@ class Customer extends Person
     public function setRemark(?string $remark): static
     {
         $this->remark = $remark;
-
         return $this;
     }
 
@@ -113,32 +146,7 @@ class Customer extends Person
     public function setPersonToContact(?Person $personToContact): static
     {
         $this->personToContact = $personToContact;
-
         return $this;
-    }
-
-    public function mapToPerson(): Person
-    {
-        $person = new Person();
-
-        $person->setSurname($this->getSurname());
-        $person->setTitle($this->getTitle());
-        $person->setForename($this->getForename());
-        $person->setStreet($this->getStreet());
-        $person->setStreet2($this->getStreet2());
-        $person->setTown($this->getTown());
-        $person->setZipCode($this->getZipCode());
-        $person->setNationalId($this->getNationalId());
-        $person->setDateOfBirth($this->getDateOfBirth());
-        $person->setNationality($this->getNationalId());
-        $person->setPassport($this->getPassport());
-        $person->setPhone1($this->getPhone1());
-        $person->setPhone2($this->getPhone2());
-        $person->setPhone3($this->getPhone3());
-        $person->setPhone4($this->getPhone4());
-        $person->setEmail($this->getEmail());
-
-        return $person;
     }
 
     public function getCrmClientRef(): ?string
@@ -149,7 +157,6 @@ class Customer extends Person
     public function setCrmClientRef(?string $crmClientRef): static
     {
         $this->crmClientRef = $crmClientRef;
-
         return $this;
     }
 
@@ -161,19 +168,17 @@ class Customer extends Person
     public function setSwanClientRef(?string $swanClientRef): static
     {
         $this->swanClientRef = $swanClientRef;
-
         return $this;
     }
 
-    public function getDTClientRef(): ?string
+    public function getDtclientRef(): ?string
     {
-        return $this->DTClientRef;
+        return $this->dtclientRef;
     }
 
-    public function setDTClientRef(?string $DTClientRef): static
+    public function setDtclientRef(?string $dtclientRef): static
     {
-        $this->DTClientRef = $DTClientRef;
-
+        $this->dtclientRef = $dtclientRef;
         return $this;
     }
 
@@ -185,7 +190,6 @@ class Customer extends Person
     public function setJobTitle(?string $jobTitle): static
     {
         $this->jobTitle = $jobTitle;
-
         return $this;
     }
 
@@ -197,7 +201,6 @@ class Customer extends Person
     public function setVanillaLoversLtd(?string $vanillaLoversLtd): static
     {
         $this->vanillaLoversLtd = $vanillaLoversLtd;
-
         return $this;
     }
 
@@ -209,7 +212,6 @@ class Customer extends Person
     public function setEmployerAddress(?string $employerAddress): static
     {
         $this->employerAddress = $employerAddress;
-
         return $this;
     }
 
@@ -221,7 +223,6 @@ class Customer extends Person
     public function setBrn(?string $brn): static
     {
         $this->brn = $brn;
-
         return $this;
     }
 
@@ -233,19 +234,17 @@ class Customer extends Person
     public function setSourceOfFunds(?string $sourceOfFunds): static
     {
         $this->sourceOfFunds = $sourceOfFunds;
-
         return $this;
     }
 
-    public function getAverageMontlyIncome(): ?int
+    public function getAverageMonthlyIncome(): ?int
     {
-        return $this->averageMontlyIncome;
+        return $this->averageMonthlyIncome;
     }
 
-    public function setAverageMontlyIncome(?int $averageMontlyIncome): static
+    public function setAverageMonthlyIncome(?int $averageMonthlyIncome): static
     {
-        $this->averageMontlyIncome = $averageMontlyIncome;
-
+        $this->averageMonthlyIncome = $averageMonthlyIncome;
         return $this;
     }
 
@@ -257,7 +256,6 @@ class Customer extends Person
     public function setDrivingLicence(?int $drivingLicence): static
     {
         $this->drivingLicence = $drivingLicence;
-
         return $this;
     }
 
@@ -269,7 +267,6 @@ class Customer extends Person
     public function setMaritalStatus(?MaritalStatus $maritalStatus): static
     {
         $this->maritalStatus = $maritalStatus;
-
         return $this;
     }
 
@@ -281,7 +278,6 @@ class Customer extends Person
     public function setKycIndicator(?KycIndicator $kycIndicator): static
     {
         $this->kycIndicator = $kycIndicator;
-
         return $this;
     }
 
@@ -293,7 +289,6 @@ class Customer extends Person
     public function setProspectNumber(?int $prospectNumber): static
     {
         $this->prospectNumber = $prospectNumber;
-
         return $this;
     }
 
@@ -305,7 +300,6 @@ class Customer extends Person
     public function setEmployerName(?string $employerName): static
     {
         $this->employerName = $employerName;
-
         return $this;
     }
 
@@ -317,7 +311,6 @@ class Customer extends Person
     public function setSpouse(?Person $spouse): static
     {
         $this->spouse = $spouse;
-
         return $this;
     }
 
@@ -335,20 +328,16 @@ class Customer extends Person
             $this->documents->add($document);
             $document->setCustomer($this);
         }
-
         return $this;
     }
 
     public function removeDocument(Document $document): static
     {
         if ($this->documents->removeElement($document)) {
-            // set the owning side to null (unless already changed)
             if ($document->getCustomer() === $this) {
                 $document->setCustomer(null);
             }
         }
-
         return $this;
     }
-
 }

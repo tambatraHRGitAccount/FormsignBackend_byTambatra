@@ -2,16 +2,29 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Enum\InsuranceType;
 use App\Enum\ModeOfPayment;
 use App\Enum\TransactionType;
 use App\Repository\PolicyRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity(repositoryClass: PolicyRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Put(),
+        new Delete(),
+    ]
+)]
 class Policy
 {
     #[ORM\Id]
@@ -114,6 +127,9 @@ class Policy
 
     #[ORM\ManyToOne]
     private ?PolicyCoverType $coverType = null;
+
+    #[ORM\ManyToOne]
+    private ?Customer $customer = null;
 
     public function getId(): ?int
     {
@@ -500,6 +516,18 @@ class Policy
     public function setCoverType(?PolicyCoverType $coverType): static
     {
         $this->coverType = $coverType;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
 
         return $this;
     }
