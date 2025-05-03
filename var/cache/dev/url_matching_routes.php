@@ -45,69 +45,78 @@ return [
                                     .')'
                                 .')'
                             .')'
+                            .'|laims(?'
+                                .'|/([^/\\.]++)(?:\\.([^/]++))?(*:501)'
+                                .'|(?:\\.([^/]++))?(?'
+                                    .'|(*:527)'
+                                .')'
+                                .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
+                                    .'|(*:565)'
+                                .')'
+                            .')'
                         .')'
-                        .'|errors/(\\d+)(?:\\.([^/]++))?(*:495)'
+                        .'|errors/(\\d+)(?:\\.([^/]++))?(*:603)'
                         .'|validation_errors/([^/]++)(?'
-                            .'|(*:532)'
+                            .'|(*:640)'
                         .')'
                         .'|interactions(?'
-                            .'|/([^/\\.]++)(?:\\.([^/]++))?(*:582)'
+                            .'|/([^/\\.]++)(?:\\.([^/]++))?(*:690)'
                             .'|(?:\\.([^/]++))?(?'
-                                .'|(*:608)'
+                                .'|(*:716)'
                             .')'
                             .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
-                                .'|(*:646)'
+                                .'|(*:754)'
                             .')'
                         .')'
                         .'|p(?'
                             .'|ayment(?'
                                 .'|s(?'
-                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:699)'
+                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:807)'
                                     .'|(?:\\.([^/]++))?(?'
-                                        .'|(*:725)'
+                                        .'|(*:833)'
                                     .')'
                                     .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
-                                        .'|(*:763)'
+                                        .'|(*:871)'
                                     .')'
                                 .')'
                                 .'|_childrens(?'
-                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:812)'
+                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:920)'
                                     .'|(?:\\.([^/]++))?(?'
-                                        .'|(*:838)'
+                                        .'|(*:946)'
                                     .')'
                                     .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
-                                        .'|(*:876)'
+                                        .'|(*:984)'
                                     .')'
                                 .')'
                             .')'
                             .'|eople(?'
-                                .'|/([^/\\.]++)(?:\\.([^/]++))?(*:921)'
-                                .'|(?:\\.([^/]++))?(*:944)'
+                                .'|/([^/\\.]++)(?:\\.([^/]++))?(*:1029)'
+                                .'|(?:\\.([^/]++))?(*:1053)'
                             .')'
                             .'|olic(?'
                                 .'|ies(?'
-                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:992)'
+                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:1102)'
                                     .'|(?:\\.([^/]++))?(?'
-                                        .'|(*:1018)'
+                                        .'|(*:1129)'
                                     .')'
                                     .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
-                                        .'|(*:1057)'
+                                        .'|(*:1168)'
                                     .')'
                                 .')'
                                 .'|y_cover_types(?'
-                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:1110)'
+                                    .'|/([^/\\.]++)(?:\\.([^/]++))?(*:1221)'
                                     .'|(?:\\.([^/]++))?(?'
-                                        .'|(*:1137)'
+                                        .'|(*:1248)'
                                     .')'
                                     .'|/([^/\\.]++)(?:\\.([^/]++))?(?'
-                                        .'|(*:1176)'
+                                        .'|(*:1287)'
                                     .')'
                                 .')'
                             .')'
                         .')'
                     .')'
                 .')'
-                .'|/_error/(\\d+)(?:\\.([^/]++))?(*:1219)'
+                .'|/_error/(\\d+)(?:\\.([^/]++))?(*:1330)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -135,60 +144,69 @@ return [
             [['_route' => '_api_/customers/{id}{._format}_put', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Customer', '_api_operation_name' => '_api_/customers/{id}{._format}_put'], ['id', '_format'], ['PUT' => 0], null, false, true, null],
             [['_route' => '_api_/customers/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Customer', '_api_operation_name' => '_api_/customers/{id}{._format}_delete'], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        495 => [[['_route' => '_api_errors', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'ApiPlatform\\State\\ApiResource\\Error', '_api_operation_name' => '_api_errors'], ['status', '_format'], ['GET' => 0], null, false, true, null]],
-        532 => [
+        501 => [[['_route' => '_api_/claims/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Claim', '_api_operation_name' => '_api_/claims/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        527 => [
+            [['_route' => '_api_/claims{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Claim', '_api_operation_name' => '_api_/claims{._format}_get_collection'], ['_format'], ['GET' => 0], null, false, true, null],
+            [['_route' => '_api_/claims{._format}_post', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Claim', '_api_operation_name' => '_api_/claims{._format}_post'], ['_format'], ['POST' => 0], null, false, true, null],
+        ],
+        565 => [
+            [['_route' => '_api_/claims/{id}{._format}_put', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Claim', '_api_operation_name' => '_api_/claims/{id}{._format}_put'], ['id', '_format'], ['PUT' => 0], null, false, true, null],
+            [['_route' => '_api_/claims/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Claim', '_api_operation_name' => '_api_/claims/{id}{._format}_delete'], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
+        ],
+        603 => [[['_route' => '_api_errors', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'ApiPlatform\\State\\ApiResource\\Error', '_api_operation_name' => '_api_errors'], ['status', '_format'], ['GET' => 0], null, false, true, null]],
+        640 => [
             [['_route' => '_api_validation_errors_problem', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'ApiPlatform\\Validator\\Exception\\ValidationException', '_api_operation_name' => '_api_validation_errors_problem'], ['id'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_validation_errors_hydra', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'ApiPlatform\\Validator\\Exception\\ValidationException', '_api_operation_name' => '_api_validation_errors_hydra'], ['id'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_validation_errors_jsonapi', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'ApiPlatform\\Validator\\Exception\\ValidationException', '_api_operation_name' => '_api_validation_errors_jsonapi'], ['id'], ['GET' => 0], null, false, true, null],
         ],
-        582 => [[['_route' => '_api_/interactions/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Interaction', '_api_operation_name' => '_api_/interactions/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
-        608 => [
+        690 => [[['_route' => '_api_/interactions/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Interaction', '_api_operation_name' => '_api_/interactions/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        716 => [
             [['_route' => '_api_/interactions{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Interaction', '_api_operation_name' => '_api_/interactions{._format}_get_collection'], ['_format'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_/interactions{._format}_post', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Interaction', '_api_operation_name' => '_api_/interactions{._format}_post'], ['_format'], ['POST' => 0], null, false, true, null],
         ],
-        646 => [
+        754 => [
             [['_route' => '_api_/interactions/{id}{._format}_put', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Interaction', '_api_operation_name' => '_api_/interactions/{id}{._format}_put'], ['id', '_format'], ['PUT' => 0], null, false, true, null],
             [['_route' => '_api_/interactions/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Interaction', '_api_operation_name' => '_api_/interactions/{id}{._format}_delete'], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        699 => [[['_route' => '_api_/payments/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Payment', '_api_operation_name' => '_api_/payments/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
-        725 => [
+        807 => [[['_route' => '_api_/payments/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Payment', '_api_operation_name' => '_api_/payments/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        833 => [
             [['_route' => '_api_/payments{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Payment', '_api_operation_name' => '_api_/payments{._format}_get_collection'], ['_format'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_/payments{._format}_post', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Payment', '_api_operation_name' => '_api_/payments{._format}_post'], ['_format'], ['POST' => 0], null, false, true, null],
         ],
-        763 => [
+        871 => [
             [['_route' => '_api_/payments/{id}{._format}_put', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Payment', '_api_operation_name' => '_api_/payments/{id}{._format}_put'], ['id', '_format'], ['PUT' => 0], null, false, true, null],
             [['_route' => '_api_/payments/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Payment', '_api_operation_name' => '_api_/payments/{id}{._format}_delete'], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        812 => [[['_route' => '_api_/payment_childrens/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PaymentChildren', '_api_operation_name' => '_api_/payment_childrens/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
-        838 => [
+        920 => [[['_route' => '_api_/payment_childrens/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PaymentChildren', '_api_operation_name' => '_api_/payment_childrens/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        946 => [
             [['_route' => '_api_/payment_childrens{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PaymentChildren', '_api_operation_name' => '_api_/payment_childrens{._format}_get_collection'], ['_format'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_/payment_childrens{._format}_post', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PaymentChildren', '_api_operation_name' => '_api_/payment_childrens{._format}_post'], ['_format'], ['POST' => 0], null, false, true, null],
         ],
-        876 => [
+        984 => [
             [['_route' => '_api_/payment_childrens/{id}{._format}_put', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PaymentChildren', '_api_operation_name' => '_api_/payment_childrens/{id}{._format}_put'], ['id', '_format'], ['PUT' => 0], null, false, true, null],
             [['_route' => '_api_/payment_childrens/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PaymentChildren', '_api_operation_name' => '_api_/payment_childrens/{id}{._format}_delete'], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        921 => [[['_route' => '_api_/people/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Person', '_api_operation_name' => '_api_/people/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
-        944 => [[['_route' => '_api_/people{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Person', '_api_operation_name' => '_api_/people{._format}_get_collection'], ['_format'], ['GET' => 0], null, false, true, null]],
-        992 => [[['_route' => '_api_/policies/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Policy', '_api_operation_name' => '_api_/policies/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
-        1018 => [
+        1029 => [[['_route' => '_api_/people/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Person', '_api_operation_name' => '_api_/people/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        1053 => [[['_route' => '_api_/people{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Person', '_api_operation_name' => '_api_/people{._format}_get_collection'], ['_format'], ['GET' => 0], null, false, true, null]],
+        1102 => [[['_route' => '_api_/policies/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Policy', '_api_operation_name' => '_api_/policies/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        1129 => [
             [['_route' => '_api_/policies{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Policy', '_api_operation_name' => '_api_/policies{._format}_get_collection'], ['_format'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_/policies{._format}_post', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Policy', '_api_operation_name' => '_api_/policies{._format}_post'], ['_format'], ['POST' => 0], null, false, true, null],
         ],
-        1057 => [
+        1168 => [
             [['_route' => '_api_/policies/{id}{._format}_put', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Policy', '_api_operation_name' => '_api_/policies/{id}{._format}_put'], ['id', '_format'], ['PUT' => 0], null, false, true, null],
             [['_route' => '_api_/policies/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\Policy', '_api_operation_name' => '_api_/policies/{id}{._format}_delete'], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        1110 => [[['_route' => '_api_/policy_cover_types/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PolicyCoverType', '_api_operation_name' => '_api_/policy_cover_types/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
-        1137 => [
+        1221 => [[['_route' => '_api_/policy_cover_types/{id}{._format}_get', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PolicyCoverType', '_api_operation_name' => '_api_/policy_cover_types/{id}{._format}_get'], ['id', '_format'], ['GET' => 0], null, false, true, null]],
+        1248 => [
             [['_route' => '_api_/policy_cover_types{._format}_get_collection', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PolicyCoverType', '_api_operation_name' => '_api_/policy_cover_types{._format}_get_collection'], ['_format'], ['GET' => 0], null, false, true, null],
             [['_route' => '_api_/policy_cover_types{._format}_post', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PolicyCoverType', '_api_operation_name' => '_api_/policy_cover_types{._format}_post'], ['_format'], ['POST' => 0], null, false, true, null],
         ],
-        1176 => [
+        1287 => [
             [['_route' => '_api_/policy_cover_types/{id}{._format}_put', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PolicyCoverType', '_api_operation_name' => '_api_/policy_cover_types/{id}{._format}_put'], ['id', '_format'], ['PUT' => 0], null, false, true, null],
             [['_route' => '_api_/policy_cover_types/{id}{._format}_delete', '_controller' => 'api_platform.symfony.main_controller', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\PolicyCoverType', '_api_operation_name' => '_api_/policy_cover_types/{id}{._format}_delete'], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
-        1219 => [
+        1330 => [
             [['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

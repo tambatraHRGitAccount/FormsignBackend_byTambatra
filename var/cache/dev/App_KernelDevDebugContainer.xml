@@ -417,6 +417,10 @@
       <tag name="doctrine.fixture.orm"/>
     </service>
     <service id="App\Dto\CustomerDto" class="App\Dto\CustomerDto" autowire="true" autoconfigure="true"/>
+    <service id="App\Repository\ClaimRepository" class="App\Repository\ClaimRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
     <service id="App\Repository\CustomerRepository" class="App\Repository\CustomerRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
@@ -3045,7 +3049,7 @@
     <service id="doctrine.orm.configuration" class="Doctrine\ORM\Configuration" abstract="true"/>
     <service id="doctrine.orm.entity_manager.abstract" class="Doctrine\ORM\EntityManager" lazy="true" abstract="true"/>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory">
-      <argument type="service" id=".service_locator.MfRzzx0"/>
+      <argument type="service" id=".service_locator.0fJcgp7"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -5764,6 +5768,8 @@
     <service id=".abstract.instanceof.App\DataFixtures\AppFixtures" class="App\DataFixtures\AppFixtures" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.App\DataFixtures\CustomerFixtures" class="App\DataFixtures\CustomerFixtures" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\DataFixtures\CustomerFixtures" class="App\DataFixtures\CustomerFixtures" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ClaimRepository" class="App\Repository\ClaimRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\ClaimRepository" class="App\Repository\ClaimRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CustomerRepository" class="App\Repository\CustomerRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\CustomerRepository" class="App\Repository\CustomerRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\DocumentRepository" class="App\Repository\DocumentRepository" autowire="true" abstract="true"/>
@@ -6436,9 +6442,10 @@
         <argument key="doctrine.orm.default_listeners.attach_entity_listeners" type="service_closure" id="doctrine.orm.default_listeners.attach_entity_listeners"/>
       </argument>
     </service>
-    <service id=".service_locator.MfRzzx0" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.0fJcgp7" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Repository\ClaimRepository" type="service_closure" id="App\Repository\ClaimRepository"/>
         <argument key="App\Repository\CustomerRepository" type="service_closure" id="App\Repository\CustomerRepository"/>
         <argument key="App\Repository\DocumentRepository" type="service_closure" id="App\Repository\DocumentRepository"/>
         <argument key="App\Repository\InteractionRepository" type="service_closure" id="App\Repository\InteractionRepository"/>
