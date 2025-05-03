@@ -68,4 +68,13 @@ class CustomerRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findByCrmClientRef(string $crmClientRef): ?Customer
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.crmClientRef = :crmClientRef')
+            ->setParameter('crmClientRef', $crmClientRef)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

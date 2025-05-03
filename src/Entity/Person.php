@@ -2,31 +2,22 @@
 
 namespace App\Entity;
 
-use App\Enum\PersonTitle;
-use App\Repository\PersonRepository;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\DiscriminatorColumn;
-use Doctrine\ORM\Mapping\DiscriminatorMap;
-use Doctrine\ORM\Mapping\InheritanceType;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Delete;
+use App\Enum\PersonTitle;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: PersonRepository::class)]
-#[InheritanceType('JOINED')]
-#[DiscriminatorColumn(name: 'discr', type: 'string')]
-#[DiscriminatorMap(['person' => Person::class, 'customer' => Customer::class])]
+#[ORM\Entity]
+#[ORM\InheritanceType("JOINED")]
+#[ORM\DiscriminatorColumn(name: "discr", type: "string")]
+#[ORM\DiscriminatorMap(["person" => Person::class, "customer" => Customer::class])]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
-        new Post(),
-        new Put(),
-        new Delete(),
+        new Get(normalizationContext: ['groups' => ['person:read']]),
+        new GetCollection(normalizationContext: ['groups' => ['person:read']]),
     ]
 )]
 class Person
@@ -34,55 +25,90 @@ class Person
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['person:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $surname = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 255)]
+    private ?string $forename = null;
+
     #[ORM\Column(nullable: true, enumType: PersonTitle::class)]
+    #[Groups(['person:read', 'person:write'])]
     private ?PersonTitle $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $forename = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $street = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $street2 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $town = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 20)]
     private ?string $zipCode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $nationalId = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: "date", nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
     private ?\DateTimeInterface $dateOfBirth = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $nationality = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $passport = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 20)]
     private ?string $phone1 = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 100)]
     private ?string $phone2 = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 100)]
     private ?string $phone3 = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Length(max: 100)]
     private ?string $phone4 = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['person:read', 'person:write'])]
+    #[Assert\Email]
     private ?string $email = null;
+
+    public function __construct()
+    {
+    }
 
     public function getId(): ?int
     {
@@ -97,19 +123,6 @@ class Person
     public function setSurname(?string $surname): static
     {
         $this->surname = $surname;
-
-        return $this;
-    }
-
-    public function getTitle(): ?PersonTitle
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?PersonTitle $title): static
-    {
-        $this->title = $title;
-
         return $this;
     }
 
@@ -121,7 +134,17 @@ class Person
     public function setForename(?string $forename): static
     {
         $this->forename = $forename;
+        return $this;
+    }
 
+    public function getTitle(): ?PersonTitle
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?PersonTitle $title): static
+    {
+        $this->title = $title;
         return $this;
     }
 
@@ -133,7 +156,6 @@ class Person
     public function setStreet(?string $street): static
     {
         $this->street = $street;
-
         return $this;
     }
 
@@ -145,7 +167,6 @@ class Person
     public function setStreet2(?string $street2): static
     {
         $this->street2 = $street2;
-
         return $this;
     }
 
@@ -157,7 +178,6 @@ class Person
     public function setTown(?string $town): static
     {
         $this->town = $town;
-
         return $this;
     }
 
@@ -169,7 +189,6 @@ class Person
     public function setZipCode(?string $zipCode): static
     {
         $this->zipCode = $zipCode;
-
         return $this;
     }
 
@@ -181,7 +200,6 @@ class Person
     public function setNationalId(?string $nationalId): static
     {
         $this->nationalId = $nationalId;
-
         return $this;
     }
 
@@ -193,7 +211,6 @@ class Person
     public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): static
     {
         $this->dateOfBirth = $dateOfBirth;
-
         return $this;
     }
 
@@ -205,7 +222,6 @@ class Person
     public function setNationality(?string $nationality): static
     {
         $this->nationality = $nationality;
-
         return $this;
     }
 
@@ -217,7 +233,6 @@ class Person
     public function setPassport(?string $passport): static
     {
         $this->passport = $passport;
-
         return $this;
     }
 
@@ -229,7 +244,6 @@ class Person
     public function setPhone1(?string $phone1): static
     {
         $this->phone1 = $phone1;
-
         return $this;
     }
 
@@ -241,7 +255,6 @@ class Person
     public function setPhone2(?string $phone2): static
     {
         $this->phone2 = $phone2;
-
         return $this;
     }
 
@@ -253,7 +266,6 @@ class Person
     public function setPhone3(?string $phone3): static
     {
         $this->phone3 = $phone3;
-
         return $this;
     }
 
@@ -265,7 +277,6 @@ class Person
     public function setPhone4(?string $phone4): static
     {
         $this->phone4 = $phone4;
-
         return $this;
     }
 
@@ -277,15 +288,6 @@ class Person
     public function setEmail(?string $email): static
     {
         $this->email = $email;
-
         return $this;
-    }
-
-    public function getAge(): int
-    {
-        if (!$this->dateOfBirth) {
-            return 0;
-        }
-        return (int) $this->dateOfBirth->diff(new \DateTime())->format('%y');
     }
 }

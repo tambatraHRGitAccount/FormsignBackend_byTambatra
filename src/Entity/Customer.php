@@ -16,14 +16,27 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ApiResource(
     operations: [
         new Get(normalizationContext: ['groups' => ['person:read', 'customer:read']]),
         new GetCollection(normalizationContext: ['groups' => ['person:read', 'customer:read']]),
-        new Post(denormalizationContext: ['groups' => ['person:write', 'customer:write']]),
-        new Put(denormalizationContext: ['groups' => ['person:write', 'customer:write']]),
+        new Post(
+            input: \App\Dto\CustomerDto::class,
+            output: \App\Dto\CustomerDto::class,
+            denormalizationContext: ['groups' => ['person:write', 'customer:write']],
+            validationContext: ['groups' => ['Default', 'create']],
+            processor: \App\State\CustomerProcessor::class
+        ),
+        new Put(
+            input: \App\Dto\CustomerDto::class,
+            output: \App\Dto\CustomerDto::class,
+            denormalizationContext: ['groups' => ['person:write', 'customer:write']],
+            validationContext: ['groups' => ['Default', 'update']],
+            processor: \App\State\CustomerProcessor::class
+        ),
         new Delete(),
     ]
 )]
@@ -31,6 +44,7 @@ class Customer extends Person
 {
     #[ORM\Column(nullable: true, enumType: CustomerStatus::class)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\NotNull(groups: ['create'])]
     private ?CustomerStatus $status = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -43,42 +57,52 @@ class Customer extends Person
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Length(max: 100)]
     private ?string $crmClientRef = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Length(max: 50)]
     private ?string $swanClientRef = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $dtclientRef = null;
 
     #[ORM\Column(length: 150, nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Length(max: 150)]
     private ?string $jobTitle = null;
 
     #[ORM\Column(length: 150, nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Length(max: 150)]
     private ?string $vanillaLoversLtd = null;
 
     #[ORM\Column(length: 150, nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Length(max: 150)]
     private ?string $employerAddress = null;
 
     #[ORM\Column(length: 150, nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Length(max: 150)]
     private ?string $brn = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $sourceOfFunds = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\PositiveOrZero]
     private ?int $averageMonthlyIncome = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Positive]
     private ?int $drivingLicence = null;
 
     #[ORM\Column(nullable: true, enumType: MaritalStatus::class)]
@@ -91,10 +115,12 @@ class Customer extends Person
 
     #[ORM\Column(nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Positive]
     private ?int $prospectNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['customer:read', 'customer:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $employerName = null;
 
     #[ORM\ManyToOne(cascade: ['persist'])]
@@ -115,7 +141,6 @@ class Customer extends Person
         $this->discr = 'customer';
     }
 
-    // Getters and setters (unchanged from your code, but with Groups annotations)
     public function getStatus(): ?CustomerStatus
     {
         return $this->status;
@@ -284,6 +309,11 @@ class Customer extends Person
     public function getProspectNumber(): ?int
     {
         return $this->prospectNumber;
+    }
+
+    public function checks(): bool
+    {
+        return $this->prospectNumber !== null;
     }
 
     public function setProspectNumber(?int $prospectNumber): static

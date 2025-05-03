@@ -14,14 +14,16 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Delete;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PolicyRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
-        new Post(),
-        new Put(),
+        new Get(normalizationContext: ['groups' => ['policy:read']]),
+        new GetCollection(normalizationContext: ['groups' => ['policy:read']]),
+        new Post(denormalizationContext: ['groups' => ['policy:write']]),
+        new Put(denormalizationContext: ['groups' => ['policy:write']]),
         new Delete(),
     ]
 )]
@@ -30,105 +32,158 @@ class Policy
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['policy:read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?\DateTimeInterface $accMonth = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\PositiveOrZero]
     private ?int $placingNumber = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\PositiveOrZero]
     private ?int $qbNumber = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\PositiveOrZero]
     private ?int $policyNumber = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?\DateTimeInterface $dateFrom = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\NotBlank]
     private ?\DateTimeInterface $dateTo = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $makeAndModel = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $hp = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $bodyType = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\PositiveOrZero]
     private ?int $month = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\PositiveOrZero]
     private ?int $year = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\PositiveOrZero]
     private ?int $registrationNumber = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?float $sumInsured = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\PositiveOrZero]
+    private ?string $sumInsured = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?float $excess = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\PositiveOrZero]
+    private ?string $excess = null;
 
     #[ORM\Column(length: 500, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\Length(max: 500)]
     private ?string $riskDescription = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?bool $driverAtFault = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?bool $notAtFaultExcess = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?bool $aic = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?bool $rodent = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?bool $lossOfUse = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?bool $passiveTerrorism = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?bool $alloyWheel = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?float $netPremium = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\PositiveOrZero]
+    private ?string $netPremium = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?float $rate = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\PositiveOrZero]
+    private ?string $rate = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?float $grossPremium = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\PositiveOrZero]
+    private ?string $grossPremium = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $leasing = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['policy:read', 'policy:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $lien = null;
 
     #[ORM\Column(nullable: true, enumType: TransactionType::class)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?TransactionType $transactionType = null;
 
     #[ORM\Column(nullable: true, enumType: InsuranceType::class)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?InsuranceType $insuranceType = null;
 
     #[ORM\Column(nullable: true, enumType: ModeOfPayment::class)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?ModeOfPayment $modeOfPayment = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: PolicyCoverType::class)]
+    #[Groups(['policy:read', 'policy:write'])]
     private ?PolicyCoverType $coverType = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Customer::class)]
+    #[ORM\JoinColumn(name: 'customer_id', referencedColumnName: 'id')]
+    #[Groups(['policy:read'])]
     private ?Customer $customer = null;
 
     public function getId(): ?int
@@ -144,7 +199,6 @@ class Policy
     public function setDate(?\DateTimeInterface $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -156,7 +210,6 @@ class Policy
     public function setAccMonth(?\DateTimeInterface $accMonth): static
     {
         $this->accMonth = $accMonth;
-
         return $this;
     }
 
@@ -168,7 +221,6 @@ class Policy
     public function setPlacingNumber(?int $placingNumber): static
     {
         $this->placingNumber = $placingNumber;
-
         return $this;
     }
 
@@ -180,7 +232,6 @@ class Policy
     public function setQbNumber(?int $qbNumber): static
     {
         $this->qbNumber = $qbNumber;
-
         return $this;
     }
 
@@ -192,7 +243,6 @@ class Policy
     public function setPolicyNumber(?int $policyNumber): static
     {
         $this->policyNumber = $policyNumber;
-
         return $this;
     }
 
@@ -204,7 +254,6 @@ class Policy
     public function setDateFrom(?\DateTimeInterface $dateFrom): static
     {
         $this->dateFrom = $dateFrom;
-
         return $this;
     }
 
@@ -216,7 +265,6 @@ class Policy
     public function setDateTo(\DateTimeInterface $dateTo): static
     {
         $this->dateTo = $dateTo;
-
         return $this;
     }
 
@@ -228,7 +276,6 @@ class Policy
     public function setMakeAndModel(?string $makeAndModel): static
     {
         $this->makeAndModel = $makeAndModel;
-
         return $this;
     }
 
@@ -240,7 +287,6 @@ class Policy
     public function setHp(?string $hp): static
     {
         $this->hp = $hp;
-
         return $this;
     }
 
@@ -252,7 +298,6 @@ class Policy
     public function setBodyType(?string $bodyType): static
     {
         $this->bodyType = $bodyType;
-
         return $this;
     }
 
@@ -264,7 +309,6 @@ class Policy
     public function setMonth(?int $month): static
     {
         $this->month = $month;
-
         return $this;
     }
 
@@ -276,7 +320,6 @@ class Policy
     public function setYear(?int $year): static
     {
         $this->year = $year;
-
         return $this;
     }
 
@@ -288,31 +331,28 @@ class Policy
     public function setRegistrationNumber(?int $registrationNumber): static
     {
         $this->registrationNumber = $registrationNumber;
-
         return $this;
     }
 
-    public function getSumInsured(): ?float
+    public function getSumInsured(): ?string
     {
         return $this->sumInsured;
     }
 
-    public function setSumInsured(?float $sumInsured): static
+    public function setSumInsured(?string $sumInsured): static
     {
         $this->sumInsured = $sumInsured;
-
         return $this;
     }
 
-    public function getExcess(): ?float
+    public function getExcess(): ?string
     {
         return $this->excess;
     }
 
-    public function setExcess(?float $excess): static
+    public function setExcess(?string $excess): static
     {
         $this->excess = $excess;
-
         return $this;
     }
 
@@ -324,7 +364,6 @@ class Policy
     public function setRiskDescription(?string $riskDescription): static
     {
         $this->riskDescription = $riskDescription;
-
         return $this;
     }
 
@@ -336,7 +375,6 @@ class Policy
     public function setDriverAtFault(?bool $driverAtFault): static
     {
         $this->driverAtFault = $driverAtFault;
-
         return $this;
     }
 
@@ -348,7 +386,6 @@ class Policy
     public function setNotAtFaultExcess(?bool $notAtFaultExcess): static
     {
         $this->notAtFaultExcess = $notAtFaultExcess;
-
         return $this;
     }
 
@@ -360,7 +397,6 @@ class Policy
     public function setAic(?bool $aic): static
     {
         $this->aic = $aic;
-
         return $this;
     }
 
@@ -372,7 +408,6 @@ class Policy
     public function setRodent(?bool $rodent): static
     {
         $this->rodent = $rodent;
-
         return $this;
     }
 
@@ -384,7 +419,6 @@ class Policy
     public function setLossOfUse(?bool $lossOfUse): static
     {
         $this->lossOfUse = $lossOfUse;
-
         return $this;
     }
 
@@ -396,7 +430,6 @@ class Policy
     public function setPassiveTerrorism(?bool $passiveTerrorism): static
     {
         $this->passiveTerrorism = $passiveTerrorism;
-
         return $this;
     }
 
@@ -408,43 +441,39 @@ class Policy
     public function setAlloyWheel(?bool $alloyWheel): static
     {
         $this->alloyWheel = $alloyWheel;
-
         return $this;
     }
 
-    public function getNetPremium(): ?float
+    public function getNetPremium(): ?string
     {
         return $this->netPremium;
     }
 
-    public function setNetPremium(?float $netPremium): static
+    public function setNetPremium(?string $netPremium): static
     {
         $this->netPremium = $netPremium;
-
         return $this;
     }
 
-    public function getRate(): ?float
+    public function getRate(): ?string
     {
         return $this->rate;
     }
 
-    public function setRate(?float $rate): static
+    public function setRate(?string $rate): static
     {
         $this->rate = $rate;
-
         return $this;
     }
 
-    public function getGrossPremium(): ?float
+    public function getGrossPremium(): ?string
     {
         return $this->grossPremium;
     }
 
-    public function setGrossPremium(?float $grossPremium): static
+    public function setGrossPremium(?string $grossPremium): static
     {
         $this->grossPremium = $grossPremium;
-
         return $this;
     }
 
@@ -456,7 +485,6 @@ class Policy
     public function setLeasing(?string $leasing): static
     {
         $this->leasing = $leasing;
-
         return $this;
     }
 
@@ -468,7 +496,6 @@ class Policy
     public function setLien(?string $lien): static
     {
         $this->lien = $lien;
-
         return $this;
     }
 
@@ -480,7 +507,6 @@ class Policy
     public function setTransactionType(?TransactionType $transactionType): static
     {
         $this->transactionType = $transactionType;
-
         return $this;
     }
 
@@ -492,7 +518,6 @@ class Policy
     public function setInsuranceType(?InsuranceType $insuranceType): static
     {
         $this->insuranceType = $insuranceType;
-
         return $this;
     }
 
@@ -504,7 +529,6 @@ class Policy
     public function setModeOfPayment(?ModeOfPayment $modeOfPayment): static
     {
         $this->modeOfPayment = $modeOfPayment;
-
         return $this;
     }
 
@@ -516,7 +540,6 @@ class Policy
     public function setCoverType(?PolicyCoverType $coverType): static
     {
         $this->coverType = $coverType;
-
         return $this;
     }
 
@@ -528,7 +551,6 @@ class Policy
     public function setCustomer(?Customer $customer): static
     {
         $this->customer = $customer;
-
         return $this;
     }
 }

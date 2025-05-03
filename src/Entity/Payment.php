@@ -14,14 +14,16 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Delete;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
-        new Post(),
-        new Put(),
+        new Get(normalizationContext: ['groups' => ['payment:read']]),
+        new GetCollection(normalizationContext: ['groups' => ['payment:read']]),
+        new Post(denormalizationContext: ['groups' => ['payment:write']]),
+        new Put(denormalizationContext: ['groups' => ['payment:write']]),
         new Delete(),
     ]
 )]
@@ -30,36 +32,51 @@ class Payment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['payment:read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['payment:read', 'payment:write'])]
     private ?\DateTimeInterface $insurancePeriodFrom = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['payment:read', 'payment:write'])]
     private ?\DateTimeInterface $insurancePeriodTo = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['payment:read', 'payment:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $vehicleNumber = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['payment:read', 'payment:write'])]
+    #[Assert\PositiveOrZero]
     private ?int $policyNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['payment:read', 'payment:write'])]
+    #[Assert\Length(max: 255)]
     private ?string $remarks = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?float $amountRs = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    #[Groups(['payment:read', 'payment:write'])]
+    #[Assert\PositiveOrZero]
+    private ?string $amountRs = null;
 
     #[ORM\Column(nullable: true, enumType: ModeOfPayment::class)]
+    #[Groups(['payment:read', 'payment:write'])]
     private ?ModeOfPayment $modeOfPayment = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Customer::class)]
+    #[ORM\JoinColumn(name: 'customer_id', referencedColumnName: 'id')]
+    #[Groups(['payment:read'])]
     private ?Customer $customer = null;
 
     /**
      * @var Collection<int, PaymentChildren>
      */
     #[ORM\OneToMany(targetEntity: PaymentChildren::class, mappedBy: 'payment')]
+    #[Groups(['payment:read'])]
     private Collection $paymentChildrens;
 
     public function __construct()
@@ -80,7 +97,6 @@ class Payment
     public function setInsurancePeriodFrom(?\DateTimeInterface $insurancePeriodFrom): static
     {
         $this->insurancePeriodFrom = $insurancePeriodFrom;
-
         return $this;
     }
 
@@ -92,7 +108,6 @@ class Payment
     public function setInsurancePeriodTo(?\DateTimeInterface $insurancePeriodTo): static
     {
         $this->insurancePeriodTo = $insurancePeriodTo;
-
         return $this;
     }
 
@@ -104,7 +119,6 @@ class Payment
     public function setVehicleNumber(?string $vehicleNumber): static
     {
         $this->vehicleNumber = $vehicleNumber;
-
         return $this;
     }
 
@@ -116,7 +130,6 @@ class Payment
     public function setPolicyNumber(?int $policyNumber): static
     {
         $this->policyNumber = $policyNumber;
-
         return $this;
     }
 
@@ -128,19 +141,17 @@ class Payment
     public function setRemarks(?string $remarks): static
     {
         $this->remarks = $remarks;
-
         return $this;
     }
 
-    public function getAmountRs(): ?float
+    public function getAmountRs(): ?string
     {
         return $this->amountRs;
     }
 
-    public function setAmountRs(?float $amountRs): static
+    public function setAmountRs(?string $amountRs): static
     {
         $this->amountRs = $amountRs;
-
         return $this;
     }
 
@@ -152,7 +163,6 @@ class Payment
     public function setModeOfPayment(?ModeOfPayment $modeOfPayment): static
     {
         $this->modeOfPayment = $modeOfPayment;
-
         return $this;
     }
 
@@ -164,7 +174,6 @@ class Payment
     public function setCustomer(?Customer $customer): static
     {
         $this->customer = $customer;
-
         return $this;
     }
 
@@ -182,19 +191,16 @@ class Payment
             $this->paymentChildrens->add($paymentChildren);
             $paymentChildren->setPayment($this);
         }
-
         return $this;
     }
 
     public function removePaymentChildren(PaymentChildren $paymentChildren): static
     {
         if ($this->paymentChildrens->removeElement($paymentChildren)) {
-            // set the owning side to null (unless already changed)
             if ($paymentChildren->getPayment() === $this) {
                 $paymentChildren->setPayment(null);
             }
         }
-
         return $this;
     }
 }
