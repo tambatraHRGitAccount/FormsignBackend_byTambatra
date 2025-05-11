@@ -8,13 +8,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ClientDto
 {
-    #[Assert\NotBlank]
+    #[Groups(['client:read'])]
+    #[SerializedName('id')]
+    public ?int $id = null;
+
     #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: '/^CRM[0-9]{8,}$/', message: 'CRMClientRef must start with "CRM" followed by 8 or more digits', match: true)]
     #[Groups(['client:read', 'client:write'])]
     #[SerializedName('CRMClientRef')]
     public ?string $crmClientRef = null;
 
     #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: '/^(P[0-9]{8,}|[0-9]{8,})$/', message: 'SwanClientRef must be 8 or more digits, optionally starting with "P"')]
     #[Groups(['client:read', 'client:write'])]
     #[SerializedName('SwanClientRef')]
     public ?string $swanClientRef = null;
@@ -30,7 +35,6 @@ class ClientDto
     #[SerializedName('Surname')]
     public ?string $surname = null;
 
-    #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
     #[Groups(['client:read', 'client:write'])]
     #[SerializedName('Forename')]
@@ -42,6 +46,7 @@ class ClientDto
     public ?string $spouseFullName = null;
 
     #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: '/^P[0-9]{8,}$/', message: 'DTClientRef must start with "P" followed by 8 or more digits')]
     #[Groups(['client:read', 'client:write'])]
     #[SerializedName('DTClientRef')]
     public ?string $dtClientRef = null;
@@ -194,6 +199,7 @@ class ClientDto
     public ?string $contactPhone4 = null;
 
     #[Assert\Length(max: 255)]
+    #[Assert\Regex(pattern: '/^[0-9]{8,}$/', message: 'Prospect_Number must be 8 or more digits')]
     #[Groups(['client:read', 'client:write'])]
     #[SerializedName('Prospect_Number')]
     public ?string $prospectNumber = null;

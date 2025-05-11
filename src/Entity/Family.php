@@ -47,7 +47,7 @@ class Family
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true, name: 'CRMClientRef')]
+    #[ORM\Column(type: 'string', length: 255, name: 'CRMClientRef')]
     private ?string $crmClientRef = null;
 
     #[ORM\Column(type: 'string', enumType: FamilyType::class, name: 'type')]

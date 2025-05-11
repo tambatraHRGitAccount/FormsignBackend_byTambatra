@@ -7,8 +7,11 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Dto\FamilyDto;
 use App\Entity\Family;
+use App\Entity\Client; // Ajout pour valider CRMClientRef
+use App\Entity\Clients;
 use App\Enum\FamilyType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class FamilyProcessor implements ProcessorInterface
 {
@@ -38,11 +41,21 @@ class FamilyProcessor implements ProcessorInterface
         }
 
         if ($data instanceof FamilyDto) {
+            // Valider que CRMClientRef existe dans la table clients
+            if ($data->crmClientRef) {
+                $client = $this->entityManager->getRepository(Clients::class)->findOneBy(['crmClientRef' => $data->crmClientRef]);
+                if (!$client) {
+                    throw new BadRequestHttpException('Invalid CRMClientRef: Client does not exist');
+                }
+            } else {
+                throw new BadRequestHttpException('CRMClientRef is required');
+            }
+
             if (!empty($uriVariables)) {
                 // PUT: Update existing family member
                 $family = $this->entityManager->getRepository(Family::class)->find($uriVariables['id']);
                 if (!$family) {
-                    throw new \RuntimeException('Family member not found');
+                    throw new BadRequestHttpException('Family member not found');
                 }
             } else {
                 // POST: Create new family member
@@ -58,8 +71,12 @@ class FamilyProcessor implements ProcessorInterface
             $family->setAge($data->age);
 
             // Persist the entity
-            $this->entityManager->persist($family);
-            $this->entityManager->flush();
+            try {
+                $this->entityManager->persist($family);
+                $this->entityManager->flush();
+            } catch (\Exception $e) {
+                throw new BadRequestHttpException('Failed to save family member: ' . $e->getMessage());
+            }
 
             // Map Entity back to DTO for response
             $dto = new FamilyDto();
@@ -73,6 +90,6 @@ class FamilyProcessor implements ProcessorInterface
             return $dto;
         }
 
-        throw new \RuntimeException('Invalid data type');
+        throw new BadRequestHttpException('Invalid data type');
     }
 }

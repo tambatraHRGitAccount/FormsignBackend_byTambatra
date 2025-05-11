@@ -2,102 +2,103 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Dto\PaymentsDto;
+use App\State\PaymentsProcessor;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'payments')]
+#[ApiResource(
+    operations: [
+        new Get(
+            output: PaymentsDto::class
+        ),
+        new GetCollection(
+            output: PaymentsDto::class
+        ),
+        new Post(
+            input: PaymentsDto::class,
+            output: PaymentsDto::class,
+            processor: PaymentsProcessor::class
+        ),
+        new Put(
+            input: PaymentsDto::class,
+            output: PaymentsDto::class,
+            processor: PaymentsProcessor::class
+        ),
+        new Delete(
+            processor: PaymentsProcessor::class
+        ),
+    ],
+    normalizationContext: ['groups' => ['payments:read']],
+    denormalizationContext: ['groups' => ['payments:write']]
+)]
 class Payments
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'bigint')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Clients::class, inversedBy: 'payments')]
-    #[ORM\JoinColumn(name: 'CRMClientRef', referencedColumnName: 'crmClientRef', nullable: false, onDelete: 'CASCADE')]
-    private ?Clients $client = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'POLICY_NUM')]
+    private ?string $policyNum = null;
 
-    #[ORM\ManyToOne(targetEntity: Policies::class, inversedBy: 'payments')]
-    #[ORM\JoinColumn(name: 'POLICY_NUM', referencedColumnName: 'policy', nullable: false, onDelete: 'CASCADE')]
-    private ?Policies $policy = null;
-
-    #[ORM\ManyToOne(targetEntity: Policies::class)]
-    #[ORM\JoinColumn(name: 'PLACING_NUMBER', referencedColumnName: 'placingNumber', nullable: true, onDelete: 'SET NULL')]
-    private ?Policies $placingPolicy = null;
-
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $accMonth = null;
-
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'SwanClientRef')]
     private ?string $swanClientRef = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'ACC_MONTH')]
+    private ?string $accMonth = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'ACC_YEAR')]
+    private ?string $accYear = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'PLACING_NUMBER')]
+    private ?string $placingNumber = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'PAYMENT_NUMBER')]
     private ?string $paymentNumber = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'MODE_OF_PAYMENT')]
     private ?string $modeOfPayment = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $dueDate = null;
+    #[ORM\Column(type: 'date', nullable: true, name: 'DUE_DATE')]
+    private ?\DateTimeInterface $dueDate = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true, name: 'AMOUNT_DUE')]
     private ?float $amountDue = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $paidDate = null;
+    #[ORM\Column(type: 'date', nullable: true, name: 'PAID_DATE')]
+    private ?\DateTimeInterface $paidDate = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $amountPaid = null;
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true, name: 'AMOUNT_PAID')]
+    private ?float $amountPaid = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'CRMClientRef')]
+    private ?string $crmClientRef = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Transaction')]
     private ?string $transaction = null;
 
+    // Getters and Setters
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getClient(): ?Clients
+    public function getPolicyNum(): ?string
     {
-        return $this->client;
+        return $this->policyNum;
     }
 
-    public function setClient(?Clients $client): self
+    public function setPolicyNum(?string $policyNum): self
     {
-        $this->client = $client;
-        return $this;
-    }
-
-    public function getPolicy(): ?Policies
-    {
-        return $this->policy;
-    }
-
-    public function setPolicy(?Policies $policy): self
-    {
-        $this->policy = $policy;
-        return $this;
-    }
-
-    public function getPlacingPolicy(): ?Policies
-    {
-        return $this->placingPolicy;
-    }
-
-    public function setPlacingPolicy(?Policies $placingPolicy): self
-    {
-        $this->placingPolicy = $placingPolicy;
-        return $this;
-    }
-
-    public function getAccMonth(): ?float
-    {
-        return $this->accMonth;
-    }
-
-    public function setAccMonth(?float $accMonth): self
-    {
-        $this->accMonth = $accMonth;
+        $this->policyNum = $policyNum;
         return $this;
     }
 
@@ -109,6 +110,39 @@ class Payments
     public function setSwanClientRef(?string $swanClientRef): self
     {
         $this->swanClientRef = $swanClientRef;
+        return $this;
+    }
+
+    public function getAccMonth(): ?string
+    {
+        return $this->accMonth;
+    }
+
+    public function setAccMonth(?string $accMonth): self
+    {
+        $this->accMonth = $accMonth;
+        return $this;
+    }
+
+    public function getAccYear(): ?string
+    {
+        return $this->accYear;
+    }
+
+    public function setAccYear(?string $accYear): self
+    {
+        $this->accYear = $accYear;
+        return $this;
+    }
+
+    public function getPlacingNumber(): ?string
+    {
+        return $this->placingNumber;
+    }
+
+    public function setPlacingNumber(?string $placingNumber): self
+    {
+        $this->placingNumber = $placingNumber;
         return $this;
     }
 
@@ -134,12 +168,12 @@ class Payments
         return $this;
     }
 
-    public function getDueDate(): ?float
+    public function getDueDate(): ?\DateTimeInterface
     {
         return $this->dueDate;
     }
 
-    public function setDueDate(?float $dueDate): self
+    public function setDueDate(?\DateTimeInterface $dueDate): self
     {
         $this->dueDate = $dueDate;
         return $this;
@@ -156,25 +190,36 @@ class Payments
         return $this;
     }
 
-    public function getPaidDate(): ?string
+    public function getPaidDate(): ?\DateTimeInterface
     {
         return $this->paidDate;
     }
 
-    public function setPaidDate(?string $paidDate): self
+    public function setPaidDate(?\DateTimeInterface $paidDate): self
     {
         $this->paidDate = $paidDate;
         return $this;
     }
 
-    public function getAmountPaid(): ?string
+    public function getAmountPaid(): ?float
     {
         return $this->amountPaid;
     }
 
-    public function setAmountPaid(?string $amountPaid): self
+    public function setAmountPaid(?float $amountPaid): self
     {
         $this->amountPaid = $amountPaid;
+        return $this;
+    }
+
+    public function getCrmClientRef(): ?string
+    {
+        return $this->crmClientRef;
+    }
+
+    public function setCrmClientRef(?string $crmClientRef): self
+    {
+        $this->crmClientRef = $crmClientRef;
         return $this;
     }
 

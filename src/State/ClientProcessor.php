@@ -7,15 +7,19 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Dto\ClientDto;
 use App\Entity\Clients;
+use App\Service\ClientService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ClientProcessor implements ProcessorInterface
 {
     private EntityManagerInterface $entityManager;
+    private ClientService $clientService;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, ClientService $clientService)
     {
         $this->entityManager = $entityManager;
+        $this->clientService = $clientService;
     }
 
     /**
@@ -36,13 +40,12 @@ class ClientProcessor implements ProcessorInterface
             return null;
         }
 
-        // Handle POST and PUT
         if ($data instanceof ClientDto) {
             if (!empty($uriVariables)) {
                 // PUT: Update existing client
                 $client = $this->entityManager->getRepository(Clients::class)->find($uriVariables['id']);
                 if (!$client) {
-                    throw new \RuntimeException('Client not found');
+                    throw new BadRequestHttpException('Client not found');
                 }
             } else {
                 // POST: Create new client
@@ -50,7 +53,10 @@ class ClientProcessor implements ProcessorInterface
             }
 
             // Map DTO to Entity
-            $client->setCrmClientRef($data->crmClientRef);
+            // Ne pas définir crmClientRef pour POST, car il est géré par le déclencheur SQL
+            if (!empty($uriVariables)) {
+                $client->setCrmClientRef($data->crmClientRef);
+            }
             $client->setSwanClientRef($data->swanClientRef);
             $client->setTitle($data->title);
             $client->setSurname($data->surname);
@@ -99,11 +105,21 @@ class ClientProcessor implements ProcessorInterface
             $client->setDrivingRemarks($data->drivingRemarks);
 
             // Persist the entity
-            $this->entityManager->persist($client);
-            $this->entityManager->flush();
+            try {
+                $this->entityManager->persist($client);
+                $this->entityManager->flush();
+
+                // Rafraîchir l'entité pour récupérer les valeurs générées par le déclencheur SQL
+                if (empty($uriVariables)) {
+                    $this->entityManager->refresh($client);
+                }
+            } catch (\Exception $e) {
+                throw new BadRequestHttpException('Failed to save client: ' . $e->getMessage());
+            }
 
             // Map Entity back to DTO for response
             $dto = new ClientDto();
+            $dto->id = $client->getId(); // Ajouter l'ID explicitement
             $dto->crmClientRef = $client->getCrmClientRef();
             $dto->swanClientRef = $client->getSwanClientRef();
             $dto->title = $client->getTitle();
@@ -155,6 +171,6 @@ class ClientProcessor implements ProcessorInterface
             return $dto;
         }
 
-        throw new \RuntimeException('Invalid data type');
+        throw new BadRequestHttpException('Invalid data type');
     }
 }

@@ -6,9 +6,6 @@ use App\Entity\Renewals;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Renewals>
- */
 class RenewalsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +13,40 @@ class RenewalsRepository extends ServiceEntityRepository
         parent::__construct($registry, Renewals::class);
     }
 
-//    /**
-//     * @return Renewals[] Returns an array of Renewals objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findAllByFilter(array $filters): array
+    {
+        $qb = $this->createQueryBuilder('r');
 
-//    public function findOneBySomeField($value): ?Renewals
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (!empty($filters['polser'])) {
+            $qb->andWhere('r.polser = :polser')
+               ->setParameter('polser', $filters['polser']);
+        }
+
+        if (!empty($filters['client'])) {
+            $qb->andWhere('r.client LIKE :client')
+               ->setParameter('client', '%' . $filters['client'] . '%');
+        }
+
+        if (!empty($filters['name'])) {
+            $qb->andWhere('r.name LIKE :name')
+               ->setParameter('name', '%' . $filters['name'] . '%');
+        }
+
+        if (!empty($filters['regno'])) {
+            $qb->andWhere('r.regno LIKE :regno')
+               ->setParameter('regno', '%' . $filters['regno'] . '%');
+        }
+
+        if (!empty($filters['dtfrom'])) {
+            $qb->andWhere('r.dtfrom = :dtfrom')
+               ->setParameter('dtfrom', new \DateTime($filters['dtfrom']));
+        }
+
+        if (!empty($filters['dtto'])) {
+            $qb->andWhere('r.dtto = :dtto')
+               ->setParameter('dtto', new \DateTime($filters['dtto']));
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

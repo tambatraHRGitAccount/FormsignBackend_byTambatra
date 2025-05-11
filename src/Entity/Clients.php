@@ -11,6 +11,8 @@ use ApiPlatform\Metadata\Put;
 use App\Dto\ClientDto;
 use App\State\ClientProcessor;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'clients')]
@@ -46,10 +48,10 @@ class Clients
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true, name: 'CRMClientRef')]
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false, name: 'CRMClientRef')]
     private ?string $crmClientRef = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'SwanClientRef')]
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false, name: 'SwanClientRef')]
     private ?string $swanClientRef = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Title')]
@@ -64,7 +66,7 @@ class Clients
     #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Spouse_Full_Name')]
     private ?string $spouseFullName = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'DTClientRef')]
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false, name: 'DTClientRef')]
     private ?string $dtClientRef = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Street')]
@@ -154,7 +156,7 @@ class Clients
     #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'CONTACT_Phone4')]
     private ?string $contactPhone4 = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Prospect_Number')]
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false, name: 'Prospect_Number')]
     private ?string $prospectNumber = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Client_Status')]
@@ -186,6 +188,14 @@ class Clients
 
     #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Driving_Remarks')]
     private ?string $drivingRemarks = null;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Appointment::class, cascade: ['persist', 'remove'])]
+    private Collection $appointments;
+
+    public function __construct()
+    {
+        $this->appointments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -706,6 +716,30 @@ class Clients
     public function setDrivingRemarks(?string $drivingRemarks): self
     {
         $this->drivingRemarks = $drivingRemarks;
+        return $this;
+    }
+
+    public function getAppointments(): Collection
+    {
+        return $this->appointments;
+    }
+
+    public function addAppointment(Appointment $appointment): self
+    {
+        if (!$this->appointments->contains($appointment)) {
+            $this->appointments[] = $appointment;
+            $appointment->setClient($this);
+        }
+        return $this;
+    }
+
+    public function removeAppointment(Appointment $appointment): self
+    {
+        if ($this->appointments->removeElement($appointment)) {
+            if ($appointment->getClient() === $this) {
+                $appointment->setClient(null);
+            }
+        }
         return $this;
     }
 }

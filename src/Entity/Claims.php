@@ -2,242 +2,267 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Dto\ClaimsDto;
+use App\State\ClaimsProcessor;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'claims')]
+#[ApiResource(
+    operations: [
+        new Get(
+            output: ClaimsDto::class
+        ),
+        new GetCollection(
+            output: ClaimsDto::class
+        ),
+        new Post(
+            input: ClaimsDto::class,
+            output: ClaimsDto::class,
+            processor: ClaimsProcessor::class
+        ),
+        new Put(
+            input: ClaimsDto::class,
+            output: ClaimsDto::class,
+            processor: ClaimsProcessor::class
+        ),
+        new Delete(
+            processor: ClaimsProcessor::class
+        ),
+    ],
+    normalizationContext: ['groups' => ['claims:read']],
+    denormalizationContext: ['groups' => ['claims:write']]
+)]
 class Claims
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'bigint')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Clients::class, inversedBy: 'claims')]
-    #[ORM\JoinColumn(name: 'CRMClientRef', referencedColumnName: 'crmClientRef', nullable: false, onDelete: 'CASCADE')]
-    private ?Clients $client = null;
-
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Col1')]
     private ?string $col1 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Col2')]
     private ?string $col2 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Col3')]
     private ?string $col3 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'ACC_MONTH')]
     private ?string $accMonth = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'ACC_YEAR')]
+    private ?string $accYear = null;
+
+    #[ORM\Column(type: 'string', length: 255, unique: true, name: 'CLAIM_NO')]
     private ?string $claimNo = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $dateOfAccident = null;
+    #[ORM\Column(type: 'date', nullable: true, name: 'DATE_OF_ACCIDENT')]
+    private ?\DateTimeInterface $dateOfAccident = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'CRMClientRef')]
+    private ?string $crmClientRef = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Title')]
     private ?string $title = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'SURNAME')]
     private ?string $surname = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'FORENAME')]
     private ?string $forename = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_VEH_NO')]
     private ?string $insVehNo = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_VEH_MAKE')]
     private ?string $insVehMake = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_LIABILITY')]
     private ?string $insLiability = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_GARAGE')]
     private ?string $insGarage = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_SURVEYOR_1')]
     private ?string $insSurveyor1 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_SURVEYOR_2')]
     private ?string $insSurveyor2 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_CAR_RENTAL')]
     private ?string $insCarRental = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_VEH_NO')]
     private ?string $tpVehNo = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_TITLE')]
     private ?string $tpTitle = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_NAME')]
     private ?string $tpName = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_FORNAME')]
     private ?string $tpForname = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_INSURANCE')]
     private ?string $tpInsurance = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_LIABILITY')]
     private ?string $tpLiability = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_GARAGE')]
     private ?string $tpGarage = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_SURVEYOR_1')]
     private ?string $tpSurveyor1 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_SURVEYOR_2')]
     private ?string $tpSurveyor2 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_CAR_RENTAL')]
     private ?string $tpCarRental = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'STATUS')]
     private ?string $status = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'case_stage_reached')]
     private ?string $caseStageReached = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $claimCount = null;
+    #[ORM\Column(type: 'integer', nullable: true, name: 'Claim_Count')]
+    private ?int $claimCount = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_Number')]
     private ?string $tpNumber = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Driver_name')]
     private ?string $insDriverName = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Driver_address_1')]
     private ?string $insDriverAddress1 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Driver_address_2')]
     private ?string $insDriverAddress2 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $insDriverAge = null;
+    #[ORM\Column(type: 'integer', nullable: true, name: 'INS_Driver_age')]
+    private ?int $insDriverAge = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Driver_exp')]
     private ?string $insDriverExp = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Driver_email')]
     private ?string $insDriverEmail = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Policy_No')]
     private ?string $insPolicyNo = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $insPeriodOfInsFrom = null;
+    #[ORM\Column(type: 'date', nullable: true, name: 'INS_period_of_ins_FROM')]
+    private ?\DateTimeInterface $insPeriodOfInsFrom = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $insPeriodOfInsTo = null;
+    #[ORM\Column(type: 'date', nullable: true, name: 'INS_period_of_ins_TO')]
+    private ?\DateTimeInterface $insPeriodOfInsTo = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $sumInsured = null;
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true, name: 'Sum_insured')]
+    private ?float $sumInsured = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Accessories')]
     private ?string $insAccessories = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $insAccessoriesRs = null;
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true, name: 'INS_Accessories_Rs')]
+    private ?float $insAccessoriesRs = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Year')]
     private ?string $insYear = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Leasing')]
     private ?string $insLeasing = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Engine_Rating')]
     private ?string $insEngineRating = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $insCompExcess = null;
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true, name: 'INS_Comp_Excess')]
+    private ?float $insCompExcess = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $insVolExcess = null;
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true, name: 'INS_Vol_Excess')]
+    private ?float $insVolExcess = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Special_Terms_6')]
     private ?string $insSpecialTerms6 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Cert_Type')]
     private ?string $insCertType = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Cert_No')]
     private ?string $insCertNo = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $insInopianFees = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Incl_Reg_Fees')]
+    private ?string $insInclRegFees = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Excess_Waiver')]
     private ?string $insExcessWaiver = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_Rodent')]
     private ?string $insRodent = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_LOU')]
     private ?string $insLou = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $insNoOfDays = null;
+    #[ORM\Column(type: 'integer', nullable: true, name: 'INS_no_of_days')]
+    private ?int $insNoOfDays = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $insLimitLou = null;
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true, name: 'INS_Limit_LOU')]
+    private ?float $insLimitLou = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'INS_As_per_ASF_A_or_B')]
     private ?string $insAsPerAsfAOrB = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_Driver_name')]
     private ?string $tpDriverName = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_Address_1')]
     private ?string $tpAddress1 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_Address_2')]
     private ?string $tpAddress2 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_Email')]
     private ?string $tpEmail = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_Contact_No')]
     private ?string $tpContactNo = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_Make_Model')]
     private ?string $tpMakeModel = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_Leasing')]
     private ?string $tpLeasing = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TP_As_per_ASF_A_or_B')]
     private ?string $tpAsPerAsfAOrB = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $doa = null;
+    #[ORM\Column(type: 'date', nullable: true, name: 'DoA')]
+    private ?\DateTimeInterface $doa = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $toa = null;
+    #[ORM\Column(type: 'time', nullable: true, name: 'ToA')]
+    private ?\DateTimeInterface $toa = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'PoA')]
     private ?string $poa = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Same_as_Insured')]
     private ?string $sameAsInsured = null;
 
+    // Getters and Setters
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getClient(): ?Clients
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Clients $client): self
-    {
-        $this->client = $client;
-        return $this;
     }
 
     public function getCol1(): ?string
@@ -284,6 +309,17 @@ class Claims
         return $this;
     }
 
+    public function getAccYear(): ?string
+    {
+        return $this->accYear;
+    }
+
+    public function setAccYear(?string $accYear): self
+    {
+        $this->accYear = $accYear;
+        return $this;
+    }
+
     public function getClaimNo(): ?string
     {
         return $this->claimNo;
@@ -295,14 +331,25 @@ class Claims
         return $this;
     }
 
-    public function getDateOfAccident(): ?float
+    public function getDateOfAccident(): ?\DateTimeInterface
     {
         return $this->dateOfAccident;
     }
 
-    public function setDateOfAccident(?float $dateOfAccident): self
+    public function setDateOfAccident(?\DateTimeInterface $dateOfAccident): self
     {
         $this->dateOfAccident = $dateOfAccident;
+        return $this;
+    }
+
+    public function getCrmClientRef(): ?string
+    {
+        return $this->crmClientRef;
+    }
+
+    public function setCrmClientRef(?string $crmClientRef): self
+    {
+        $this->crmClientRef = $crmClientRef;
         return $this;
     }
 
@@ -548,12 +595,12 @@ class Claims
         return $this;
     }
 
-    public function getClaimCount(): ?float
+    public function getClaimCount(): ?int
     {
         return $this->claimCount;
     }
 
-    public function setClaimCount(?float $claimCount): self
+    public function setClaimCount(?int $claimCount): self
     {
         $this->claimCount = $claimCount;
         return $this;
@@ -603,12 +650,12 @@ class Claims
         return $this;
     }
 
-    public function getInsDriverAge(): ?string
+    public function getInsDriverAge(): ?int
     {
         return $this->insDriverAge;
     }
 
-    public function setInsDriverAge(?string $insDriverAge): self
+    public function setInsDriverAge(?int $insDriverAge): self
     {
         $this->insDriverAge = $insDriverAge;
         return $this;
@@ -647,34 +694,34 @@ class Claims
         return $this;
     }
 
-    public function getInsPeriodOfInsFrom(): ?string
+    public function getInsPeriodOfInsFrom(): ?\DateTimeInterface
     {
         return $this->insPeriodOfInsFrom;
     }
 
-    public function setInsPeriodOfInsFrom(?string $insPeriodOfInsFrom): self
+    public function setInsPeriodOfInsFrom(?\DateTimeInterface $insPeriodOfInsFrom): self
     {
         $this->insPeriodOfInsFrom = $insPeriodOfInsFrom;
         return $this;
     }
 
-    public function getInsPeriodOfInsTo(): ?string
+    public function getInsPeriodOfInsTo(): ?\DateTimeInterface
     {
         return $this->insPeriodOfInsTo;
     }
 
-    public function setInsPeriodOfInsTo(?string $insPeriodOfInsTo): self
+    public function setInsPeriodOfInsTo(?\DateTimeInterface $insPeriodOfInsTo): self
     {
         $this->insPeriodOfInsTo = $insPeriodOfInsTo;
         return $this;
     }
 
-    public function getSumInsured(): ?string
+    public function getSumInsured(): ?float
     {
         return $this->sumInsured;
     }
 
-    public function setSumInsured(?string $sumInsured): self
+    public function setSumInsured(?float $sumInsured): self
     {
         $this->sumInsured = $sumInsured;
         return $this;
@@ -691,12 +738,12 @@ class Claims
         return $this;
     }
 
-    public function getInsAccessoriesRs(): ?string
+    public function getInsAccessoriesRs(): ?float
     {
         return $this->insAccessoriesRs;
     }
 
-    public function setInsAccessoriesRs(?string $insAccessoriesRs): self
+    public function setInsAccessoriesRs(?float $insAccessoriesRs): self
     {
         $this->insAccessoriesRs = $insAccessoriesRs;
         return $this;
@@ -735,23 +782,23 @@ class Claims
         return $this;
     }
 
-    public function getInsCompExcess(): ?string
+    public function getInsCompExcess(): ?float
     {
         return $this->insCompExcess;
     }
 
-    public function setInsCompExcess(?string $insCompExcess): self
+    public function setInsCompExcess(?float $insCompExcess): self
     {
         $this->insCompExcess = $insCompExcess;
         return $this;
     }
 
-    public function getInsVolExcess(): ?string
+    public function getInsVolExcess(): ?float
     {
         return $this->insVolExcess;
     }
 
-    public function setInsVolExcess(?string $insVolExcess): self
+    public function setInsVolExcess(?float $insVolExcess): self
     {
         $this->insVolExcess = $insVolExcess;
         return $this;
@@ -790,14 +837,14 @@ class Claims
         return $this;
     }
 
-    public function getInsInopianFees(): ?string
+    public function getInsInclRegFees(): ?string
     {
-        return $this->insInopianFees;
+        return $this->insInclRegFees;
     }
 
-    public function setInsInopianFees(?string $insInopianFees): self
+    public function setInsInclRegFees(?string $insInclRegFees): self
     {
-        $this->insInopianFees = $insInopianFees;
+        $this->insInclRegFees = $insInclRegFees;
         return $this;
     }
 
@@ -834,23 +881,23 @@ class Claims
         return $this;
     }
 
-    public function getInsNoOfDays(): ?string
+    public function getInsNoOfDays(): ?int
     {
         return $this->insNoOfDays;
     }
 
-    public function setInsNoOfDays(?string $insNoOfDays): self
+    public function setInsNoOfDays(?int $insNoOfDays): self
     {
         $this->insNoOfDays = $insNoOfDays;
         return $this;
     }
 
-    public function getInsLimitLou(): ?string
+    public function getInsLimitLou(): ?float
     {
         return $this->insLimitLou;
     }
 
-    public function setInsLimitLou(?string $insLimitLou): self
+    public function setInsLimitLou(?float $insLimitLou): self
     {
         $this->insLimitLou = $insLimitLou;
         return $this;
@@ -955,23 +1002,23 @@ class Claims
         return $this;
     }
 
-    public function getDoa(): ?string
+    public function getDoa(): ?\DateTimeInterface
     {
         return $this->doa;
     }
 
-    public function setDoa(?string $doa): self
+    public function setDoa(?\DateTimeInterface $doa): self
     {
         $this->doa = $doa;
         return $this;
     }
 
-    public function getToa(): ?string
+    public function getToa(): ?\DateTimeInterface
     {
         return $this->toa;
     }
 
-    public function setToa(?string $toa): self
+    public function setToa(?\DateTimeInterface $toa): self
     {
         $this->toa = $toa;
         return $this;

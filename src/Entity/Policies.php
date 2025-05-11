@@ -41,6 +41,7 @@ use Doctrine\ORM\Mapping as ORM;
 )]
 class Policies
 {
+    private ?string $polser = null;
     #[ORM\Id]
     #[ORM\Column(type: 'bigint')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -201,6 +202,7 @@ class Policies
     public function setPolicy(?string $policy): self
     {
         $this->policy = $policy;
+        $this->polser = is_object($policy) && method_exists($policy, 'getPolicy') ? $policy->getPolicy() : null;
         return $this;
     }
 

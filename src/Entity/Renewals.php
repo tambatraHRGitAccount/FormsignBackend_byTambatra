@@ -2,152 +2,186 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+use App\Dto\RenewalsDto;
+use App\State\RenewalsProcessor;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'renewals')]
+#[ApiResource(
+    operations: [
+        new Get(
+            output: RenewalsDto::class
+        ),
+        new GetCollection(
+            output: RenewalsDto::class
+        ),
+        new Post(
+            input: RenewalsDto::class,
+            output: RenewalsDto::class,
+            processor: RenewalsProcessor::class
+        ),
+        new Put(
+            input: RenewalsDto::class,
+            output: RenewalsDto::class,
+            processor: RenewalsProcessor::class
+        ),
+        new Delete(
+            processor: RenewalsProcessor::class
+        ),
+    ],
+    normalizationContext: ['groups' => ['renewals:read']],
+    denormalizationContext: ['groups' => ['renewals:write']]
+)]
 class Renewals
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'bigint')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $polrsk = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $polcd = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $polser = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $agency = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $motplan = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $client = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $dtfrom = null;
+    #[ORM\Column(type: 'date', nullable: true)]
+    private ?\DateTimeInterface $dtfrom = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $dtto = null;
+    #[ORM\Column(type: 'date', nullable: true)]
+    private ?\DateTimeInterface $dtto = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $regno = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $model = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $grp = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $grp = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $hpcc = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $hpcc = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $used = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $used = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $ins = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $yr = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $yr = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $excess = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $sum = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $sumsVeh = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $sumsTrl = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 5, scale: 2, nullable: true)]
     private ?float $prevRate = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $prevPrem = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 5, scale: 2, nullable: true)]
     private ?float $newRate = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 5, scale: 2, nullable: true)]
     private ?float $loading = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 5, scale: 2, nullable: true)]
     private ?float $otherInsDisc = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 5, scale: 2, nullable: true)]
     private ?float $loading1 = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $basic = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $lUse = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $lUse = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $aic = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $aic = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $dacc = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $dacc = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $alloyprem = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $fgapprem = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $repcarprem = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $xswaivprem = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $pasterprem = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $rodentprem = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $total = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $premium = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $policyFee = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $fscFee = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $payable = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $remarks = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $revisedSumInsured = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true)]
     private ?float $revisedPremium = null;
 
+    // Getters and Setters
     public function getId(): ?int
     {
         return $this->id;
@@ -241,23 +275,23 @@ class Renewals
         return $this;
     }
 
-    public function getDtfrom(): ?float
+    public function getDtfrom(): ?\DateTimeInterface
     {
         return $this->dtfrom;
     }
 
-    public function setDtfrom(?float $dtfrom): self
+    public function setDtfrom(?\DateTimeInterface $dtfrom): self
     {
         $this->dtfrom = $dtfrom;
         return $this;
     }
 
-    public function getDtto(): ?float
+    public function getDtto(): ?\DateTimeInterface
     {
         return $this->dtto;
     }
 
-    public function setDtto(?float $dtto): self
+    public function setDtto(?\DateTimeInterface $dtto): self
     {
         $this->dtto = $dtto;
         return $this;
@@ -285,34 +319,34 @@ class Renewals
         return $this;
     }
 
-    public function getGrp(): ?float
+    public function getGrp(): ?string
     {
         return $this->grp;
     }
 
-    public function setGrp(?float $grp): self
+    public function setGrp(?string $grp): self
     {
         $this->grp = $grp;
         return $this;
     }
 
-    public function getHpcc(): ?float
+    public function getHpcc(): ?string
     {
         return $this->hpcc;
     }
 
-    public function setHpcc(?float $hpcc): self
+    public function setHpcc(?string $hpcc): self
     {
         $this->hpcc = $hpcc;
         return $this;
     }
 
-    public function getUsed(): ?float
+    public function getUsed(): ?string
     {
         return $this->used;
     }
 
-    public function setUsed(?float $used): self
+    public function setUsed(?string $used): self
     {
         $this->used = $used;
         return $this;
@@ -329,12 +363,12 @@ class Renewals
         return $this;
     }
 
-    public function getYr(): ?float
+    public function getYr(): ?string
     {
         return $this->yr;
     }
 
-    public function setYr(?float $yr): self
+    public function setYr(?string $yr): self
     {
         $this->yr = $yr;
         return $this;
@@ -461,34 +495,34 @@ class Renewals
         return $this;
     }
 
-    public function getLUse(): ?float
+    public function getLUse(): ?string
     {
         return $this->lUse;
     }
 
-    public function setLUse(?float $lUse): self
+    public function setLUse(?string $lUse): self
     {
         $this->lUse = $lUse;
         return $this;
     }
 
-    public function getAic(): ?float
+    public function getAic(): ?string
     {
         return $this->aic;
     }
 
-    public function setAic(?float $aic): self
+    public function setAic(?string $aic): self
     {
         $this->aic = $aic;
         return $this;
     }
 
-    public function getDacc(): ?float
+    public function getDacc(): ?string
     {
         return $this->dacc;
     }
 
-    public function setDacc(?float $dacc): self
+    public function setDacc(?string $dacc): self
     {
         $this->dacc = $dacc;
         return $this;

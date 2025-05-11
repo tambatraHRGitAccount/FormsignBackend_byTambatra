@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
   <parameters>
-    <parameter key="kernel.project_dir">I:\fichier du sauvegarde\CRM_07_05\crm-back</parameter>
+    <parameter key="kernel.project_dir">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back</parameter>
     <parameter key="kernel.environment">dev</parameter>
     <parameter key="kernel.runtime_environment">%env(default:kernel.environment:APP_RUNTIME_ENV)%</parameter>
     <parameter key="kernel.runtime_mode">%env(query_string:default:container.runtime_mode:APP_RUNTIME_MODE)%</parameter>
@@ -9,9 +9,9 @@
     <parameter key="kernel.runtime_mode.cli">%env(not:default:kernel.runtime_mode.web:)%</parameter>
     <parameter key="kernel.runtime_mode.worker">%env(bool:default::key:worker:default:kernel.runtime_mode:)%</parameter>
     <parameter key="kernel.debug">true</parameter>
-    <parameter key="kernel.build_dir">I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev</parameter>
-    <parameter key="kernel.cache_dir">I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev</parameter>
-    <parameter key="kernel.logs_dir">I:\fichier du sauvegarde\CRM_07_05\crm-back\var\log</parameter>
+    <parameter key="kernel.build_dir">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev</parameter>
+    <parameter key="kernel.cache_dir">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev</parameter>
+    <parameter key="kernel.logs_dir">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\log</parameter>
     <parameter key="kernel.bundles" type="collection">
       <parameter key="FrameworkBundle">Symfony\Bundle\FrameworkBundle\FrameworkBundle</parameter>
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
@@ -27,47 +27,47 @@
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
-        <parameter key="path">I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\symfony\framework-bundle</parameter>
+        <parameter key="path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\symfony\framework-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\FrameworkBundle</parameter>
       </parameter>
       <parameter key="DoctrineBundle" type="collection">
-        <parameter key="path">I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\doctrine\doctrine-bundle</parameter>
+        <parameter key="path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\doctrine\doctrine-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\DoctrineBundle</parameter>
       </parameter>
       <parameter key="DoctrineMigrationsBundle" type="collection">
-        <parameter key="path">I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\doctrine\doctrine-migrations-bundle</parameter>
+        <parameter key="path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\doctrine\doctrine-migrations-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\MigrationsBundle</parameter>
       </parameter>
       <parameter key="MakerBundle" type="collection">
-        <parameter key="path">I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\symfony\maker-bundle</parameter>
+        <parameter key="path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\symfony\maker-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\MakerBundle</parameter>
       </parameter>
       <parameter key="TwigBundle" type="collection">
-        <parameter key="path">I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\symfony\twig-bundle</parameter>
+        <parameter key="path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\symfony\twig-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\TwigBundle</parameter>
       </parameter>
       <parameter key="SecurityBundle" type="collection">
-        <parameter key="path">I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\symfony\security-bundle</parameter>
+        <parameter key="path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\symfony\security-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\SecurityBundle</parameter>
       </parameter>
       <parameter key="NelmioCorsBundle" type="collection">
-        <parameter key="path">I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\nelmio\cors-bundle</parameter>
+        <parameter key="path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\nelmio\cors-bundle</parameter>
         <parameter key="namespace">Nelmio\CorsBundle</parameter>
       </parameter>
       <parameter key="ApiPlatformBundle" type="collection">
-        <parameter key="path">I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\api-platform\symfony\Bundle</parameter>
+        <parameter key="path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\api-platform\symfony\Bundle</parameter>
         <parameter key="namespace">ApiPlatform\Symfony\Bundle</parameter>
       </parameter>
       <parameter key="DoctrineFixturesBundle" type="collection">
-        <parameter key="path">I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\doctrine\doctrine-fixtures-bundle</parameter>
+        <parameter key="path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\doctrine\doctrine-fixtures-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\FixturesBundle</parameter>
       </parameter>
       <parameter key="VichUploaderBundle" type="collection">
-        <parameter key="path">I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\vich\uploader-bundle</parameter>
+        <parameter key="path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\vich\uploader-bundle</parameter>
         <parameter key="namespace">Vich\UploaderBundle</parameter>
       </parameter>
       <parameter key="NelmioApiDocBundle" type="collection">
-        <parameter key="path">I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\nelmio\api-doc-bundle</parameter>
+        <parameter key="path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\nelmio\api-doc-bundle</parameter>
         <parameter key="namespace">Nelmio\ApiDocBundle</parameter>
       </parameter>
     </parameter>
@@ -105,17 +105,17 @@
     <parameter key="asset.request_context.base_path">null</parameter>
     <parameter key="asset.request_context.secure">null</parameter>
     <parameter key="debug.error_handler.throw_at">-1</parameter>
-    <parameter key="debug.container.dump">I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/App_KernelDevDebugContainer.xml</parameter>
+    <parameter key="debug.container.dump">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/App_KernelDevDebugContainer.xml</parameter>
     <parameter key="router.request_context.host">localhost</parameter>
     <parameter key="router.request_context.scheme">http</parameter>
     <parameter key="router.request_context.base_url"></parameter>
     <parameter key="router.resource">kernel::loadRoutes</parameter>
-    <parameter key="router.cache_dir">I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev</parameter>
+    <parameter key="router.cache_dir">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev</parameter>
     <parameter key="request_listener.http_port">80</parameter>
     <parameter key="request_listener.https_port">443</parameter>
-    <parameter key="serializer.mapping.cache.file">I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/serialization.php</parameter>
+    <parameter key="serializer.mapping.cache.file">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/serialization.php</parameter>
     <parameter key=".serializer.named_serializers" type="collection"/>
-    <parameter key="cache.prefix.seed">_I:\fichier du sauvegarde\CRM_07_05\crm-back.App_KernelDevDebugContainer</parameter>
+    <parameter key="cache.prefix.seed">_I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back.App_KernelDevDebugContainer</parameter>
     <parameter key="session.metadata.storage_key">_sf2_meta</parameter>
     <parameter key="session.storage.options" type="collection">
       <parameter key="cache_limiter" type="string">0</parameter>
@@ -125,7 +125,7 @@
     </parameter>
     <parameter key="session.save_path">null</parameter>
     <parameter key="session.metadata.update_threshold">0</parameter>
-    <parameter key="validator.mapping.cache.file">I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/validation.php</parameter>
+    <parameter key="validator.mapping.cache.file">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/validation.php</parameter>
     <parameter key="validator.translation_domain">validators</parameter>
     <parameter key="data_collector.templates" type="collection"/>
     <parameter key="doctrine.dbal.configuration.class">Doctrine\DBAL\Configuration</parameter>
@@ -200,7 +200,7 @@
     <parameter key="doctrine.orm.second_level_cache.regions_configuration.class">Doctrine\ORM\Cache\RegionsConfiguration</parameter>
     <parameter key="doctrine.orm.auto_generate_proxy_classes">true</parameter>
     <parameter key="doctrine.orm.enable_lazy_ghost_objects">true</parameter>
-    <parameter key="doctrine.orm.proxy_dir">I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/doctrine/orm/Proxies</parameter>
+    <parameter key="doctrine.orm.proxy_dir">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/doctrine/orm/Proxies</parameter>
     <parameter key="doctrine.orm.proxy_namespace">Proxies</parameter>
     <parameter key="doctrine.migrations.preferred_em">null</parameter>
     <parameter key="doctrine.migrations.preferred_connection">null</parameter>
@@ -208,7 +208,7 @@
       <parameter>@VichUploader/Form/fields.html.twig</parameter>
       <parameter>form_div_layout.html.twig</parameter>
     </parameter>
-    <parameter key="twig.default_path">I:\fichier du sauvegarde\CRM_07_05\crm-back/templates</parameter>
+    <parameter key="twig.default_path">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/templates</parameter>
     <parameter key="security.role_hierarchy.roles" type="collection"/>
     <parameter key="security.access.denied_url">null</parameter>
     <parameter key="security.authentication.manager.erase_credentials">true</parameter>
@@ -357,10 +357,10 @@
       <parameter key="pagination_items_per_page">10</parameter>
     </parameter>
     <parameter key="api_platform.resource_class_directories" type="collection">
-      <parameter>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\vich\uploader-bundle/src/Entity</parameter>
-      <parameter>I:\fichier du sauvegarde\CRM_07_05\crm-back/src/Entity</parameter>
-      <parameter>I:\fichier du sauvegarde\CRM_07_05\crm-back/src/ApiResource</parameter>
-      <parameter>I:\fichier du sauvegarde\CRM_07_05\crm-back/src/Dto</parameter>
+      <parameter>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\vich\uploader-bundle/src/Entity</parameter>
+      <parameter>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/src/Entity</parameter>
+      <parameter>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/src/ApiResource</parameter>
+      <parameter>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/src/Dto</parameter>
     </parameter>
     <parameter key="api_platform.class_name_resources" type="collection">
       <parameter>ApiPlatform\State\ApiResource\Error</parameter>
@@ -414,7 +414,7 @@
     <parameter key="vich_uploader.mappings" type="collection">
       <parameter key="kyc_documents" type="collection">
         <parameter key="uri_prefix">/uploads/kyc</parameter>
-        <parameter key="upload_destination">I:\fichier du sauvegarde\CRM_07_05\crm-back/public/uploads/kyc</parameter>
+        <parameter key="upload_destination">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/public/uploads/kyc</parameter>
         <parameter key="namer" type="collection">
           <parameter key="service">Vich\UploaderBundle\Naming\UniqidNamer.kyc_documents</parameter>
           <parameter key="options" type="collection"/>
@@ -446,18 +446,35 @@
     <service id="App\Entity" class="App\Entity" abstract="true">
       <tag name="container.excluded" source="in &quot;config/services.yaml&quot;"/>
     </service>
+    <service id="App\ApiResource\AuthorisationSearch" class="App\ApiResource\AuthorisationSearch" autowire="true" autoconfigure="true"/>
+    <service id="App\ApiResource\CompanyDetailsSearch" class="App\ApiResource\CompanyDetailsSearch" autowire="true" autoconfigure="true"/>
     <service id="App\ApiResource\CustomerSearch" class="App\ApiResource\CustomerSearch" autowire="true" autoconfigure="true"/>
     <service id="App\ApiResource\FamilySearch" class="App\ApiResource\FamilySearch" autowire="true" autoconfigure="true"/>
     <service id="App\ApiResource\PoliciesSearch" class="App\ApiResource\PoliciesSearch" autowire="true" autoconfigure="true"/>
+    <service id="App\Controller\DocController" class="App\Controller\DocController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.ZyP9f7K.App\Controller\DocController"/>
+      </call>
+    </service>
     <service id="App\DataFixtures\AppFixtures" class="App\DataFixtures\AppFixtures" autowire="true" autoconfigure="true">
       <tag name="doctrine.fixture.orm"/>
     </service>
     <service id="App\DataFixtures\CustomerFixtures" class="App\DataFixtures\CustomerFixtures" autowire="true" autoconfigure="true">
       <tag name="doctrine.fixture.orm"/>
     </service>
+    <service id="App\Dto\AppointmentDto" class="App\Dto\AppointmentDto" autowire="true" autoconfigure="true"/>
+    <service id="App\Dto\AuthorisationDto" class="App\Dto\AuthorisationDto" autowire="true" autoconfigure="true"/>
+    <service id="App\Dto\ClaimsDto" class="App\Dto\ClaimsDto" autowire="true" autoconfigure="true"/>
     <service id="App\Dto\ClientDto" class="App\Dto\ClientDto" autowire="true" autoconfigure="true"/>
+    <service id="App\Dto\CompanyDetailsDto" class="App\Dto\CompanyDetailsDto" autowire="true" autoconfigure="true"/>
+    <service id="App\Dto\DocsDto" class="App\Dto\DocsDto" autowire="true" autoconfigure="true"/>
     <service id="App\Dto\FamilyDto" class="App\Dto\FamilyDto" autowire="true" autoconfigure="true"/>
+    <service id="App\Dto\PaymentsDto" class="App\Dto\PaymentsDto" autowire="true" autoconfigure="true"/>
     <service id="App\Dto\PoliciesDto" class="App\Dto\PoliciesDto" autowire="true" autoconfigure="true"/>
+    <service id="App\Dto\ReceiptsDto" class="App\Dto\ReceiptsDto" autowire="true" autoconfigure="true"/>
+    <service id="App\Dto\RenewalsDto" class="App\Dto\RenewalsDto" autowire="true" autoconfigure="true"/>
     <service id="App\Repository\AccMonthyearRepository" class="App\Repository\AccMonthyearRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
@@ -518,13 +535,37 @@
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
+    <service id="App\Service\ClientService" class="App\Service\ClientService" autowire="true" autoconfigure="true">
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="App\State\AppointmentProcessor" class="App\State\AppointmentProcessor" autowire="true" autoconfigure="true">
+      <tag name="api_platform.state_processor"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="App\State\AuthorisationProcessor" class="App\State\AuthorisationProcessor" autowire="true" autoconfigure="true">
+      <tag name="api_platform.state_processor"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="App\State\AuthorisationSearchProvider" class="App\State\AuthorisationSearchProvider" autowire="true" autoconfigure="true">
+      <tag name="api_platform.state_provider"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="App\State\ClaimsProcessor" class="App\State\ClaimsProcessor" autowire="true" autoconfigure="true">
+      <tag name="api_platform.state_processor"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
     <service id="App\State\ClientProcessor" class="App\State\ClientProcessor" autowire="true" autoconfigure="true">
       <tag name="api_platform.state_processor"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
+      <argument type="service" id="App\Service\ClientService"/>
     </service>
     <service id="App\State\CustomerSearchProvider" class="App\State\CustomerSearchProvider" autowire="true" autoconfigure="true">
       <tag name="api_platform.state_provider"/>
       <argument type="service" id="App\Repository\ClientsRepository"/>
+    </service>
+    <service id="App\State\DocsProcessor" class="App\State\DocsProcessor" autowire="true" autoconfigure="true">
+      <tag name="api_platform.state_processor"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
     <service id="App\State\FamilyProcessor" class="App\State\FamilyProcessor" autowire="true" autoconfigure="true">
       <tag name="api_platform.state_processor"/>
@@ -535,6 +576,10 @@
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
       <argument type="service" id="request_stack"/>
     </service>
+    <service id="App\State\PaymentsProcessor" class="App\State\PaymentsProcessor" autowire="true" autoconfigure="true">
+      <tag name="api_platform.state_processor"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
     <service id="App\State\PoliciesProcessor" class="App\State\PoliciesProcessor" autowire="true" autoconfigure="true">
       <tag name="api_platform.state_processor"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
@@ -542,6 +587,14 @@
     <service id="App\State\PoliciesSearchProvider" class="App\State\PoliciesSearchProvider" autowire="true" autoconfigure="true">
       <tag name="api_platform.state_provider"/>
       <argument type="service" id="App\Repository\PoliciesRepository"/>
+    </service>
+    <service id="App\State\ReceiptsProcessor" class="App\State\ReceiptsProcessor" autowire="true" autoconfigure="true">
+      <tag name="api_platform.state_processor"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
+    <service id="App\State\RenewalsProcessor" class="App\State\RenewalsProcessor" autowire="true" autoconfigure="true">
+      <tag name="api_platform.state_processor"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
     <service id="argument_metadata_factory" class="Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory"/>
     <service id="argument_resolver.backed_enum_resolver" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\BackedEnumValueResolver">
@@ -574,7 +627,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.F6vdjrP"/>
+      <argument type="service" id=".service_locator.h0sWxY9"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -657,7 +710,7 @@
       </argument>
     </service>
     <service id="http_cache.store" class="Symfony\Component\HttpKernel\HttpCache\Store">
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/http_cache</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/http_cache</argument>
     </service>
     <service id="url_helper" class="Symfony\Component\HttpFoundation\UrlHelper">
       <argument type="service" id="request_stack"/>
@@ -667,7 +720,7 @@
       <tag name="container.no_preload"/>
       <argument type="tagged_iterator" tag="kernel.cache_warmer"/>
       <argument>true</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/App_KernelDevDebugContainerDeprecations.log</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/App_KernelDevDebugContainerDeprecations.log</argument>
     </service>
     <service id="cache_clearer" class="Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer">
       <argument type="tagged_iterator" tag="kernel.cache_clearer"/>
@@ -888,7 +941,7 @@
       </argument>
       <argument>UTF-8</argument>
       <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back</argument>
       <argument type="service">
         <service>
           <argument type="service" id="request_stack"/>
@@ -924,7 +977,7 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="filesystem"/>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back</argument>
       <call method="setName">
         <argument>assets:install</argument>
       </call>
@@ -1119,7 +1172,7 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument>dev</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back</argument>
       <call method="setName">
         <argument>debug:dotenv</argument>
       </call>
@@ -1291,9 +1344,9 @@
     <service id="cache.app" class="Symfony\Component\Cache\Adapter\FilesystemAdapter" public="true">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>aBXAzRecI8</argument>
+      <argument>08oSX5IE8+</argument>
       <argument>0</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/app</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/app</argument>
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="logger" on-invalid="ignore"/>
@@ -1306,40 +1359,40 @@
     <service id="cache.system" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="true">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>ZtZxagLC0U</argument>
+      <argument>bA9faK7xNL</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.validator" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>f+j-XfL-3D</argument>
+      <argument>9IPbbMQAaq</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.serializer" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>5BcCkvM7gq</argument>
+      <argument>E4P-SjeJIx</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.property_info" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>OoysNvZc5G</argument>
+      <argument>oSE0ss2alW</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -1349,7 +1402,7 @@
       <argument></argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -1368,7 +1421,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/app</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/app</argument>
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="logger" on-invalid="ignore"/>
@@ -1961,7 +2014,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.F6vdjrP"/>
+      <argument type="service" id=".service_locator.h0sWxY9"/>
     </service>
     <service id="routing.resolver" class="Symfony\Component\Config\Loader\LoaderResolver">
       <call method="addLoader">
@@ -2059,7 +2112,7 @@
       <argument type="service" id=".service_locator.RTjHFcp.router.default"/>
       <argument>kernel::loadRoutes</argument>
       <argument type="collection">
-        <argument key="cache_dir">I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev</argument>
+        <argument key="cache_dir">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev</argument>
         <argument key="debug">true</argument>
         <argument key="generator_class">Symfony\Component\Routing\Generator\CompiledUrlGenerator</argument>
         <argument key="generator_dumper_class">Symfony\Component\Routing\Generator\Dumper\CompiledUrlGeneratorDumper</argument>
@@ -2108,7 +2161,7 @@
       <argument type="service" id="request_stack"/>
       <argument type="service" id="router.request_context" on-invalid="ignore"/>
       <argument type="service" id="logger" on-invalid="ignore"/>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back</argument>
       <argument>true</argument>
     </service>
     <service id="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" class="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" public="true">
@@ -2135,7 +2188,7 @@
       <argument type="service" id="property_info.reflection_extractor" on-invalid="null"/>
     </service>
     <service id="secrets.vault" class="Symfony\Bundle\FrameworkBundle\Secrets\SodiumVault">
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back/config/secrets/%env(default:kernel.environment:APP_RUNTIME_ENV)%</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/config/secrets/%env(default:kernel.environment:APP_RUNTIME_ENV)%</argument>
       <argument type="service" id="secrets.decryption_key" on-invalid="ignore"/>
       <argument>APP_SECRET</argument>
     </service>
@@ -2148,7 +2201,7 @@
       <argument>base64:default::SYMFONY_DECRYPTION_SECRET</argument>
     </service>
     <service id="secrets.local_vault" class="Symfony\Bundle\FrameworkBundle\Secrets\DotenvVault">
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back/.env.dev.local</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/.env.dev.local</argument>
     </service>
     <service id="serializer" class="Symfony\Component\Serializer\Serializer">
       <argument type="collection">
@@ -2313,10 +2366,10 @@
           </service>
         </argument>
       </argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/serialization.php</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/serialization.php</argument>
     </service>
     <service id="serializer.mapping.cache.symfony" class="Psr\Cache\CacheItemPoolInterface">
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/serialization.php</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/serialization.php</argument>
       <argument type="service" id="cache.serializer"/>
       <factory class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" method="create"/>
     </service>
@@ -2529,7 +2582,7 @@
       <argument>true</argument>
     </service>
     <service id="session.storage.factory.mock_file" class="Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorageFactory">
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/sessions</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/sessions</argument>
       <argument>MOCKSESSID</argument>
       <argument type="service">
         <service class="Symfony\Component\HttpFoundation\Session\Storage\MetadataBag">
@@ -2614,10 +2667,10 @@
     <service id="validator.mapping.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer">
       <tag name="kernel.cache_warmer"/>
       <argument type="service" id="validator.builder"/>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/validation.php</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/validation.php</argument>
     </service>
     <service id="validator.mapping.cache.adapter" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" constructor="create">
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/validation.php</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/validation.php</argument>
       <argument type="service" id="cache.validator"/>
     </service>
     <service id="validator.validator_factory" class="Symfony\Component\Validator\ContainerConstraintValidatorFactory">
@@ -2900,10 +2953,10 @@
     <service id="cache.validator_expression_language" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="true">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>Nn4pj7IUL-</argument>
+      <argument>4v1E+ML2PQ</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -3155,7 +3208,7 @@
         <argument key="default">600</argument>
       </argument>
     </service>
-    <service id=".1_ServiceLocator~BFI53ZE" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".1_ServiceLocator~6jTHn73" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <argument type="collection"/>
     </service>
     <service id="doctrine.orm.proxy_cache_warmer" class="Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer">
@@ -3363,7 +3416,7 @@
         <argument type="service" id=".doctrine.orm.default_metadata_driver"/>
       </call>
       <call method="setProxyDir">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/doctrine/orm/Proxies</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/doctrine/orm/Proxies</argument>
       </call>
       <call method="setProxyNamespace">
         <argument>Proxies</argument>
@@ -3406,13 +3459,13 @@
     </service>
     <service id="doctrine.orm.default_attribute_metadata_driver" class="Doctrine\ORM\Mapping\Driver\AttributeDriver">
       <argument type="collection">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\src\Entity</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\src\Entity</argument>
       </argument>
       <argument>true</argument>
     </service>
     <service id="doctrine.orm.default_xml_metadata_driver" class="Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver">
       <argument type="collection">
-        <argument key="I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\vich\uploader-bundle\config\doctrine">Vich\UploaderBundle\Entity</argument>
+        <argument key="I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\vich\uploader-bundle\config\doctrine">Vich\UploaderBundle\Entity</argument>
       </argument>
       <argument>.orm.xml</argument>
       <argument>true</argument>
@@ -3478,7 +3531,7 @@
     <service id="doctrine.migrations.configuration" class="Doctrine\Migrations\Configuration\Configuration">
       <call method="addMigrationsDirectory">
         <argument>DoctrineMigrations</argument>
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back/migrations</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/migrations</argument>
       </call>
       <call method="setAllOrNothing">
         <argument>false</argument>
@@ -3663,8 +3716,8 @@
       <argument type="service" id="filesystem"/>
       <argument type="service" id="maker.autoloader_util"/>
       <argument type="service" id="maker.file_link_formatter"/>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back/templates</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/templates</argument>
     </service>
     <service id="maker.autoloader_finder" class="Symfony\Bundle\MakerBundle\Util\ComposerAutoloaderFinder">
       <argument>App</argument>
@@ -3845,7 +3898,7 @@
     </service>
     <service id="maker.maker.make_migration" class="Symfony\Bundle\MakerBundle\Maker\MakeMigration">
       <tag name="maker.command"/>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back</argument>
       <argument type="service" id="maker.file_link_formatter"/>
     </service>
     <service id="maker.maker.make_stimulus_controller" class="Symfony\Bundle\MakerBundle\Maker\MakeStimulusController">
@@ -3879,7 +3932,7 @@
       <tag name="kernel.reset" method="resetGlobals"/>
       <argument type="service" id="twig.loader.native_filesystem"/>
       <argument type="collection">
-        <argument key="cache">I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/twig</argument>
+        <argument key="cache">I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/twig</argument>
         <argument key="charset">UTF-8</argument>
         <argument key="debug">true</argument>
         <argument key="strict_variables">true</argument>
@@ -3968,7 +4021,7 @@
     <service id="twig.template_iterator" class="Symfony\Bundle\TwigBundle\TemplateIterator">
       <argument type="service" id="kernel"/>
       <argument type="collection"/>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back/templates</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/templates</argument>
       <argument type="collection">
         <argument>*.twig</argument>
       </argument>
@@ -3982,65 +4035,65 @@
     <service id="twig.loader.native_filesystem" class="Twig\Loader\FilesystemLoader">
       <tag name="twig.loader"/>
       <argument type="collection"/>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back</argument>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\doctrine\doctrine-bundle/templates</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\doctrine\doctrine-bundle/templates</argument>
         <argument>Doctrine</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\doctrine\doctrine-bundle/templates</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\doctrine\doctrine-bundle/templates</argument>
         <argument>!Doctrine</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\doctrine\doctrine-migrations-bundle/templates</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\doctrine\doctrine-migrations-bundle/templates</argument>
         <argument>DoctrineMigrations</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\doctrine\doctrine-migrations-bundle/templates</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\doctrine\doctrine-migrations-bundle/templates</argument>
         <argument>!DoctrineMigrations</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\symfony\maker-bundle/templates</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\symfony\maker-bundle/templates</argument>
         <argument>Maker</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\symfony\maker-bundle/templates</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\symfony\maker-bundle/templates</argument>
         <argument>!Maker</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\symfony\security-bundle/Resources/views</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\symfony\security-bundle/Resources/views</argument>
         <argument>Security</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\symfony\security-bundle/Resources/views</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\symfony\security-bundle/Resources/views</argument>
         <argument>!Security</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\api-platform\symfony\Bundle/Resources/views</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\api-platform\symfony\Bundle/Resources/views</argument>
         <argument>ApiPlatform</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\api-platform\symfony\Bundle/Resources/views</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\api-platform\symfony\Bundle/Resources/views</argument>
         <argument>!ApiPlatform</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\vich\uploader-bundle/templates</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\vich\uploader-bundle/templates</argument>
         <argument>VichUploader</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\vich\uploader-bundle/templates</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\vich\uploader-bundle/templates</argument>
         <argument>!VichUploader</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\nelmio\api-doc-bundle/templates</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\nelmio\api-doc-bundle/templates</argument>
         <argument>NelmioApiDoc</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\vendor\nelmio\api-doc-bundle/templates</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\vendor\nelmio\api-doc-bundle/templates</argument>
         <argument>!NelmioApiDoc</argument>
       </call>
       <call method="addPath">
-        <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back/templates</argument>
+        <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/templates</argument>
       </call>
     </service>
     <service id="twig.loader.chain" class="Twig\Loader\ChainLoader"/>
@@ -4137,9 +4190,9 @@
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="twig"/>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back</argument>
       <argument>%kernel.bundles_metadata%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back/templates</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back/templates</argument>
       <argument type="service" id="debug.file_link_formatter" on-invalid="null"/>
       <call method="setName">
         <argument>debug:twig</argument>
@@ -4308,10 +4361,10 @@
     <service id="cache.security_expression_language" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>8X7GTuOBbp</argument>
+      <argument>b5T3PmhDBj</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -4327,10 +4380,10 @@
     <service id="cache.security_is_granted_attribute_expression_language" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="true">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>60qJLUKPRb</argument>
+      <argument>AnuPBntN5g</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -4340,10 +4393,10 @@
     <service id="cache.security_is_csrf_token_valid_attribute_expression_language" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="true">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>HsWw2VZK-3</argument>
+      <argument>KbwGDE6ncJ</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -4859,10 +4912,10 @@
       <tag name="container.hot_path"/>
     </service>
     <service id="api_platform.state_provider.locator" class="ApiPlatform\State\CallableProvider">
-      <argument type="service" id=".service_locator.ZFIXxeH"/>
+      <argument type="service" id=".service_locator.H8Klpue"/>
     </service>
     <service id="api_platform.state_processor.locator" class="ApiPlatform\State\CallableProcessor">
-      <argument type="service" id=".service_locator.mYVEnk_"/>
+      <argument type="service" id=".service_locator.MrUxKUE"/>
     </service>
     <service id="api_platform.pagination" class="ApiPlatform\State\Pagination\Pagination">
       <argument>%api_platform.collection.pagination%</argument>
@@ -4977,10 +5030,10 @@
     <service id="api_platform.cache.route_name_resolver" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>yupToYLsn+</argument>
+      <argument>zI936wte6m</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -5116,10 +5169,10 @@
     <service id="api_platform.cache.metadata.resource" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>9CWG7GMkuK</argument>
+      <argument>QyCVgbNnHq</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -5193,10 +5246,10 @@
     <service id="api_platform.cache.metadata.property" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>cHWcpA2ydG</argument>
+      <argument>rlKN4QjDrl</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -5270,10 +5323,10 @@
     <service id="api_platform.cache.metadata.resource_collection" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>F7eBLVmtRc</argument>
+      <argument>SqtuOeygEK</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -5331,15 +5384,15 @@
     <service id="api_platform.json_schema.definition_name_factory" class="ApiPlatform\JsonSchema\DefinitionNameFactory">
       <argument>%api_platform.jsonschema_formats%</argument>
     </service>
-    <service id=".2_ObjectNormalizer~DKxbnlI" class="Symfony\Component\Serializer\Normalizer\ObjectNormalizer">
+    <service id=".2_ObjectNormalizer~UMxcIOF" class="Symfony\Component\Serializer\Normalizer\ObjectNormalizer">
       <argument>null</argument>
       <argument>null</argument>
       <argument type="service" id="property_accessor"/>
       <argument type="service" id="property_info"/>
     </service>
-    <service id=".1_Serializer~DKxbnlI" class="Symfony\Component\Serializer\Serializer">
+    <service id=".1_Serializer~UMxcIOF" class="Symfony\Component\Serializer\Serializer">
       <argument type="collection">
-        <argument type="service" id=".2_ObjectNormalizer~DKxbnlI"/>
+        <argument type="service" id=".2_ObjectNormalizer~UMxcIOF"/>
       </argument>
       <argument type="collection">
         <argument type="service" id="serializer.encoder.json"/>
@@ -5408,10 +5461,10 @@
     <service id="api_platform.cache.openapi" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <tag name="cache.pool"/>
       <tag name="kernel.reset" method="reset"/>
-      <argument>KkY6EiS59m</argument>
+      <argument>nxcbmmrjgC</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/pools/system</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/pools/system</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -6049,7 +6102,7 @@
       </argument>
     </service>
     <service id="vich_uploader.metadata.cache.file_cache" class="Metadata\Cache\FileCache">
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/vich_uploader</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/vich_uploader</argument>
     </service>
     <service id="vich_uploader.metadata_factory" class="Metadata\MetadataFactory">
       <argument type="service" id="vich_uploader.metadata_driver.chain"/>
@@ -6064,7 +6117,7 @@
     </service>
     <service id="Vich\UploaderBundle\Metadata\CacheWarmer" class="Vich\UploaderBundle\Metadata\CacheWarmer">
       <tag name="kernel.cache_warmer"/>
-      <argument>I:\fichier du sauvegarde\CRM_07_05\crm-back\var\cache\dev/vich_uploader</argument>
+      <argument>I:\fichier du sauvegarde\11_05_2025 17h_12\CRM\crm-back\var\cache\dev/vich_uploader</argument>
       <argument type="service" id="vich_uploader.metadata_reader"/>
     </service>
     <service id="vich_uploader.property_mapping_resolver" class="Vich\UploaderBundle\Mapping\PropertyMappingResolver">
@@ -6475,6 +6528,9 @@
     <service id="nelmio_api_doc.describers.api_platform.openapi" class="ApiPlatform\OpenApi\OpenApi">
       <factory service="api_platform.openapi.factory" method="__invoke"/>
     </service>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DocController" class="App\Controller\DocController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DocController" class="App\Controller\DocController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\DocController" class="App\Controller\DocController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.App\DataFixtures\AppFixtures" class="App\DataFixtures\AppFixtures" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\DataFixtures\AppFixtures" class="App\DataFixtures\AppFixtures" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.App\DataFixtures\CustomerFixtures" class="App\DataFixtures\CustomerFixtures" autowire="true" abstract="true"/>
@@ -6509,18 +6565,34 @@
     <service id=".abstract.instanceof.App\Repository\ReceiptsRepository" class="App\Repository\ReceiptsRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\RenewalsRepository" class="App\Repository\RenewalsRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\RenewalsRepository" class="App\Repository\RenewalsRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.ApiPlatform\State\ProcessorInterface.0.App\State\AppointmentProcessor" class="App\State\AppointmentProcessor" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\State\AppointmentProcessor" class="App\State\AppointmentProcessor" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.ApiPlatform\State\ProcessorInterface.0.App\State\AuthorisationProcessor" class="App\State\AuthorisationProcessor" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\State\AuthorisationProcessor" class="App\State\AuthorisationProcessor" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.ApiPlatform\State\ProviderInterface.0.App\State\AuthorisationSearchProvider" class="App\State\AuthorisationSearchProvider" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\State\AuthorisationSearchProvider" class="App\State\AuthorisationSearchProvider" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.ApiPlatform\State\ProcessorInterface.0.App\State\ClaimsProcessor" class="App\State\ClaimsProcessor" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\State\ClaimsProcessor" class="App\State\ClaimsProcessor" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.ApiPlatform\State\ProcessorInterface.0.App\State\ClientProcessor" class="App\State\ClientProcessor" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\State\ClientProcessor" class="App\State\ClientProcessor" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.ApiPlatform\State\ProviderInterface.0.App\State\CustomerSearchProvider" class="App\State\CustomerSearchProvider" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\State\CustomerSearchProvider" class="App\State\CustomerSearchProvider" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.ApiPlatform\State\ProcessorInterface.0.App\State\DocsProcessor" class="App\State\DocsProcessor" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\State\DocsProcessor" class="App\State\DocsProcessor" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.ApiPlatform\State\ProcessorInterface.0.App\State\FamilyProcessor" class="App\State\FamilyProcessor" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\State\FamilyProcessor" class="App\State\FamilyProcessor" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.ApiPlatform\State\ProviderInterface.0.App\State\FamilySearchProvider" class="App\State\FamilySearchProvider" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\State\FamilySearchProvider" class="App\State\FamilySearchProvider" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.ApiPlatform\State\ProcessorInterface.0.App\State\PaymentsProcessor" class="App\State\PaymentsProcessor" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\State\PaymentsProcessor" class="App\State\PaymentsProcessor" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.ApiPlatform\State\ProcessorInterface.0.App\State\PoliciesProcessor" class="App\State\PoliciesProcessor" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\State\PoliciesProcessor" class="App\State\PoliciesProcessor" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.ApiPlatform\State\ProviderInterface.0.App\State\PoliciesSearchProvider" class="App\State\PoliciesSearchProvider" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\State\PoliciesSearchProvider" class="App\State\PoliciesSearchProvider" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.ApiPlatform\State\ProcessorInterface.0.App\State\ReceiptsProcessor" class="App\State\ReceiptsProcessor" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\State\ReceiptsProcessor" class="App\State\ReceiptsProcessor" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.ApiPlatform\State\ProcessorInterface.0.App\State\RenewalsProcessor" class="App\State\RenewalsProcessor" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\State\RenewalsProcessor" class="App\State\RenewalsProcessor" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".service_locator.pRu6x_4" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -7067,15 +7139,30 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.zHyJIs5" method="withContext"/>
     </service>
-    <service id=".service_locator.F6vdjrP" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".errored.8hubP5s" class="App\Entity\Doc">
+      <tag name="container.error" message="Cannot determine controller argument for &quot;App\Controller\DocController::downloadDoc()&quot;: the $doc argument is type-hinted with the non-existent class or interface: &quot;App\Entity\Doc&quot;."/>
+    </service>
+    <service id=".errored.aUtfgtG" class="Symfony\Component\Security\Core\Security">
+      <tag name="container.error" message="Cannot determine controller argument for &quot;App\Controller\DocController::downloadDoc()&quot;: the $security argument is type-hinted with the non-existent class or interface: &quot;Symfony\Component\Security\Core\Security&quot;."/>
+    </service>
+    <service id=".service_locator.sBIw_G." class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="doc" type="service_closure" id=".errored.8hubP5s"/>
+        <argument key="security" type="service_closure" id=".errored.aUtfgtG"/>
+      </argument>
+    </service>
+    <service id=".service_locator.h0sWxY9" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.zHyJIs5.kernel::registerContainerConfiguration()"/>
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.zHyJIs5.kernel::registerContainerConfiguration()"/>
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.zHyJIs5.kernel::loadRoutes()"/>
         <argument key="App\Kernel::loadRoutes" type="service_closure" id=".service_locator.zHyJIs5.kernel::loadRoutes()"/>
+        <argument key="App\Controller\DocController::downloadDoc" type="service_closure" id=".service_locator.sBIw_G."/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.zHyJIs5.kernel::registerContainerConfiguration()"/>
         <argument key="kernel:loadRoutes" type="service_closure" id=".service_locator.zHyJIs5.kernel::loadRoutes()"/>
+        <argument key="App\Controller\DocController:downloadDoc" type="service_closure" id=".service_locator.sBIw_G."/>
       </argument>
     </service>
     <service id=".service_locator.ea.H0ae" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -7265,6 +7352,27 @@
       <argument type="service" id="request_stack"/>
       <argument>%env(bool:default::key:web:default:kernel.runtime_mode:)%</argument>
     </service>
+    <service id=".service_locator.ZyP9f7K" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="router" type="service_closure" id="router.default" on-invalid="ignore"/>
+        <argument key="request_stack" type="service_closure" id="request_stack" on-invalid="ignore"/>
+        <argument key="http_kernel" type="service_closure" id="http_kernel" on-invalid="ignore"/>
+        <argument key="serializer" type="service_closure" id="serializer" on-invalid="ignore"/>
+        <argument key="security.authorization_checker" type="service_closure" id="security.authorization_checker" on-invalid="ignore"/>
+        <argument key="twig" type="service_closure" id="twig" on-invalid="ignore"/>
+        <argument key="security.token_storage" type="service_closure" id="security.token_storage" on-invalid="ignore"/>
+        <argument key="security.csrf.token_manager" type="service_closure" id="security.csrf.token_manager" on-invalid="ignore"/>
+        <argument key="parameter_bag" type="service_closure" id="parameter_bag" on-invalid="ignore"/>
+        <argument key="web_link.http_header_serializer" type="service_closure" id="web_link.http_header_serializer" on-invalid="ignore"/>
+      </argument>
+    </service>
+    <service id=".service_locator.ZyP9f7K.App\Controller\DocController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\DocController"/>
+      <argument>App\Controller\DocController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.ZyP9f7K" method="withContext"/>
+    </service>
     <service id=".service_locator.RTjHFcp" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -7392,9 +7500,10 @@
         <argument key="security.csrf.token_manager" type="service_closure" id="security.csrf.token_manager" on-invalid="ignore"/>
       </argument>
     </service>
-    <service id=".service_locator.ZFIXxeH" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.H8Klpue" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\State\AuthorisationSearchProvider" type="service_closure" id="App\State\AuthorisationSearchProvider"/>
         <argument key="App\State\CustomerSearchProvider" type="service_closure" id="App\State\CustomerSearchProvider"/>
         <argument key="App\State\FamilySearchProvider" type="service_closure" id="App\State\FamilySearchProvider"/>
         <argument key="App\State\PoliciesSearchProvider" type="service_closure" id="App\State\PoliciesSearchProvider"/>
@@ -7414,12 +7523,19 @@
         <argument key="api_platform.doctrine.orm.state.item_provider" type="service_closure" id="api_platform.doctrine.orm.state.item_provider"/>
       </argument>
     </service>
-    <service id=".service_locator.mYVEnk_" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.MrUxKUE" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\State\AppointmentProcessor" type="service_closure" id="App\State\AppointmentProcessor"/>
+        <argument key="App\State\AuthorisationProcessor" type="service_closure" id="App\State\AuthorisationProcessor"/>
+        <argument key="App\State\ClaimsProcessor" type="service_closure" id="App\State\ClaimsProcessor"/>
         <argument key="App\State\ClientProcessor" type="service_closure" id="App\State\ClientProcessor"/>
+        <argument key="App\State\DocsProcessor" type="service_closure" id="App\State\DocsProcessor"/>
         <argument key="App\State\FamilyProcessor" type="service_closure" id="App\State\FamilyProcessor"/>
+        <argument key="App\State\PaymentsProcessor" type="service_closure" id="App\State\PaymentsProcessor"/>
         <argument key="App\State\PoliciesProcessor" type="service_closure" id="App\State\PoliciesProcessor"/>
+        <argument key="App\State\ReceiptsProcessor" type="service_closure" id="App\State\ReceiptsProcessor"/>
+        <argument key="App\State\RenewalsProcessor" type="service_closure" id="App\State\RenewalsProcessor"/>
         <argument key="api_platform.swagger_ui.processor" type="service_closure" id="api_platform.swagger_ui.processor"/>
         <argument key="api_platform.doctrine.orm.state.remove_processor" type="service_closure" id="api_platform.doctrine.orm.state.remove_processor"/>
         <argument key="ApiPlatform\Doctrine\Common\State\RemoveProcessor" type="service_closure" id="api_platform.doctrine.orm.state.remove_processor"/>
@@ -7462,6 +7578,7 @@
       <call method="allowControllers">
         <argument type="collection">
           <argument>App\Kernel</argument>
+          <argument>App\Controller\DocController</argument>
           <argument>Doctrine\Bundle\DoctrineBundle\Controller\ProfilerController</argument>
         </argument>
       </call>
@@ -7555,7 +7672,7 @@
       <argument type="service" id="serializer.mapping.chain_loader"/>
     </service>
     <service id="api_platform.openapi.normalizer.api_gateway.inner" class="ApiPlatform\OpenApi\Serializer\OpenApiNormalizer">
-      <argument type="service" id=".1_Serializer~DKxbnlI"/>
+      <argument type="service" id=".1_Serializer~UMxcIOF"/>
     </service>
     <service id="api_platform.openapi.normalizer.legacy.inner" class="ApiPlatform\OpenApi\Serializer\ApiGatewayNormalizer">
       <tag name="container.decorator" id="api_platform.openapi.normalizer" inner="api_platform.openapi.normalizer.api_gateway.inner"/>
@@ -8499,7 +8616,7 @@
     <service id="nelmio_api_doc.generator" alias="nelmio_api_doc.generator.default" public="true"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.pRu6x_4" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.F6vdjrP"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.h0sWxY9"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.BxSdgVt"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="api_platform.name_converter" alias="api_platform.hydra.name_converter.hydra_prefix"/>
@@ -8581,5 +8698,6 @@
     <service id="api_platform.metadata.resource.metadata_collection_factory.cached.inner" alias="api_platform.doctrine.orm.metadata.resource.metadata_collection_factory"/>
     <service id=".service_locator.GIuJv7e" alias="api_platform.filter_locator"/>
     <service id=".service_locator.n_ENPtW" alias=".service_locator.zHyJIs5"/>
+    <service id=".service_locator.BkMMBek" alias=".service_locator.ZyP9f7K"/>
   </services>
 </container>

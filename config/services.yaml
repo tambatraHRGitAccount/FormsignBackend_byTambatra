@@ -34,6 +34,10 @@ services:
         tags:
             - { name: 'api_platform.state_processor' }
     
+    App\Service\ClientService:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+    
 
 
     # App\State\PaymentChildrenProcessor:

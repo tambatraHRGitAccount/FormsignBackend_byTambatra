@@ -2,91 +2,112 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Dto\ReceiptsDto;
+use App\State\ReceiptsProcessor;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'receipts')]
+#[ApiResource(
+    operations: [
+        new Get(
+            output: ReceiptsDto::class
+        ),
+        new GetCollection(
+            output: ReceiptsDto::class
+        ),
+        new Post(
+            input: ReceiptsDto::class,
+            output: ReceiptsDto::class,
+            processor: ReceiptsProcessor::class
+        ),
+        new Put(
+            input: ReceiptsDto::class,
+            output: ReceiptsDto::class,
+            processor: ReceiptsProcessor::class
+        ),
+        new Delete(
+            processor: ReceiptsProcessor::class
+        ),
+    ],
+    normalizationContext: ['groups' => ['receipts:read']],
+    denormalizationContext: ['groups' => ['receipts:write']]
+)]
 class Receipts
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'bigint')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Clients::class, inversedBy: 'receipts')]
-    #[ORM\JoinColumn(name: 'CRMClientRef', referencedColumnName: 'crmClientRef', nullable: false, onDelete: 'CASCADE')]
-    private ?Clients $client = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'CRMClientRef')]
+    private ?string $crmClientRef = null;
 
-    #[ORM\ManyToOne(targetEntity: Policies::class, inversedBy: 'receipts')]
-    #[ORM\JoinColumn(name: 'POLICY_NUM', referencedColumnName: 'policy', nullable: false, onDelete: 'CASCADE')]
-    private ?Policies $policy = null;
-
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'RECEIPT_NUM', unique: true)]
     private ?string $receiptNum = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $receiptDate = null;
+    #[ORM\Column(type: 'date', nullable: true, name: 'RECEIPT_DATE')]
+    private ?\DateTimeInterface $receiptDate = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Amount_in_letter')]
     private ?string $amountInLetter = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true, name: 'Amount_in_Numbers')]
     private ?float $amountInNumbers = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $dateFrom = null;
+    #[ORM\Column(type: 'date', nullable: true, name: 'DATE_FROM')]
+    private ?\DateTimeInterface $dateFrom = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $dateTo = null;
+    #[ORM\Column(type: 'date', nullable: true, name: 'DATE_TO')]
+    private ?\DateTimeInterface $dateTo = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'REGISTRATION_NUMBER')]
     private ?string $registrationNumber = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'POLICY_NUM')]
+    private ?string $policyNum = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'MODE_OF_PAYMENT')]
     private ?string $modeOfPayment = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'BANK_CHEQUE_NUM')]
     private ?string $bankChequeNum = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'REMARKS')]
     private ?string $remarks = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'CLIENT_NAME')]
     private ?string $clientName = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $lodgment = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'LOGDMENT')]
+    private ?string $logdment = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $lodgmentDate = null;
+    #[ORM\Column(type: 'date', nullable: true, name: 'LODGMENT_DATE')]
+    private ?\DateTimeInterface $lodgmentDate = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $field16 = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Field16')]
+    private ?string $field16 = null;
 
+    // Getters and Setters
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getClient(): ?Clients
+    public function getCrmClientRef(): ?string
     {
-        return $this->client;
+        return $this->crmClientRef;
     }
 
-    public function setClient(?Clients $client): self
+    public function setCrmClientRef(?string $crmClientRef): self
     {
-        $this->client = $client;
-        return $this;
-    }
-
-    public function getPolicy(): ?Policies
-    {
-        return $this->policy;
-    }
-
-    public function setPolicy(?Policies $policy): self
-    {
-        $this->policy = $policy;
+        $this->crmClientRef = $crmClientRef;
         return $this;
     }
 
@@ -101,12 +122,12 @@ class Receipts
         return $this;
     }
 
-    public function getReceiptDate(): ?float
+    public function getReceiptDate(): ?\DateTimeInterface
     {
         return $this->receiptDate;
     }
 
-    public function setReceiptDate(?float $receiptDate): self
+    public function setReceiptDate(?\DateTimeInterface $receiptDate): self
     {
         $this->receiptDate = $receiptDate;
         return $this;
@@ -134,23 +155,23 @@ class Receipts
         return $this;
     }
 
-    public function getDateFrom(): ?string
+    public function getDateFrom(): ?\DateTimeInterface
     {
         return $this->dateFrom;
     }
 
-    public function setDateFrom(?string $dateFrom): self
+    public function setDateFrom(?\DateTimeInterface $dateFrom): self
     {
         $this->dateFrom = $dateFrom;
         return $this;
     }
 
-    public function getDateTo(): ?string
+    public function getDateTo(): ?\DateTimeInterface
     {
         return $this->dateTo;
     }
 
-    public function setDateTo(?string $dateTo): self
+    public function setDateTo(?\DateTimeInterface $dateTo): self
     {
         $this->dateTo = $dateTo;
         return $this;
@@ -164,6 +185,17 @@ class Receipts
     public function setRegistrationNumber(?string $registrationNumber): self
     {
         $this->registrationNumber = $registrationNumber;
+        return $this;
+    }
+
+    public function getPolicyNum(): ?string
+    {
+        return $this->policyNum;
+    }
+
+    public function setPolicyNum(?string $policyNum): self
+    {
+        $this->policyNum = $policyNum;
         return $this;
     }
 
@@ -211,34 +243,34 @@ class Receipts
         return $this;
     }
 
-    public function getLodgment(): ?string
+    public function getLogdment(): ?string
     {
-        return $this->lodgment;
+        return $this->logdment;
     }
 
-    public function setLodgment(?string $lodgment): self
+    public function setLogdment(?string $logdment): self
     {
-        $this->lodgment = $lodgment;
+        $this->logdment = $logdment;
         return $this;
     }
 
-    public function getLodgmentDate(): ?float
+    public function getLodgmentDate(): ?\DateTimeInterface
     {
         return $this->lodgmentDate;
     }
 
-    public function setLodgmentDate(?float $lodgmentDate): self
+    public function setLodgmentDate(?\DateTimeInterface $lodgmentDate): self
     {
         $this->lodgmentDate = $lodgmentDate;
         return $this;
     }
 
-    public function getField16(): ?float
+    public function getField16(): ?string
     {
         return $this->field16;
     }
 
-    public function setField16(?float $field16): self
+    public function setField16(?string $field16): self
     {
         $this->field16 = $field16;
         return $this;

@@ -2,64 +2,87 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Dto\DocsDto;
+use App\State\DocsProcessor;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'docs')]
+#[ApiResource(
+    operations: [
+        new Get(
+            output: DocsDto::class
+        ),
+        new GetCollection(
+            output: DocsDto::class
+        ),
+        new Post(
+            input: DocsDto::class,
+            output: DocsDto::class,
+            processor: DocsProcessor::class
+        ),
+        new Put(
+            input: DocsDto::class,
+            output: DocsDto::class,
+            processor: DocsProcessor::class
+        ),
+        new Delete(
+            processor: DocsProcessor::class
+        ),
+    ],
+    normalizationContext: ['groups' => ['docs:read']],
+    denormalizationContext: ['groups' => ['docs:write']]
+)]
 class Docs
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'bigint')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Clients::class, inversedBy: 'docs')]
-    #[ORM\JoinColumn(name: 'CRMClientRef', referencedColumnName: 'crmClientRef', nullable: false, onDelete: 'CASCADE')]
-    private ?Clients $client = null;
+    #[ORM\Column(type: 'string', length: 255, name: 'CRMClientRef')]
+    private ?string $crmClientRef = null;
 
-    #[ORM\ManyToOne(targetEntity: Policies::class, inversedBy: 'docs')]
-    #[ORM\JoinColumn(name: 'DocPol', referencedColumnName: 'policy', nullable: false, onDelete: 'CASCADE')]
-    private ?Policies $docPol = null;
-
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'CRMFile')]
     private ?string $crmFile = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'DocName')]
     private ?string $docName = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'DocPol')]
+    private ?string $docPol = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'DocInstruction')]
     private ?string $docInstruction = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'DocShortName')]
     private ?string $docShortName = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $docDate = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'base64File')]
+    private ?string $base64File = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true, name: 'DocDate')]
+    private ?\DateTimeInterface $docDate = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getClient(): ?Clients
+    public function getCrmClientRef(): ?string
     {
-        return $this->client;
+        return $this->crmClientRef;
     }
 
-    public function setClient(?Clients $client): self
+    public function setCrmClientRef(?string $crmClientRef): self
     {
-        $this->client = $client;
-        return $this;
-    }
-
-    public function getDocPol(): ?Policies
-    {
-        return $this->docPol;
-    }
-
-    public function setDocPol(?Policies $docPol): self
-    {
-        $this->docPol = $docPol;
+        $this->crmClientRef = $crmClientRef;
         return $this;
     }
 
@@ -85,6 +108,17 @@ class Docs
         return $this;
     }
 
+    public function getDocPol(): ?string
+    {
+        return $this->docPol;
+    }
+
+    public function setDocPol(?string $docPol): self
+    {
+        $this->docPol = $docPol;
+        return $this;
+    }
+
     public function getDocInstruction(): ?string
     {
         return $this->docInstruction;
@@ -107,12 +141,23 @@ class Docs
         return $this;
     }
 
-    public function getDocDate(): ?string
+    public function getBase64File(): ?string
+    {
+        return $this->base64File;
+    }
+
+    public function setBase64File(?string $base64File): self
+    {
+        $this->base64File = $base64File;
+        return $this;
+    }
+
+    public function getDocDate(): ?\DateTimeInterface
     {
         return $this->docDate;
     }
 
-    public function setDocDate(?string $docDate): self
+    public function setDocDate(?\DateTimeInterface $docDate): self
     {
         $this->docDate = $docDate;
         return $this;
