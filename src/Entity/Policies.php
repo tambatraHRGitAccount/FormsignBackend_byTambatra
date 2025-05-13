@@ -8,8 +8,12 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\Operation;
 use App\Dto\PoliciesDto;
+use App\Dto\LastPolicyNumbersDto;
 use App\State\PoliciesProcessor;
+use App\State\LastPolicyNumbersProvider;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -35,8 +39,17 @@ use Doctrine\ORM\Mapping as ORM;
         new Delete(
             processor: PoliciesProcessor::class
         ),
+        new Get(
+            uriTemplate: '/last-policy-numbers',
+            output: LastPolicyNumbersDto::class,
+            provider: LastPolicyNumbersProvider::class,
+            openapi: new \ApiPlatform\OpenApi\Model\Operation(
+                summary: 'Récupère les derniers numéros de placement et de facture QB',
+                description: 'Retourne les derniers PLACING_NUMBER et QB_INV_NUM de la table policies.'
+            )
+        ),
     ],
-    normalizationContext: ['groups' => ['policies:read']],
+    normalizationContext: ['groups' => ['policies:read', 'last_policy_numbers:read']],
     denormalizationContext: ['groups' => ['policies:write']]
 )]
 class Policies
