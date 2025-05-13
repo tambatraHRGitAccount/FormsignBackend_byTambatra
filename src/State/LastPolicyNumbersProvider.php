@@ -26,9 +26,11 @@ class LastPolicyNumbersProvider implements ProviderInterface
         if ($lastPolicy) {
             $dto->placingNumber = $lastPolicy->getPlacingNumber() ?? '3000';
             $dto->qbInvNum = $lastPolicy->getQbInvNum() ?? '20000';
+            $dto->policy = $lastPolicy->getPolicy() ?? '10000';
         } else {
             $dto->placingNumber = '3000';
             $dto->qbInvNum = '20000';
+            $dto->policy = '10000';
         }
 
         return $dto;

@@ -17,4 +17,9 @@ class LastPolicyNumbersDto
     #[Groups(['last_policy_numbers:read'])]
     #[SerializedName('QB_INV_NUM')]
     public ?string $qbInvNum = null;
+
+    #[Assert\Length(max: 255)]
+    #[Groups(['last_policy_numbers:read'])]
+    #[SerializedName('POLICY')]
+    public ?string $policy = null;
 }
