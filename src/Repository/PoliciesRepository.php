@@ -69,4 +69,18 @@ class PoliciesRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+
+    public function findMaxValues(): array
+    {
+        $result = $this->createQueryBuilder('p')
+            ->select('COALESCE(MAX(p.qbInvNum), :defaultQbInvNum) AS maxQbInvNum')
+            ->addSelect('COALESCE(MAX(p.placingNumber), :defaultPlacingNumber) AS maxPlacingNumber')
+            ->setParameter('defaultQbInvNum', '19999')
+            ->setParameter('defaultPlacingNumber', '2999')
+            ->getQuery()
+            ->getSingleResult();
+
+        return $result;
+    }
 }

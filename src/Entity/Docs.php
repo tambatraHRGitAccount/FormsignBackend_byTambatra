@@ -16,25 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'docs')]
 #[ApiResource(
     operations: [
-        new Get(
-            output: DocsDto::class
-        ),
-        new GetCollection(
-            output: DocsDto::class
-        ),
-        new Post(
-            input: DocsDto::class,
-            output: DocsDto::class,
-            processor: DocsProcessor::class
-        ),
-        new Put(
-            input: DocsDto::class,
-            output: DocsDto::class,
-            processor: DocsProcessor::class
-        ),
-        new Delete(
-            processor: DocsProcessor::class
-        ),
+        new Get(output: DocsDto::class),
+        new GetCollection(output: DocsDto::class),
+        new Post(input: DocsDto::class, output: DocsDto::class, processor: DocsProcessor::class),
+        new Put(input: DocsDto::class, output: DocsDto::class, processor: DocsProcessor::class),
+        new Delete(processor: DocsProcessor::class),
     ],
     normalizationContext: ['groups' => ['docs:read']],
     denormalizationContext: ['groups' => ['docs:write']]
@@ -66,6 +52,9 @@ class Docs
 
     #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'base64File')]
     private ?string $base64File = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'filePath')]
+    private ?string $filePath = null; // Nouvelle propriété pour le chemin du fichier
 
     #[ORM\Column(type: 'datetime', nullable: true, name: 'DocDate')]
     private ?\DateTimeInterface $docDate = null;
@@ -149,6 +138,17 @@ class Docs
     public function setBase64File(?string $base64File): self
     {
         $this->base64File = $base64File;
+        return $this;
+    }
+
+    public function getFilePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    public function setFilePath(?string $filePath): self
+    {
+        $this->filePath = $filePath;
         return $this;
     }
 
