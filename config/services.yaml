@@ -20,6 +20,16 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+
+    # Rendre tous les contrôleurs dans App\Controller accessibles
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+        
+    # Si nécessaire, une configuration explicite pour DocsUploadController
+    App\Controller\DocsUploadController:
+        public: true
+        tags: ['controller.service_arguments']
             
    # Explicitly define the ClientProcessor service
     App\State\ClientProcessor:
@@ -34,11 +44,15 @@ services:
         tags:
             - { name: 'api_platform.state_processor' }
     
+    App\State\SuccessorsProcessor:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+        tags:
+            - { name: 'api_platform.state_processor' }
+    
     App\Service\ClientService:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
-    
-
 
     # App\State\PaymentChildrenProcessor:
     #     arguments:

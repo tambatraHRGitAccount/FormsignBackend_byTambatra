@@ -39,10 +39,10 @@ class DocsDto
     #[SerializedName('DocShortName')]
     public ?string $docShortName = null;
 
-    // #[Assert\Length(max: 20000)]
+    #[Assert\Length(max: 255)]
     #[Groups(['docs:read', 'docs:write'])]
-    #[SerializedName('base64File')]
-    public ?string $base64File = null;
+    #[SerializedName('filePath')]
+    public ?string $filePath = null;
 
     #[Assert\Regex(pattern: '/^\d{4}-\d{2}-\d{2}$/', message: 'docDate must be in YYYY-MM-DD format')]
     #[Groups(['docs:read', 'docs:write'])]

@@ -7,7 +7,9 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Dto\DocsDto;
 use App\Entity\Docs;
+use App\Entity\Clients;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class DocsProcessor implements ProcessorInterface
 {
@@ -28,54 +30,73 @@ class DocsProcessor implements ProcessorInterface
     public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         if ($operation instanceof Delete) {
-            $docs = $this->entityManager->getRepository(Docs::class)->find($uriVariables['id']);
-            if ($docs) {
-                $this->entityManager->remove($docs);
+            $doc = $this->entityManager->getRepository(Docs::class)->find($uriVariables['id']);
+            if ($doc) {
+                // Optionnel : Supprimer le fichier physique si nécessaire
+                $filePath = $doc->getFilePath();
+                if ($filePath && file_exists($filePath)) {
+                    unlink($filePath);
+                }
+                $this->entityManager->remove($doc);
                 $this->entityManager->flush();
             }
             return null;
         }
 
         if ($data instanceof DocsDto) {
+            // Valider que CRMClientRef existe dans la table clients
+            if ($data->crmClientRef) {
+                $client = $this->entityManager->getRepository(Clients::class)->findOneBy(['crmClientRef' => $data->crmClientRef]);
+                if (!$client) {
+                    throw new BadRequestHttpException('Invalid CRMClientRef: Client does not exist');
+                }
+            } else {
+                throw new BadRequestHttpException('CRMClientRef is required');
+            }
+
             if (!empty($uriVariables)) {
                 // PUT: Update existing document
-                $docs = $this->entityManager->getRepository(Docs::class)->find($uriVariables['id']);
-                if (!$docs) {
-                    throw new \RuntimeException('Document not found');
+                $doc = $this->entityManager->getRepository(Docs::class)->find($uriVariables['id']);
+                if (!$doc) {
+                    throw new BadRequestHttpException('Document not found');
                 }
             } else {
                 // POST: Create new document
-                $docs = new Docs();
+                $doc = new Docs();
             }
 
             // Map DTO to Entity
-            $docs->setCrmClientRef($data->crmClientRef);
-            $docs->setCrmFile($data->crmFile);
-            $docs->setDocName($data->docName);
-            $docs->setDocPol($data->docPol);
-            $docs->setDocInstruction($data->docInstruction);
-            $docs->setDocShortName($data->docShortName);
-            $docs->setBase64File($data->base64File);
-            $docs->setDocDate($data->docDate ? new \DateTime($data->docDate) : null);
+            $doc->setCrmClientRef($data->crmClientRef);
+            $doc->setCrmFile($data->crmFile);
+            $doc->setDocName($data->docName);
+            $doc->setDocPol($data->docPol);
+            $doc->setDocInstruction($data->docInstruction);
+            $doc->setDocShortName($data->docShortName);
+            $doc->setFilePath($data->filePath);
+            $doc->setDocDate($data->docDate ? new \DateTime($data->docDate) : null);
 
             // Persist the entity
-            $this->entityManager->persist($docs);
-            $this->entityManager->flush();
+            try {
+                $this->entityManager->persist($doc);
+                $this->entityManager->flush();
+            } catch (\Exception $e) {
+                throw new BadRequestHttpException('Failed to save document: ' . $e->getMessage());
+            }
 
             // Map Entity back to DTO for response
             $dto = new DocsDto();
-            $dto->crmClientRef = $docs->getCrmClientRef();
-            $dto->crmFile = $docs->getCrmFile();
-            $dto->docName = $docs->getDocName();
-            $dto->docPol = $docs->getDocPol();
-            $dto->docInstruction = $docs->getDocInstruction();
-            $dto->docShortName = $docs->getDocShortName();
-            $dto->base64File = $docs->getBase64File();
-            $dto->docDate = $docs->getDocDate() ? $docs->getDocDate()->format('Y-m-d') : null;
+            $dto->crmClientRef = $doc->getCrmClientRef();
+            $dto->crmFile = $doc->getCrmFile();
+            $dto->docName = $doc->getDocName();
+            $dto->docPol = $doc->getDocPol();
+            $dto->docInstruction = $doc->getDocInstruction();
+            $dto->docShortName = $doc->getDocShortName();
+            $dto->filePath = $doc->getFilePath();
+            $dto->docDate = $doc->getDocDate() ? $doc->getDocDate()->format('Y-m-d') : null;
 
             return $dto;
         }
 
-        throw new \RuntimeException('Invalid data type');
+        throw new BadRequestHttpException('Invalid data type');
     }
 }
