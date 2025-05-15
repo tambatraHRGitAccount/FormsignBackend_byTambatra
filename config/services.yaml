@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-
+    policy_upload_dir: '%kernel.project_dir%/storage/uploads/policy'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -30,6 +30,10 @@ services:
     App\Controller\DocsUploadController:
         public: true
         tags: ['controller.service_arguments']
+
+    App\Controller\PolicyUploadController:
+        public: true
+        tags: ['controller.service_arguments']
             
    # Explicitly define the ClientProcessor service
     App\State\ClientProcessor:
@@ -53,6 +57,11 @@ services:
     App\Service\ClientService:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
+
+    App\State\DocsSearchProvider:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $requestStack: '@request_stack'
 
     # App\State\PaymentChildrenProcessor:
     #     arguments:
