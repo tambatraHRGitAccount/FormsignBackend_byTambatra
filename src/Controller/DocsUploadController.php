@@ -29,6 +29,11 @@ use ApiPlatform\Metadata\Get;
             uriTemplate: '/docs/download/{id}',
             controller: DocsUploadController::class,
             name: 'docs_download'
+        ),
+        new Get(
+            uriTemplate: '/docs/public-url/{id}',
+            controller: DocsUploadController::class,
+            name: 'docs_public_url'
         )
     ]
 )]
@@ -37,12 +42,14 @@ class DocsUploadController
     private EntityManagerInterface $entityManager;
     private Filesystem $filesystem;
     private string $uploadDir;
+    private string $publicBaseUrl;
 
     public function __construct(EntityManagerInterface $entityManager, Filesystem $filesystem)
     {
         $this->entityManager = $entityManager;
         $this->filesystem = $filesystem;
-        $this->uploadDir = dirname(__DIR__, 2) . '/storage/uploads/kyc';
+        $this->uploadDir = dirname(__DIR__, 2) . '/public/uploads/kyc';
+        $this->publicBaseUrl = 'http://102.222.106.242/:8000/uploads/kyc'; // À configurer selon votre serveur
     }
 
     #[Route('/upload', name: 'docs_upload', methods: ['POST'])]
@@ -87,7 +94,7 @@ class DocsUploadController
         $docs->setDocPol($docPol);
         $docs->setDocInstruction($docInstruction);
         $docs->setDocShortName($docShortName);
-        $docs->setFilePath($filePath);
+        $docs->setFilePath('/uploads/kyc/' . $filename); // Chemin relatif pour URL publique
         $docs->setDocDate($docDate);
 
         $this->entityManager->persist($docs);
@@ -101,7 +108,7 @@ class DocsUploadController
             'docPol' => $docs->getDocPol(),
             'docInstruction' => $docs->getDocInstruction(),
             'docShortName' => $docs->getDocShortName(),
-            'filePath' => $docs->getFilePath(),
+            'filePath' => $this->publicBaseUrl . '/' . $filename,
             'docDate' => $docs->getDocDate() ? $docs->getDocDate()->format('Y-m-d') : null,
         ], 201);
     }
@@ -114,15 +121,10 @@ class DocsUploadController
             return new JsonResponse(['detail' => 'Document not found'], 404);
         }
 
-        $filePath = $docs->getFilePath();
+        $filePath = $this->uploadDir . '/' . basename($docs->getFilePath());
         if (!$filePath || !$this->filesystem->exists($filePath)) {
-            return new JsonResponse(['detail' => 'File not found'], 404);
+            return new JsonResponse(['detail' => 'File not found', 'filePath' => $docs->getFilePath()], 404);
         }
-
-        // Optionnel : Ajouter une vérification d'authentification ici
-        // if (!$this->isUserAuthorized()) {
-        //     return new JsonResponse(['detail' => 'Unauthorized'], 403);
-        // }
 
         $response = new BinaryFileResponse($filePath);
         $response->setContentDisposition(
@@ -131,5 +133,25 @@ class DocsUploadController
         );
 
         return $response;
+    }
+
+    #[Route('/public-url/{id}', name: 'docs_public_url', methods: ['GET'])]
+    public function getPublicUrl(int $id): JsonResponse
+    {
+        $docs = $this->entityManager->getRepository(Docs::class)->find($id);
+        if (!$docs) {
+            return new JsonResponse(['detail' => 'Document not found'], 404);
+        }
+
+        $filePath = $this->uploadDir . '/' . basename($docs->getFilePath());
+        if (!$filePath || !$this->filesystem->exists($filePath)) {
+            return new JsonResponse(['detail' => 'File not found', 'filePath' => $docs->getFilePath()], 404);
+        }
+
+        $publicUrl = $this->publicBaseUrl . '/' . basename($filePath);
+
+        return new JsonResponse([
+            'publicUrl' => $publicUrl,
+        ]);
     }
 }
