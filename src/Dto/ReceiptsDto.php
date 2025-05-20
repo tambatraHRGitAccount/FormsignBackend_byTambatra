@@ -14,8 +14,8 @@ class ReceiptsDto
     public ?string $crmClientRef = null;
 
     #[Assert\Length(max: 255, maxMessage: 'RECEIPT_NUM cannot be longer than {{ limit }} characters')]
-    #[Assert\NotBlank(message: 'RECEIPT_NUM cannot be blank')]
-    #[Groups(['receipts:read', 'receipts:write'])]
+    // #[Assert\NotBlank(message: 'RECEIPT_NUM cannot be blank')]
+    #[Groups(['receipts:read'])]
     #[SerializedName('RECEIPT_NUM')]
     public ?string $receiptNum = null;
 
