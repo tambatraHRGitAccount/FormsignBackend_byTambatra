@@ -11,7 +11,7 @@ use App\State\ReceiptsSearchProvider;
 
 #[GetCollection(
     provider: ReceiptsSearchProvider::class,
-    uriTemplate: '/api/receipts-search',
+    uriTemplate: '/receipts-search',
 )]
 #[QueryParameter(key: 'crmClientRef')]
 #[QueryParameter(key: 'receiptNum')]
