@@ -16,28 +16,28 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Get;
 
-#[Route('/api/docs')]
+#[Route('/api/receipts')]
 #[ApiResource(
     operations: [
         new Post(
-            uriTemplate: '/docs/upload',
-            controller: DocsUploadController::class,
+            uriTemplate: '/receipts/upload',
+            controller: ReceiptsUploadController::class,
             input: 'multipart/form-data',
-            name: 'docs_upload'
+            name: 'receipts_upload'
         ),
         new Get(
-            uriTemplate: '/docs/download/{id}',
-            controller: DocsUploadController::class,
-            name: 'docs_download'
+            uriTemplate: '/receipts/download/{id}',
+            controller: ReceiptsUploadController::class,
+            name: 'receipts_download'
         ),
         new Get(
-            uriTemplate: '/docs/public-url/{id}',
-            controller: DocsUploadController::class,
-            name: 'docs_public_url'
+            uriTemplate: '/receipts/public-url/{id}',
+            controller: ReceiptsUploadController::class,
+            name: 'receipts_public_url'
         )
     ]
 )]
-class DocsUploadController
+class ReceiptsUploadController
 {
     private EntityManagerInterface $entityManager;
     private Filesystem $filesystem;
@@ -48,11 +48,11 @@ class DocsUploadController
     {
         $this->entityManager = $entityManager;
         $this->filesystem = $filesystem;
-        $this->uploadDir = dirname(__DIR__, 2) . '/public/uploads/kyc';
-        $this->publicBaseUrl = 'http://102.222.106.242:8000/uploads/kyc'; // À configurer selon votre serveur
+        $this->uploadDir = dirname(__DIR__, 2) . '/public/uploads/receipts';
+        $this->publicBaseUrl = 'http://102.222.106.242:8000/uploads/receipts';
     }
 
-    #[Route('/upload', name: 'docs_upload', methods: ['POST'])]
+    #[Route('/upload', name: 'receipts_upload', methods: ['POST'])]
     public function upload(Request $request): JsonResponse
     {
         $file = $request->files->get('file');
@@ -61,19 +61,19 @@ class DocsUploadController
         }
 
         $data = $request->request->all();
-        $crmClientRef = $data['CRMClientRef'] ?? null;
-        $crmFile = $data['CRMFile'] ?? $file->getClientOriginalName();
-        $docName = $data['DocName'] ?? null;
-        $docPol = $data['DocPol'] ?? null;
-        $docInstruction = $data['DocInstruction'] ?? null;
-        $docShortName = $data['DocShortName'] ?? null;
-        $docDate = $data['DocDate'] ? new \DateTime($data['DocDate']) : null;
+        $crmClientRef = $data['crmClientRef'] ?? null;
+        $receiptNum = $data['receiptNum'] ?? null;
+        $policyNumber = $data['policyNumber'] ?? null;
+        $accMonth = $data['accMonth'] ?? null;
+        $docName = $data['docName'] ?? null;
+        $docDate = $data['docDate'] ? new \DateTime($data['docDate']) : null;
 
         $extension = $file->getClientOriginalExtension() ?: 'pdf';
         $filename = sprintf(
-            '%s_%s_%s.%s',
+            'RECEIPT_%s_%s_%s_%s.%s',
             $crmClientRef ?? 'unknown',
-            $docShortName ?? 'doc',
+            $policyNumber ?? 'unknown',
+            $accMonth ?? 'unknown',
             time(),
             $extension
         );
@@ -87,65 +87,65 @@ class DocsUploadController
             return new JsonResponse(['detail' => 'Failed to move file: ' . $e->getMessage()], 500);
         }
 
-        $docs = new Docs();
-        $docs->setCrmClientRef($crmClientRef);
-        $docs->setCrmFile($crmFile);
-        $docs->setDocName($docName);
-        $docs->setDocPol($docPol);
-        $docs->setDocInstruction($docInstruction);
-        $docs->setDocShortName($docShortName);
-        $docs->setFilePath('/uploads/kyc/' . $filename); // Chemin relatif pour URL publique
-        $docs->setDocDate($docDate);
+        $doc = new Docs();
+        $doc->setCrmClientRef($crmClientRef);
+        $doc->setCrmFile($receiptNum ?? $filename);
+        $doc->setDocName($docName);
+        $doc->setDocPol('receiptsDoc');
+        $doc->setDocInstruction(null);
+        $doc->setDocShortName($receiptNum);
+        $doc->setFilePath('/uploads/receipts/' . $filename);
+        $doc->setDocDate($docDate);
 
-        $this->entityManager->persist($docs);
+        $this->entityManager->persist($doc);
         $this->entityManager->flush();
 
         return new JsonResponse([
-            'id' => $docs->getId(),
-            'crmClientRef' => $docs->getCrmClientRef(),
-            'crmFile' => $docs->getCrmFile(),
-            'docName' => $docs->getDocName(),
-            'docPol' => $docs->getDocPol(),
-            'docInstruction' => $docs->getDocInstruction(),
-            'docShortName' => $docs->getDocShortName(),
+            'id' => $doc->getId(),
+            'crmClientRef' => $doc->getCrmClientRef(),
+            'crmFile' => $doc->getCrmFile(),
+            'docName' => $doc->getDocName(),
+            'docPol' => $doc->getDocPol(),
+            'docInstruction' => $doc->getDocInstruction(),
+            'docShortName' => $doc->getDocShortName(),
             'filePath' => $this->publicBaseUrl . '/' . $filename,
-            'docDate' => $docs->getDocDate() ? $docs->getDocDate()->format('Y-m-d') : null,
+            'docDate' => $doc->getDocDate() ? $doc->getDocDate()->format('Y-m-d') : null,
         ], 201);
     }
 
-    #[Route('/download/{id}', name: 'docs_download', methods: ['GET'])]
+    #[Route('/download/{id}', name: 'receipts_download', methods: ['GET'])]
     public function download(int $id): Response
     {
-        $docs = $this->entityManager->getRepository(Docs::class)->find($id);
-        if (!$docs) {
+        $doc = $this->entityManager->getRepository(Docs::class)->find($id);
+        if (!$doc) {
             return new JsonResponse(['detail' => 'Document not found'], 404);
         }
 
-        $filePath = $this->uploadDir . '/' . basename($docs->getFilePath());
+        $filePath = $this->uploadDir . '/' . basename($doc->getFilePath());
         if (!$filePath || !$this->filesystem->exists($filePath)) {
-            return new JsonResponse(['detail' => 'File not found', 'filePath' => $docs->getFilePath()], 404);
+            return new JsonResponse(['detail' => 'File not found', 'filePath' => $doc->getFilePath()], 404);
         }
 
         $response = new BinaryFileResponse($filePath);
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $docs->getCrmFile() ?? 'document.' . pathinfo($filePath, PATHINFO_EXTENSION)
+            $doc->getCrmFile() ?? 'receipt_' . ($doc->getDocShortName() ?? 'document') . '.pdf'
         );
 
         return $response;
     }
 
-    #[Route('/public-url/{id}', name: 'docs_public_url', methods: ['GET'])]
+    #[Route('/public-url/{id}', name: 'receipts_public_url', methods: ['GET'])]
     public function getPublicUrl(int $id): JsonResponse
     {
-        $docs = $this->entityManager->getRepository(Docs::class)->find($id);
-        if (!$docs) {
+        $doc = $this->entityManager->getRepository(Docs::class)->find($id);
+        if (!$doc) {
             return new JsonResponse(['detail' => 'Document not found'], 404);
         }
 
-        $filePath = $this->uploadDir . '/' . basename($docs->getFilePath());
+        $filePath = $this->uploadDir . '/' . basename($doc->getFilePath());
         if (!$filePath || !$this->filesystem->exists($filePath)) {
-            return new JsonResponse(['detail' => 'File not found', 'filePath' => $docs->getFilePath()], 404);
+            return new JsonResponse(['detail' => 'File not found', 'filePath' => $doc->getFilePath()], 404);
         }
 
         $publicUrl = $this->publicBaseUrl . '/' . basename($filePath);
