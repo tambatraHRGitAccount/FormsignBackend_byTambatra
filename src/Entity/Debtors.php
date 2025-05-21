@@ -2,48 +2,78 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Dto\DebtorsDto;
+use App\State\DebtorsProcessor;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'debtors')]
+#[ApiResource(
+    operations: [
+        new Get(
+            output: DebtorsDto::class
+        ),
+        new GetCollection(
+            output: DebtorsDto::class
+        ),
+        new Post(
+            input: DebtorsDto::class,
+            output: DebtorsDto::class,
+            processor: DebtorsProcessor::class
+        ),
+        new Put(
+            input: DebtorsDto::class,
+            output: DebtorsDto::class,
+            processor: DebtorsProcessor::class
+        ),
+        new Delete(
+            processor: DebtorsProcessor::class
+        ),
+    ],
+    normalizationContext: ['groups' => ['debtors:read']],
+    denormalizationContext: ['groups' => ['debtors:write']]
+)]
 class Debtors
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'bigint')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Clients::class, inversedBy: 'debtors')]
-    #[ORM\JoinColumn(name: 'CRMClientRef', referencedColumnName: 'crmClientRef', nullable: false, onDelete: 'CASCADE')]
-    private ?Clients $client = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'CRMClientRef')]
+    private ?string $crmClientRef = null;
 
-    #[ORM\ManyToOne(targetEntity: Policies::class, inversedBy: 'debtors')]
-    #[ORM\JoinColumn(name: 'POLICY_NUM', referencedColumnName: 'policy', nullable: false, onDelete: 'CASCADE')]
-    private ?Policies $policy = null;
+    #[ORM\Column(type: 'date', nullable: true, name: 'RECEIPT_DATE')]
+    private ?\DateTimeInterface $receiptDate = null;
 
-    #[ORM\ManyToOne(targetEntity: Policies::class)]
-    #[ORM\JoinColumn(name: 'PLACING_NUM', referencedColumnName: 'placingNumber', nullable: true, onDelete: 'SET NULL')]
-    private ?Policies $placingPolicy = null;
-
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $receiptDate = null;
-
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'TRANSACT')]
     private ?string $transact = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'POLICY_NUM')]
+    private ?string $policyNum = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'PLACING_NUM')]
+    private ?string $placingNum = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'RECEIPT_NUM')]
     private ?string $receiptNum = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'MODE_OF_PAYMENT')]
     private ?string $modeOfPayment = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Transaction_Ref')]
     private ?string $transactionRef = null;
 
-    #[ORM\Column(type: 'float', nullable: true)]
-    private ?float $amount = null;
+    #[ORM\Column(type: 'decimal', precision: 15, scale: 2, nullable: true, name: 'Amount')]
+    private ?string $amount = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'CLIENT_NAME')]
     private ?string $clientName = null;
 
     public function getId(): ?int
@@ -51,45 +81,23 @@ class Debtors
         return $this->id;
     }
 
-    public function getClient(): ?Clients
+    public function getCrmClientRef(): ?string
     {
-        return $this->client;
+        return $this->crmClientRef;
     }
 
-    public function setClient(?Clients $client): self
+    public function setCrmClientRef(?string $crmClientRef): self
     {
-        $this->client = $client;
+        $this->crmClientRef = $crmClientRef;
         return $this;
     }
 
-    public function getPolicy(): ?Policies
-    {
-        return $this->policy;
-    }
-
-    public function setPolicy(?Policies $policy): self
-    {
-        $this->policy = $policy;
-        return $this;
-    }
-
-    public function getPlacingPolicy(): ?Policies
-    {
-        return $this->placingPolicy;
-    }
-
-    public function setPlacingPolicy(?Policies $placingPolicy): self
-    {
-        $this->placingPolicy = $placingPolicy;
-        return $this;
-    }
-
-    public function getReceiptDate(): ?float
+    public function getReceiptDate(): ?\DateTimeInterface
     {
         return $this->receiptDate;
     }
 
-    public function setReceiptDate(?float $receiptDate): self
+    public function setReceiptDate(?\DateTimeInterface $receiptDate): self
     {
         $this->receiptDate = $receiptDate;
         return $this;
@@ -103,6 +111,28 @@ class Debtors
     public function setTransact(?string $transact): self
     {
         $this->transact = $transact;
+        return $this;
+    }
+
+    public function getPolicyNum(): ?string
+    {
+        return $this->policyNum;
+    }
+
+    public function setPolicyNum(?string $policyNum): self
+    {
+        $this->policyNum = $policyNum;
+        return $this;
+    }
+
+    public function getPlacingNum(): ?string
+    {
+        return $this->placingNum;
+    }
+
+    public function setPlacingNum(?string $placingNum): self
+    {
+        $this->placingNum = $placingNum;
         return $this;
     }
 
@@ -139,12 +169,12 @@ class Debtors
         return $this;
     }
 
-    public function getAmount(): ?float
+    public function getAmount(): ?string
     {
         return $this->amount;
     }
 
-    public function setAmount(?float $amount): self
+    public function setAmount(?string $amount): self
     {
         $this->amount = $amount;
         return $this;
