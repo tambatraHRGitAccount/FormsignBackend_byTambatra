@@ -49,7 +49,7 @@ class DocsUploadController
         $this->entityManager = $entityManager;
         $this->filesystem = $filesystem;
         $this->uploadDir = dirname(__DIR__, 2) . '/public/uploads/kyc';
-        $this->publicBaseUrl = 'http://102.222.106.242:8000/uploads/kyc'; // À configurer selon votre serveur
+        $this->publicBaseUrl = 'http://127.0.0.1:8000/uploads/kyc'; // À configurer selon votre serveur
     }
 
     #[Route('/upload', name: 'docs_upload', methods: ['POST'])]
