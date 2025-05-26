@@ -2,105 +2,69 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
-use App\Dto\UserDto;
-use App\State\UserProcessor;
+use App\Entity\Enum\RoleEnum;
+use App\Entity\Enum\UserTypeEnum;
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity]
-#[ORM\Table(name: 'users')]
-#[ApiResource(
-    operations: [
-        new Get(
-            uriTemplate: '/users/me',
-            output: UserDto::class,
-            processor: UserProcessor::class,
-            name: 'get_current_user'
-        ),
-        new Get(
-            uriTemplate: '/users/me/last-login',
-            output: UserDto::class,
-            processor: UserProcessor::class,
-            name: 'get_last_login'
-        ),
-        new Get(
-            output: UserDto::class,
-            security: "is_granted('ROLE_ADMIN')"
-        ),
-        new GetCollection(
-            output: UserDto::class
-        ),
-        new Post(
-            input: UserDto::class,
-            output: UserDto::class,
-            processor: UserProcessor::class
-        ),
-        new Put(
-            input: UserDto::class,
-            output: UserDto::class,
-            processor: UserProcessor::class,
-            security: "is_granted('ROLE_ADMIN') or object.getId() === user.getId()"
-        ),
-        new Delete(
-            processor: UserProcessor::class,
-            security: "is_granted('ROLE_ADMIN')"
-        ),
-    ],
-    normalizationContext: ['groups' => ['user:read']],
-    denormalizationContext: ['groups' => ['user:write']]
-)]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private ?int $id = null;
+    #[ORM\Column(type: "string")]
+    #[Groups(['basic'])]
+    private string $name;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private ?string $email = null;
+    #[ORM\Column(type: "string")]
+    #[Groups(["basic"])]
+    private string $surname;
 
-    #[ORM\Column(type: 'json')]
-    private array $roles = [];
+    #[ORM\Column(type: "string")]
+    #[Groups(["basic"])]
+    private string $username;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    private ?string $username = null;
+    #[ORM\Column(type: "string")]
+    #[Groups(["basic"])]
+    private string $email;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private ?string $password = null;
+    #[ORM\Column(type: "string")]
+    private string $password;
 
-    public function getId(): ?int
+    #[ORM\Column(type: "integer", enumType: RoleEnum::class)]
+    #[Groups(["basic"])]
+    private RoleEnum $role;
+
+    #[ORM\Column(type: "integer", enumType: UserTypeEnum::class)]
+    #[Groups(["basic"])]
+    private UserTypeEnum $userType;
+
+    #[ORM\Column(type: "blob", nullable: true)]
+    #[Groups(["extend"])]
+    private $profileImage;
+
+    public function getName(): ?string
     {
-        return $this->id;
+        return $this->name;
     }
 
-    public function getEmail(): ?string
+    public function setName(string $name): self
     {
-        return $this->email;
-    }
+        $this->name = $name;
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
         return $this;
     }
 
-    public function getRoles(): array
+    public function getSurname(): ?string
     {
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
-        return array_unique($roles);
+        return $this->surname;
     }
 
-    public function setRoles(array $roles): self
+    public function setSurname(string $surname): self
     {
-        $this->roles = $roles;
+        $this->surname = $surname;
+
         return $this;
     }
 
@@ -112,6 +76,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
         return $this;
     }
 
@@ -123,16 +100,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
         return $this;
+    }
+
+    public function getRole(): ?RoleEnum
+    {
+        return $this->role;
+    }
+
+    public function setRole(RoleEnum $role): self
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    public function getUserType(): ?UserTypeEnum
+    {
+        return $this->userType;
+    }
+
+    public function setUserType(UserTypeEnum $userType): self
+    {
+        $this->userType = $userType;
+
+        return $this;
+    }
+
+    public function getProfileImage(): ?string
+    {
+        if (is_resource($this->profileImage) && !is_string($this->profileImage)) {
+            return stream_get_contents($this->profileImage);
+        }
+        return $this->profileImage;
+    }
+
+    public function setProfileImage(?string $profileImage): self
+    {
+        $this->profileImage = $profileImage;
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        return [$this->role->value];
     }
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->getUsername();
     }
 
     public function eraseCredentials(): void
     {
-        
+    }
+
+    public function __sleep(): array
+    {
+        return ['id'];
     }
 }
