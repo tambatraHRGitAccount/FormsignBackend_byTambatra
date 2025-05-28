@@ -55,6 +55,7 @@ class ReceiptsProcessor implements ProcessorInterface
             $receipt->setLogdment($data->logdment);
             $receipt->setLodgmentDate($data->lodgmentDate ? new \DateTime($data->lodgmentDate) : null);
             $receipt->setField16($data->field16);
+            $receipt->setQbInvNum($data->qbInvNum);
 
             $this->entityManager->persist($receipt);
             $this->entityManager->flush();
@@ -76,6 +77,7 @@ class ReceiptsProcessor implements ProcessorInterface
             $dto->logdment = $receipt->getLogdment();
             $dto->lodgmentDate = $receipt->getLodgmentDate() ? $receipt->getLodgmentDate()->format('Y-m-d') : null;
             $dto->field16 = $receipt->getField16();
+            $dto->qbInvNum = $receipt->getQbInvNum();
 
             return $dto;
         }

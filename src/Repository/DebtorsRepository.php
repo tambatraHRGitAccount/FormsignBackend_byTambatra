@@ -170,6 +170,11 @@ class DebtorsRepository extends ServiceEntityRepository
                ->setParameter('clientName', '%' . $filters['clientName'] . '%');
         }
 
+        if (!empty($filters['qbInvNum'])) {
+            $qb->andWhere('d.qbInvNum = :qbInvNum')
+               ->setParameter('qbInvNum', $filters['qbInvNum']);
+        }
+
         return $qb->getQuery()->getResult();
     }
 }

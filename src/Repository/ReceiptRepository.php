@@ -57,6 +57,11 @@ class ReceiptRepository extends ServiceEntityRepository
                ->setParameter('clientName', '%' . $filters['clientName'] . '%');
         }
 
+        if (!empty($filters['qbInvNum'])) {
+            $qb->andWhere('r.qbInvNum = :qbInvNum')
+               ->setParameter('qbInvNum', $filters['qbInvNum']);
+        }
+
         return $qb->getQuery()->getResult();
     }
 }

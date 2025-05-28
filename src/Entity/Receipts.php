@@ -30,11 +30,12 @@ use Doctrine\ORM\Mapping as ORM;
         new Put(
             input: ReceiptsDto::class,
             output: ReceiptsDto::class,
-            processor: ReceiptsProcessor::class
+            processor: ReceiptsProcessor::class,
+            denormalizationContext: ['groups' => ['receipts:write', 'receipts:put:write']]
         ),
         new Delete(
             processor: ReceiptsProcessor::class
-        ),
+        ),  
     ],
     normalizationContext: ['groups' => ['receipts:read']],
     denormalizationContext: ['groups' => ['receipts:write']]
@@ -93,6 +94,9 @@ class Receipts
 
     #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Field16')]
     private ?string $field16 = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'QB_INV_NUM')]
+    private ?string $qbInvNum = null;
 
     // Getters and Setters
     public function getId(): ?int
@@ -273,6 +277,17 @@ class Receipts
     public function setField16(?string $field16): self
     {
         $this->field16 = $field16;
+        return $this;
+    }
+
+    public function getQbInvNum(): ?string
+    {
+        return $this->qbInvNum;
+    }
+
+    public function setQbInvNum(?string $qbInvNum): self
+    {
+        $this->qbInvNum = $qbInvNum;
         return $this;
     }
 }

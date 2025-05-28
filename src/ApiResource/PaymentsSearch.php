@@ -15,9 +15,12 @@ use App\State\PaymentsSearchProvider;
 #[QueryParameter(key: 'policyNum')]
 #[QueryParameter(key: 'swanClientRef')]
 #[QueryParameter(key: 'paymentNumber')]
+#[QueryParameter(key: 'qbInvNum')]
+#[QueryParameter(key: 'id')] // Added id as a query parameter
 class PaymentsSearch
 {
     public function __construct(
+        public ?int $id = null, // Added id property
         public ?string $policyNum = null,
         public ?string $swanClientRef = null,
         public ?string $accMonth = null,
@@ -30,13 +33,15 @@ class PaymentsSearch
         public ?string $paidDate = null,
         public ?float $amountPaid = null,
         public ?string $crmClientRef = null,
-        public ?string $transaction = null
+        public ?string $transaction = null,
+        public ?string $qbInvNum = null
     ) {
     }
 
     public static function mapFromPayments(Payments $payments): PaymentsSearch
     {
         return new PaymentsSearch(
+            id: $payments->getId(), // Added mapping for id
             policyNum: $payments->getPolicyNum(),
             swanClientRef: $payments->getSwanClientRef(),
             accMonth: $payments->getAccMonth(),
@@ -49,7 +54,8 @@ class PaymentsSearch
             paidDate: $payments->getPaidDate() ? $payments->getPaidDate()->format('d/m/Y') : null,
             amountPaid: $payments->getAmountPaid(),
             crmClientRef: $payments->getCrmClientRef(),
-            transaction: $payments->getTransaction()
+            transaction: $payments->getTransaction(),
+            qbInvNum: $payments->getQbInvNum()
         );
     }
 }

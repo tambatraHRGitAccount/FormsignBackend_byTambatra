@@ -72,4 +72,9 @@ class PaymentsDto
     #[Groups(['payments:read', 'payments:write'])]
     #[SerializedName('Transaction')]
     public ?string $transaction = null;
+
+    #[Assert\Length(max: 255)]
+    #[Groups(['payments:read', 'payments:write'])]
+    #[SerializedName('QB_INV_NUM')]
+    public ?string $qbInvNum = null;
 }

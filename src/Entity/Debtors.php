@@ -76,6 +76,9 @@ class Debtors
     #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'CLIENT_NAME')]
     private ?string $clientName = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'QB_INV_NUM')]
+    private ?string $qbInvNum = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -188,6 +191,17 @@ class Debtors
     public function setClientName(?string $clientName): self
     {
         $this->clientName = $clientName;
+        return $this;
+    }
+
+    public function getQbInvNum(): ?string
+    {
+        return $this->qbInvNum;
+    }
+
+    public function setQbInvNum(?string $qbInvNum): self
+    {
+        $this->qbInvNum = $qbInvNum;
         return $this;
     }
 }

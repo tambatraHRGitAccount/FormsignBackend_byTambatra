@@ -4,8 +4,6 @@ namespace App\ApiResource;
 
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\QueryParameter;
-use App\Entity\Receipt;
-use App\Dto\ReceiptsDto;
 use App\Entity\Receipts;
 use App\State\ReceiptsSearchProvider;
 
@@ -19,9 +17,11 @@ use App\State\ReceiptsSearchProvider;
 #[QueryParameter(key: 'policyNum')]
 #[QueryParameter(key: 'modeOfPayment')]
 #[QueryParameter(key: 'clientName')]
+#[QueryParameter(key: 'qbInvNum')]
 class ReceiptsSearch
 {
     public function __construct(
+        public ?int $id = null,
         public ?string $crmClientRef = null,
         public ?string $receiptNum = null,
         public ?string $receiptDate = null,
@@ -37,13 +37,15 @@ class ReceiptsSearch
         public ?string $clientName = null,
         public ?string $logdment = null,
         public ?string $lodgmentDate = null,
-        public ?string $field16 = null
+        public ?string $field16 = null,
+        public ?string $qbInvNum = null
     ) {
     }
 
     public static function mapFromReceipt(Receipts $receipt): ReceiptsSearch
     {
         return new ReceiptsSearch(
+            id: $receipt->getId(),
             crmClientRef: $receipt->getCrmClientRef(),
             receiptNum: $receipt->getReceiptNum(),
             receiptDate: $receipt->getReceiptDate() instanceof \DateTimeInterface ? $receipt->getReceiptDate()->format('Y-m-d') : null,
@@ -59,7 +61,8 @@ class ReceiptsSearch
             clientName: $receipt->getClientName(),
             logdment: $receipt->getLogdment(),
             lodgmentDate: $receipt->getLodgmentDate() instanceof \DateTimeInterface ? $receipt->getLodgmentDate()->format('Y-m-d') : null,
-            field16: $receipt->getField16()
+            field16: $receipt->getField16(),
+            qbInvNum: $receipt->getQbInvNum()
         );
     }
 }

@@ -14,8 +14,7 @@ class ReceiptsDto
     public ?string $crmClientRef = null;
 
     #[Assert\Length(max: 255, maxMessage: 'RECEIPT_NUM cannot be longer than {{ limit }} characters')]
-    // #[Assert\NotBlank(message: 'RECEIPT_NUM cannot be blank')]
-    #[Groups(['receipts:read'])]
+    #[Groups(['receipts:read', 'receipts:put:write'])] // Add receipts:put:write for PUT operations
     #[SerializedName('RECEIPT_NUM')]
     public ?string $receiptNum = null;
 
@@ -90,4 +89,9 @@ class ReceiptsDto
     #[Groups(['receipts:read', 'receipts:write'])]
     #[SerializedName('Field16')]
     public ?string $field16 = null;
+
+    #[Assert\Length(max: 255, maxMessage: 'QB_INV_NUM cannot be longer than {{ limit }} characters')]
+    #[Groups(['receipts:read', 'receipts:write'])]
+    #[SerializedName('QB_INV_NUM')]
+    public ?string $qbInvNum = null;
 }

@@ -85,6 +85,9 @@ class Payments
     #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'Transaction')]
     private ?string $transaction = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true, name: 'QB_INV_NUM')]
+    private ?string $qbInvNum = null;
+
     // Getters and Setters
     public function getId(): ?int
     {
@@ -231,6 +234,17 @@ class Payments
     public function setTransaction(?string $transaction): self
     {
         $this->transaction = $transaction;
+        return $this;
+    }
+
+    public function getQbInvNum(): ?string
+    {
+        return $this->qbInvNum;
+    }
+
+    public function setQbInvNum(?string $qbInvNum): self
+    {
+        $this->qbInvNum = $qbInvNum;
         return $this;
     }
 }

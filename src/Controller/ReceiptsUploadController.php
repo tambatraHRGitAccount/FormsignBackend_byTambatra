@@ -49,7 +49,7 @@ class ReceiptsUploadController
         $this->entityManager = $entityManager;
         $this->filesystem = $filesystem;
         $this->uploadDir = dirname(__DIR__, 2) . '/public/uploads/receipts';
-        $this->publicBaseUrl = 'http://127.0.0.1:8000/uploads/receipts';
+        $this->publicBaseUrl = 'http://102.222.106.242:8000/uploads/receipts';
     }
 
     #[Route('/upload', name: 'receipts_upload', methods: ['POST'])]

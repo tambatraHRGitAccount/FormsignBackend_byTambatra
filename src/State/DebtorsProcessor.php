@@ -76,6 +76,7 @@ class DebtorsProcessor implements ProcessorInterface
             $debtor->setTransactionRef($data->transactionRef);
             $debtor->setAmount($data->amount !== null ? (string)$data->amount : null);
             $debtor->setClientName($data->clientName);
+            $debtor->setQbInvNum($data->qbInvNum);
 
             // Persist the entity
             try {
@@ -97,6 +98,7 @@ class DebtorsProcessor implements ProcessorInterface
             $dto->transactionRef = $debtor->getTransactionRef();
             $dto->amount = $debtor->getAmount() !== null ? (float)$debtor->getAmount() : null;
             $dto->clientName = $debtor->getClientName();
+            $dto->qbInvNum = $debtor->getQbInvNum();
 
             return $dto;
         }

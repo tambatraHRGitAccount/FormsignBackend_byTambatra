@@ -82,6 +82,11 @@ class PaymentsRepository extends ServiceEntityRepository
                ->setParameter('transaction', '%' . $filters['transaction'] . '%');
         }
 
+        if (!empty($filters['qbInvNum'])) {
+            $qb->andWhere('p.qbInvNum = :qbInvNum')
+               ->setParameter('qbInvNum', $filters['qbInvNum']);
+        }
+
         return $qb->getQuery()->getResult();
     }
 }

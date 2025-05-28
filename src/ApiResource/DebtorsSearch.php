@@ -19,9 +19,11 @@ use App\State\DebtorsSearchProvider;
 #[QueryParameter(key: 'modeOfPayment')]
 #[QueryParameter(key: 'transactionRef')]
 #[QueryParameter(key: 'clientName')]
+#[QueryParameter(key: 'qbInvNum')]
 class DebtorsSearch
 {
     public function __construct(
+        public ?int $id = null,
         public ?string $crmClientRef = null,
         public ?string $receiptDate = null,
         public ?string $transact = null,
@@ -31,13 +33,15 @@ class DebtorsSearch
         public ?string $modeOfPayment = null,
         public ?string $transactionRef = null,
         public ?float $amount = null,
-        public ?string $clientName = null
+        public ?string $clientName = null,
+        public ?string $qbInvNum = null
     ) {
     }
 
     public static function mapFromDebtor(Debtors $debtor): DebtorsSearch
     {
         return new DebtorsSearch(
+            id: $debtor->getId(),
             crmClientRef: $debtor->getCrmClientRef(),
             receiptDate: $debtor->getReceiptDate() instanceof \DateTimeInterface ? $debtor->getReceiptDate()->format('Y-m-d') : null,
             transact: $debtor->getTransact(),
@@ -46,8 +50,9 @@ class DebtorsSearch
             receiptNum: $debtor->getReceiptNum(),
             modeOfPayment: $debtor->getModeOfPayment(),
             transactionRef: $debtor->getTransactionRef(),
-            amount: $debtor->getAmount(),
-            clientName: $debtor->getClientName()
+            amount: $debtor->getAmount() !== null ? (float)$debtor->getAmount() : null,
+            clientName: $debtor->getClientName(),
+            qbInvNum: $debtor->getQbInvNum()
         );
     }
 }

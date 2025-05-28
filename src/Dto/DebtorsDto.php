@@ -60,4 +60,9 @@ class DebtorsDto
     #[Groups(['debtors:read', 'debtors:write'])]
     #[SerializedName('CLIENT_NAME')]
     public ?string $clientName = null;
+
+    #[Assert\Length(max: 255)]
+    #[Groups(['debtors:read', 'debtors:write'])]
+    #[SerializedName('QB_INV_NUM')]
+    public ?string $qbInvNum = null;
 }

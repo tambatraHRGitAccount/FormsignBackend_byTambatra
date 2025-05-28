@@ -52,6 +52,7 @@ class PaymentsProcessor implements ProcessorInterface
             $payment->setAmountPaid($data->amountPaid);
             $payment->setCrmClientRef($data->crmClientRef);
             $payment->setTransaction($data->transaction);
+            $payment->setQbInvNum($data->qbInvNum);
 
             $this->entityManager->persist($payment);
             $this->entityManager->flush();
@@ -70,6 +71,7 @@ class PaymentsProcessor implements ProcessorInterface
             $dto->amountPaid = $payment->getAmountPaid();
             $dto->crmClientRef = $payment->getCrmClientRef();
             $dto->transaction = $payment->getTransaction();
+            $dto->qbInvNum = $payment->getQbInvNum();
 
             return $dto;
         }
