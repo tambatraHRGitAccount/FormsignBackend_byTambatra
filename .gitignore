@@ -4,7 +4,6 @@
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
-/public/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -20,7 +19,6 @@
 !.env.example  # Facultatif : ne pas ignorer .env.example si tu veux le garder dans Git
 
 # Ignorer tout le dossier config/
-config/
 
 # Symfony & vendor/ (déjà présent)
 /var/

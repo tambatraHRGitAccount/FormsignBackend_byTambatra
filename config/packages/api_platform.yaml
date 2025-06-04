@@ -1,5 +1,6 @@
 api_platform:
-    title: 'CRM API'
+    title: 'Formsign API'
+    description: 'API for managing forms and signatures'
     version: '1.0.0'
     formats:
         jsonld: ['application/ld+json']

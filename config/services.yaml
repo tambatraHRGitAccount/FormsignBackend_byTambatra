@@ -1,18 +1,13 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    policy_upload_dir: '%kernel.project_dir%/storage/uploads/policy'
-services:
-    # default configuration for services in *this* file
-    _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    app.timezone: 'Europe/Paris'
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $logger: '@monolog.logger'
+
     App\:
         resource: '../src/'
         exclude:
@@ -20,79 +15,122 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-
-    # Rendre tous les contrôleurs dans App\Controller accessibles
-    App\Controller\:
-        resource: '../src/Controller/'
-        tags: ['controller.service_arguments']
-        
-    # Si nécessaire, une configuration explicite pour DocsUploadController
-    App\Controller\DocsUploadController:
-        public: true
-        tags: ['controller.service_arguments']
-
-    App\Controller\PolicyUploadController:
-        public: true
-        tags: ['controller.service_arguments']
-            
-   # Explicitly define the ClientProcessor service
-    App\State\ClientProcessor:
+    App\State\UserAccountProcessor:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
-        tags:
-            - { name: 'api_platform.state_processor' }
+            $logger: '@monolog.logger'
 
-    App\State\FamilyProcessor:
+    App\State\UserAccountState:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
-        tags:
-            - { name: 'api_platform.state_processor' }
-    
-    App\State\SuccessorsProcessor:
+            $logger: '@monolog.logger'
+
+    App\State\FolderProcessor:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
-        tags:
-            - { name: 'api_platform.state_processor' }
-    
-    App\Service\ClientService:
+            $logger: '@monolog.logger'
+
+    App\State\FolderState:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
 
-    App\State\DocsSearchProvider:
+    App\State\SenderProcessor:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
-            $requestStack: '@request_stack'
-            
-    App\EventListener\LoginListener:
-        tags:
-            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
-    # App\State\PaymentChildrenProcessor:
-    #     arguments:
-    #         $logger: '@logger'
+            $logger: '@monolog.logger'
 
-    # App\State\ClaimProcessor:
-    #     arguments:
-    #         $logger: '@logger'
+    App\State\SenderState:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
 
-    # App\State\PolicyCoverTypeProcessor:
-    #     arguments:
-    #         $logger: '@logger'
+    App\State\SignatureRequestProcessor:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
 
-    # App\State\SuccessorProcessor:
-    #     arguments:
-    #         $logger: '@logger'
+    App\State\SignatureRequestState:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
 
-    # App\State\DocumentProcessor:
-    #     arguments:
-    #         $logger: '@logger'
+    App\State\DocumentProcessor:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
 
-    # App\State\InteractionProcessor:
-    #     arguments:
-    #         $logger: '@logger'
+    App\State\DocumentState:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
 
-    # App\State\KycDocumentProcessor:
-    #     arguments:
-    #         $logger: '@logger'
-            
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\State\AuditLogProcessor:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\AuditLogState:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\SignerProcessor:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\SignerState:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\InitialSettingProcessor:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\InitialSettingState:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\SignatureSettingProcessor:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\SignatureSettingState:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\SMSNotificationProcessor:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\SMSNotificationState:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\ReminderSettingProcessor:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\ReminderSettingState:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\WebhookProcessor:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    App\State\WebhookState:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
