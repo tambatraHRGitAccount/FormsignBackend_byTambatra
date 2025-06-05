@@ -39,9 +39,6 @@ class FolderResource
     #[Groups(['read'])]
     public string $id;
 
-    #[Groups(['read'])]
-    public string $userAccountId;
-
     #[Groups(['read', 'write'])]
     public string $name;
 

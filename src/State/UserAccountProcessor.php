@@ -5,6 +5,7 @@ namespace App\State;
 use App\ApiResource\UserAccountResource;
 use App\Dto\UserAccountDto;
 use App\Entity\UserAccount;
+use App\Entity\Folder;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +33,12 @@ class UserAccountProcessor implements ProcessorInterface
             throw new BadRequestHttpException('Invalid input data');
         }
 
+        $folder = $this->entityManager->getRepository(Folder::class)->find($data->folderId);
+        if (!$folder) {
+            $this->logger->error('Folder not found', ['id' => $data->folderId]);
+            throw new NotFoundHttpException('Folder not found for ID: ' . $data->folderId);
+        }
+
         $userAccount = isset($uriVariables['id'])
             ? $this->entityManager->getRepository(UserAccount::class)->find($uriVariables['id'])
             : new UserAccount();
@@ -41,13 +48,8 @@ class UserAccountProcessor implements ProcessorInterface
             throw new NotFoundHttpException('UserAccount not found');
         }
 
-        // Generate apiToken only for new UserAccounts (POST)
-        if ($operation instanceof \ApiPlatform\Metadata\Post) {
-            $apiToken = 'token-' . bin2hex(random_bytes(16)); // Generates a 32-character token
-            $userAccount->setApiToken($apiToken);
-        }
-
-        $userAccount->setEmail($data->email);
+        $userAccount->setFolder($folder);
+        $userAccount->setApiToken($data->apiToken);
         $userAccount->setUpdatedAt(new \DateTime());
 
         try {
@@ -64,7 +66,7 @@ class UserAccountProcessor implements ProcessorInterface
 
         $resource = new UserAccountResource();
         $resource->id = $userAccount->getId();
-        $resource->email = $userAccount->getEmail();
+        $resource->folderId = $userAccount->getFolder()->getId();
         $resource->apiToken = $userAccount->getApiToken();
         $resource->createdAt = $userAccount->getCreatedAt();
         $resource->updatedAt = $userAccount->getUpdatedAt();

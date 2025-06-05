@@ -12,14 +12,4 @@ class FolderRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Folder::class);
     }
-
-    public function findByUserAccount(string $userAccountId): array
-    {
-        return $this->findBy(['userAccount' => $userAccountId]);
-    }
-
-    public function findOneByNameAndUserAccount(string $name, string $userAccountId): ?Folder
-    {
-        return $this->findOneBy(['name' => $name, 'userAccount' => $userAccountId]);
-    }
 }

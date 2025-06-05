@@ -37,12 +37,11 @@ class FolderState implements ProviderInterface
     {
         $resource = new FolderResource();
         $resource->id = $folder->getId();
-        $resource->userAccountId = $folder->getUserAccount()->getId();
         $resource->name = $folder->getName();
         $resource->mimeType = $folder->getMimeType();
         $resource->file = $folder->getFile();
         $resource->createdAt = $folder->getCreatedAt();
-        $resource->updatedAt = $resource->folder->getUpdatedAt();
+        $resource->updatedAt = $folder->getUpdatedAt();
         return $resource;
     }
 }

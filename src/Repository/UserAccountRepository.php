@@ -13,9 +13,9 @@ class UserAccountRepository extends ServiceEntityRepository
         parent::__construct($registry, UserAccount::class);
     }
 
-    public function findByEmail(string $email): ?UserAccount
+    public function findByFolder(string $folderId): array
     {
-        return $this->findOneBy(['email' => $email]);
+        return $this->findBy(['folder' => $folderId]);
     }
 
     public function findByApiToken(string $apiToken): ?UserAccount

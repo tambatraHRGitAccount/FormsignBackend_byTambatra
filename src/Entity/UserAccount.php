@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'useraccounts')]
@@ -13,10 +14,12 @@ class UserAccount
     #[ORM\Column(type: 'string', length: 36)]
     private string $id;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
-    private string $email;
+    #[ORM\ManyToOne(targetEntity: Folder::class)]
+    #[ORM\JoinColumn(name: 'folder_id', referencedColumnName: 'id', nullable: false, onDelete: 'RESTRICT')]
+    private Folder $folder;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Assert\NotBlank]
     private string $apiToken;
 
     #[ORM\Column(type: 'datetime')]
@@ -36,14 +39,14 @@ class UserAccount
         return $this->id;
     }
 
-    public function getEmail(): string
+    public function getFolder(): Folder
     {
-        return $this->email;
+        return $this->folder;
     }
 
-    public function setEmail(string $email): self
+    public function setFolder(Folder $folder): self
     {
-        $this->email = $email;
+        $this->folder = $folder;
         return $this;
     }
 

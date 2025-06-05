@@ -37,7 +37,7 @@ class UserAccountState implements ProviderInterface
     {
         $resource = new UserAccountResource();
         $resource->id = $userAccount->getId();
-        $resource->email = $userAccount->getEmail();
+        $resource->folderId = $userAccount->getFolder()->getId();
         $resource->apiToken = $userAccount->getApiToken();
         $resource->createdAt = $userAccount->getCreatedAt();
         $resource->updatedAt = $userAccount->getUpdatedAt();

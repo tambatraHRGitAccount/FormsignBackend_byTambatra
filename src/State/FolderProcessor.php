@@ -5,13 +5,11 @@ namespace App\State;
 use App\ApiResource\FolderResource;
 use App\Dto\FolderDto;
 use App\Entity\Folder;
-use App\Entity\UserAccount;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FolderProcessor implements ProcessorInterface
 {
@@ -33,12 +31,6 @@ class FolderProcessor implements ProcessorInterface
             throw new BadRequestHttpException('Invalid input data');
         }
 
-        $userAccount = $this->entityManager->getRepository(UserAccount::class)->find($data->userAccountId);
-        if (!$userAccount) {
-            $this->logger->error('UserAccount not found', ['id' => $data->userAccountId]);
-            throw new NotFoundHttpException('UserAccount not found for ID: ' . $data->userAccountId);
-        }
-
         $folder = isset($uriVariables['id'])
             ? $this->entityManager->getRepository(Folder::class)->find($uriVariables['id'])
             : new Folder();
@@ -48,7 +40,6 @@ class FolderProcessor implements ProcessorInterface
             throw new NotFoundHttpException('Folder not found');
         }
 
-        $folder->setUserAccount($userAccount);
         $folder->setName($data->name);
         $folder->setMimeType($data->mimeType);
         $folder->setFile($data->file);
@@ -68,7 +59,6 @@ class FolderProcessor implements ProcessorInterface
 
         $resource = new FolderResource();
         $resource->id = $folder->getId();
-        $resource->userAccountId = $folder->getUserAccount()->getId();
         $resource->name = $folder->getName();
         $resource->mimeType = $folder->getMimeType();
         $resource->file = $folder->getFile();

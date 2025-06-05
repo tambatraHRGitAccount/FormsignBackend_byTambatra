@@ -8,7 +8,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class UserAccountDto
 {
     #[Assert\NotBlank]
-    #[Assert\Email]
     #[Groups(['write'])]
-    public string $email;
+    public string $folderId;
+
+    #[Assert\NotBlank]
+    #[Groups(['write'])]
+    public string $apiToken;
 }

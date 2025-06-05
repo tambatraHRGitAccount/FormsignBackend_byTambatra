@@ -9,18 +9,12 @@ class FolderDto
 {
     #[Assert\NotBlank]
     #[Groups(['write'])]
-    public string $userAccountId;
-
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
-    #[Groups(['write'])]
     public string $name;
 
     #[Assert\NotBlank]
-    #[Assert\Length(max: 100)]
     #[Groups(['write'])]
     public string $mimeType;
 
     #[Groups(['write'])]
-    public ?string $file;
+    public ?string $file = null;
 }

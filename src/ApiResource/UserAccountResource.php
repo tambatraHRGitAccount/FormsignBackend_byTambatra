@@ -39,10 +39,10 @@ class UserAccountResource
     #[Groups(['read'])]
     public string $id;
 
-    #[Groups(['read', 'write'])]
-    public string $email;
-
     #[Groups(['read'])]
+    public string $folderId;
+
+    #[Groups(['read', 'write'])]
     public string $apiToken;
 
     #[Groups(['read'])]
