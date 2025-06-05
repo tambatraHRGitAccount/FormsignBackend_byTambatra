@@ -10,11 +10,4 @@ class FolderDto
     #[Assert\NotBlank]
     #[Groups(['write'])]
     public string $name;
-
-    #[Assert\NotBlank]
-    #[Groups(['write'])]
-    public string $mimeType;
-
-    #[Groups(['write'])]
-    public ?string $file = null;
 }

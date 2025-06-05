@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250605123946 extends AbstractMigration
+final class Version20250605164524 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,7 +27,7 @@ final class Version20250605123946 extends AbstractMigration
             CREATE TABLE documents (id VARCHAR(36) NOT NULL, signature_request_id VARCHAR(36) NOT NULL, insert_after_id VARCHAR(36) DEFAULT NULL, file LONGTEXT NOT NULL, name VARCHAR(255) NOT NULL, is_signable TINYINT(1) NOT NULL, initial_hash VARCHAR(64) NOT NULL, signed_hash VARCHAR(64) NOT NULL, mime_type VARCHAR(100) NOT NULL, created_at DATETIME NOT NULL, INDEX IDX_A2B07288BB7BB225 (signature_request_id), INDEX IDX_A2B072888A61DAC2 (insert_after_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE folders (id VARCHAR(36) NOT NULL, name VARCHAR(255) NOT NULL, mime_type VARCHAR(100) NOT NULL, file LONGTEXT DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE folders (id VARCHAR(36) NOT NULL, name VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE initialsettings (id VARCHAR(36) NOT NULL, document_id VARCHAR(36) NOT NULL, alignment VARCHAR(50) NOT NULL, y INT NOT NULL, INDEX IDX_257F2B10C33F7837 (document_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB

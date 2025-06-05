@@ -10,6 +10,7 @@ use ApiPlatform\State\ProcessorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FolderProcessor implements ProcessorInterface
 {
@@ -41,8 +42,6 @@ class FolderProcessor implements ProcessorInterface
         }
 
         $folder->setName($data->name);
-        $folder->setMimeType($data->mimeType);
-        $folder->setFile($data->file);
         $folder->setUpdatedAt(new \DateTime());
 
         try {
@@ -60,8 +59,6 @@ class FolderProcessor implements ProcessorInterface
         $resource = new FolderResource();
         $resource->id = $folder->getId();
         $resource->name = $folder->getName();
-        $resource->mimeType = $folder->getMimeType();
-        $resource->file = $folder->getFile();
         $resource->createdAt = $folder->getCreatedAt();
         $resource->updatedAt = $folder->getUpdatedAt();
         return $resource;

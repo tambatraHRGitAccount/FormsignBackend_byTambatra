@@ -18,13 +18,6 @@ class Folder
     #[Assert\NotBlank]
     private string $name;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    #[Assert\NotBlank]
-    private string $mimeType;
-
-    #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $file = null;
-
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $createdAt;
 
@@ -50,28 +43,6 @@ class Folder
     public function setName(string $name): self
     {
         $this->name = $name;
-        return $this;
-    }
-
-    public function getMimeType(): string
-    {
-        return $this->mimeType;
-    }
-
-    public function setMimeType(string $mimeType): self
-    {
-        $this->mimeType = $mimeType;
-        return $this;
-    }
-
-    public function getFile(): ?string
-    {
-        return $this->file;
-    }
-
-    public function setFile(?string $file): self
-    {
-        $this->file = $file;
         return $this;
     }
 

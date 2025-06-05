@@ -42,12 +42,6 @@ class FolderResource
     #[Groups(['read', 'write'])]
     public string $name;
 
-    #[Groups(['read', 'write'])]
-    public string $mimeType;
-
-    #[Groups(['read', 'write'])]
-    public ?string $file;
-
     #[Groups(['read'])]
     public \DateTimeInterface $createdAt;
 
