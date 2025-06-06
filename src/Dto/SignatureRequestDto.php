@@ -9,34 +9,31 @@ class SignatureRequestDto
 {
     #[Assert\NotBlank]
     #[Groups(['write'])]
-    public string $senderId;
-
-    #[Groups(['write'])]
-    public ?string $folderId;
-
-    #[Assert\NotBlank]
-    #[Groups(['write'])]
-    public string $emailMessage;
-
-    #[Assert\NotBlank]
-    #[Assert\Date]
-    #[Groups(['write'])]
-    public string $expirationDate;
-
-    #[Assert\NotBlank]
-    #[Groups(['write'])]
     public string $name;
 
     #[Assert\NotBlank]
     #[Groups(['write'])]
-    public string $timezone;
+    public array $email;
 
-    #[Assert\Type('boolean')]
     #[Groups(['write'])]
-    public bool $signersAllowedToDecline;
+    public ?\DateTimeInterface $expirationDate = null;
+
+    #[Groups(['write'])]
+    public string $timezone = 'Europe/Paris';
+
+    #[Groups(['write'])]
+    public bool $signersAllowedToDecline = false;
+
+    #[Groups(['write'])]
+    public array $reminderSettings = ['interval_in_days' => 1, 'max_occurrences' => 5];
+
+    #[Groups(['write'])]
+    public array $webhooks = [];
 
     #[Assert\NotBlank]
-    #[Assert\Choice(['pending', 'completed', 'declined', 'expired'])]
     #[Groups(['write'])]
-    public string $status;
+    public string $senderId;
+
+    #[Groups(['write'])]
+    public ?string $folderId = null;
 }

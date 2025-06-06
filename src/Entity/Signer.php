@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'signers')]
@@ -13,34 +14,40 @@ class Signer
     #[ORM\Column(type: 'string', length: 36)]
     private string $id;
 
-    #[ORM\ManyToOne(targetEntity: SignatureRequest::class)]
-    #[ORM\JoinColumn(name: 'signature_request_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: SignatureRequest::class, inversedBy: 'signers')]
+    #[ORM\JoinColumn(nullable: false)]
     private SignatureRequest $signatureRequest;
 
-    #[ORM\ManyToOne(targetEntity: Signer::class)]
-    #[ORM\JoinColumn(name: 'insert_after_id', referencedColumnName: 'id', nullable: true)]
-    private ?Signer $insertAfter = null;
-
     #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank]
     private string $firstName;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank]
     private string $lastName;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private string $email;
 
-    #[ORM\Column(type: 'string', length: 20)]
-    private string $phoneNumber;
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    private ?string $phoneNumber = null;
 
     #[ORM\Column(type: 'string', length: 50)]
-    private string $signatureAuthenticationMode;
+    private string $signatureAuthenticationMode = 'email';
+
+    #[ORM\Column(type: 'string', length: 36, nullable: true)]
+    private ?string $insertAfterId = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $smsMessage = null;
 
     #[ORM\Column(type: 'boolean')]
     private bool $hasSigned = false;
 
-    #[ORM\Column(type: 'string', length: 45)]
-    private string $ipAddress;
+    #[ORM\Column(type: 'string', length: 45, nullable: true)]
+    private ?string $ipAddress = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $authenticationDatetime = null;
@@ -48,8 +55,14 @@ class Signer
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $signatureDatetime = null;
 
+    #[ORM\Column(type: 'string', length: 50)]
+    private string $status = 'pending';
+
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $createdAt;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
 
     public function __construct()
     {
@@ -70,17 +83,6 @@ class Signer
     public function setSignatureRequest(SignatureRequest $signatureRequest): self
     {
         $this->signatureRequest = $signatureRequest;
-        return $this;
-    }
-
-    public function getInsertAfter(): ?Signer
-    {
-        return $this->insertAfter;
-    }
-
-    public function setInsertAfter(?Signer $insertAfter): self
-    {
-        $this->insertAfter = $insertAfter;
         return $this;
     }
 
@@ -117,12 +119,12 @@ class Signer
         return $this;
     }
 
-    public function getPhoneNumber(): string
+    public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(string $phoneNumber): self
+    public function setPhoneNumber(?string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
         return $this;
@@ -139,6 +141,28 @@ class Signer
         return $this;
     }
 
+    public function getInsertAfterId(): ?string
+    {
+        return $this->insertAfterId;
+    }
+
+    public function setInsertAfterId(?string $insertAfterId): self
+    {
+        $this->insertAfterId = $insertAfterId;
+        return $this;
+    }
+
+    public function getSmsMessage(): ?string
+    {
+        return $this->smsMessage;
+    }
+
+    public function setSmsMessage(?string $smsMessage): self
+    {
+        $this->smsMessage = $smsMessage;
+        return $this;
+    }
+
     public function hasSigned(): bool
     {
         return $this->hasSigned;
@@ -150,12 +174,12 @@ class Signer
         return $this;
     }
 
-    public function getIpAddress(): string
+    public function getIpAddress(): ?string
     {
         return $this->ipAddress;
     }
 
-    public function setIpAddress(string $ipAddress): self
+    public function setIpAddress(?string $ipAddress): self
     {
         $this->ipAddress = $ipAddress;
         return $this;
@@ -183,8 +207,30 @@ class Signer
         return $this;
     }
 
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
     public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
     }
 }

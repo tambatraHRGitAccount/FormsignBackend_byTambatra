@@ -1,0 +1,22 @@
+{% block body %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Signature Request Notification</title>
+</head>
+<body>
+    <h1>Signature Request: {{ signatureRequest.name }}</h1>
+    <p>Dear {{ signer.firstName }} {{ signer.lastName }},</p>
+    <p>You have been invited to sign the following document(s):</p>
+    <ul>
+        {% for document in signatureRequest.documents %}
+            <li>{{ document.name }}</li>
+        {% endfor %}
+    </ul>
+    <p>Please review and sign by {{ signatureRequest.expirationDate ? signatureRequest.expirationDate|date('Y-m-d') : 'N/A' }}.</p>
+    <p><a href="{{ url('app_sign_document', { id: signatureRequest.id }) }}">Click here to sign</a></p>
+    <p>Best regards,<br>{{ signatureRequest.sender.email }}</p>
+</body>
+</html>
+{% endblock %}

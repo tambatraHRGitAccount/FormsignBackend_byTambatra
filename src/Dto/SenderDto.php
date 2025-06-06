@@ -11,8 +11,4 @@ class SenderDto
     #[Assert\Email]
     #[Groups(['write'])]
     public string $email;
-
-    #[Assert\Choice(['active', 'inactive'])]
-    #[Groups(['write'])]
-    public string $status = 'active';
 }

@@ -1,19 +1,41 @@
-parameters:
-    app.timezone: 'Europe/Paris'
-
+# config/services.yaml
 services:
+    # Default configuration for services in this file
     _defaults:
         autowire: true
         autoconfigure: true
-        bind:
-            $logger: '@monolog.logger'
 
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+    # State Providers
+    App\State\FolderState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
+
+    App\State\SenderState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
+
+    App\State\SignatureRequestState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
+
+    App\State\DocumentState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
+
+    App\State\SignerState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
+
 
     App\State\UserAccountProcessor:
         arguments:
@@ -25,112 +47,41 @@ services:
             $entityManager: '@doctrine.orm.entity_manager'
             $logger: '@monolog.logger'
 
+    App\State\AuditTrailState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
+
+    # State Processors
     App\State\FolderProcessor:
         arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\FolderState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_processor' ]
 
     App\State\SenderProcessor:
         arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\SenderState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_processor' ]
 
     App\State\SignatureRequestProcessor:
         arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\SignatureRequestState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_processor' ]
 
     App\State\DocumentProcessor:
         arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\DocumentState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\AuditLogProcessor:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\AuditLogState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_processor' ]
 
     App\State\SignerProcessor:
         arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\SignerState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\InitialSettingProcessor:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\InitialSettingState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\SignatureSettingProcessor:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\SignatureSettingState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\SMSNotificationProcessor:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\SMSNotificationState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\ReminderSettingProcessor:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\ReminderSettingState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\WebhookProcessor:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
-    App\State\WebhookState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+            - '@mailer.mailer'
+            - '@twig'
+        tags: [ 'api_platform.state_processor' ]

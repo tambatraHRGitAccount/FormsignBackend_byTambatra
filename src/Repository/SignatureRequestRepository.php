@@ -18,8 +18,8 @@ class SignatureRequestRepository extends ServiceEntityRepository
         return $this->findBy(['sender' => $senderId]);
     }
 
-    public function findByFolder(?string $folderId): array
+    public function findByStatus(string $status): array
     {
-        return $this->findBy(['folder' => $folderId]);
+        return $this->findBy(['status' => $status]);
     }
 }

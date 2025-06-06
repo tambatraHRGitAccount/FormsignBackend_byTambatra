@@ -17,4 +17,9 @@ class DocumentRepository extends ServiceEntityRepository
     {
         return $this->findBy(['signatureRequest' => $signatureRequestId]);
     }
+
+    public function findByInitialHash(string $initialHash): ?Document
+    {
+        return $this->findOneBy(['initialHash' => $initialHash]);
+    }
 }

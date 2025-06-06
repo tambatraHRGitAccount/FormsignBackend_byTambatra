@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'documents')]
@@ -13,34 +14,53 @@ class Document
     #[ORM\Column(type: 'string', length: 36)]
     private string $id;
 
-    #[ORM\ManyToOne(targetEntity: SignatureRequest::class)]
+    #[ORM\ManyToOne(targetEntity: SignatureRequest::class, inversedBy: 'documents')]
     #[ORM\JoinColumn(name: 'signature_request_id', referencedColumnName: 'id', nullable: false)]
     private SignatureRequest $signatureRequest;
 
-    #[ORM\ManyToOne(targetEntity: Document::class)]
-    #[ORM\JoinColumn(name: 'insert_after_id', referencedColumnName: 'id', nullable: true)]
-    private ?Document $insertAfter = null;
-
-    #[ORM\Column(type: 'text')]
-    private string $file;
-
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
     private string $name;
 
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
+    private string $content;
+
     #[ORM\Column(type: 'boolean')]
-    private bool $isSignable;
+    private bool $isSignable = true;
 
     #[ORM\Column(type: 'string', length: 64)]
     private string $initialHash;
 
-    #[ORM\Column(type: 'string', length: 64)]
-    private string $signedHash;
+    #[ORM\Column(type: 'string', length: 64, nullable: true)]
+    private ?string $signedHash = null;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    private string $mimeType;
+    #[ORM\Column(type: 'json', nullable: true)]
+    #[Assert\NotNull]
+    #[Assert\Type('array')]
+    #[Assert\Collection(
+        fields: [
+            'page' => [new Assert\Type('int'), new Assert\GreaterThanOrEqual(1)],
+            'x' => [new Assert\Type('int'), new Assert\GreaterThanOrEqual(0)],
+            'y' => [new Assert\Type('int'), new Assert\GreaterThanOrEqual(0)],
+            'height' => [new Assert\Type('int'), new Assert\GreaterThan(0)],
+            'width' => [new Assert\Type('int'), new Assert\GreaterThan(0)]
+        ],
+        allowMissingFields: true
+    )]
+    private ?array $signatureSettings = null;
+
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $initialSettings = null;
+
+    #[ORM\Column(type: 'string', length: 36, nullable: true)]
+    private ?string $insertAfterId = null;
 
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $createdAt;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
 
     public function __construct()
     {
@@ -64,28 +84,6 @@ class Document
         return $this;
     }
 
-    public function getInsertAfter(): ?Document
-    {
-        return $this->insertAfter;
-    }
-
-    public function setInsertAfter(?Document $insertAfter): self
-    {
-        $this->insertAfter = $insertAfter;
-        return $this;
-    }
-
-    public function getFile(): string
-    {
-        return $this->file;
-    }
-
-    public function setFile(string $file): self
-    {
-        $this->file = $file;
-        return $this;
-    }
-
     public function getName(): string
     {
         return $this->name;
@@ -94,6 +92,18 @@ class Document
     public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+        $this->initialHash = hash('sha256', $content);
         return $this;
     }
 
@@ -113,36 +123,63 @@ class Document
         return $this->initialHash;
     }
 
-    public function setInitialHash(string $initialHash): self
-    {
-        $this->initialHash = $initialHash;
-        return $this;
-    }
-
-    public function getSignedHash(): string
+    public function getSignedHash(): ?string
     {
         return $this->signedHash;
     }
 
-    public function setSignedHash(string $signedHash): self
+    public function setSignedHash(?string $signedHash): self
     {
         $this->signedHash = $signedHash;
         return $this;
     }
 
-    public function getMimeType(): string
+    public function getSignatureSettings(): ?array
     {
-        return $this->mimeType;
+        return $this->signatureSettings;
     }
 
-    public function setMimeType(string $mimeType): self
+    public function setSignatureSettings(?array $signatureSettings): self
     {
-        $this->mimeType = $mimeType;
+        $this->signatureSettings = $signatureSettings;
+        return $this;
+    }
+
+    public function getInitialSettings(): ?array
+    {
+        return $this->initialSettings;
+    }
+
+    public function setInitialSettings(?array $initialSettings): self
+    {
+        $this->initialSettings = $initialSettings;
+        return $this;
+    }
+
+    public function getInsertAfterId(): ?string
+    {
+        return $this->insertAfterId;
+    }
+
+    public function setInsertAfterId(?string $insertAfterId): self
+    {
+        $this->insertAfterId = $insertAfterId;
         return $this;
     }
 
     public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
     }
 }

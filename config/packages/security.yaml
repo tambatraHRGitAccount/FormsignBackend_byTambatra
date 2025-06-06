@@ -1,31 +1,76 @@
-security:
-    providers:
-        user_account_provider:
-            entity:
-                class: App\Entity\UserAccount
-                property: apiToken
+# config/services.yaml
+services:
+    # Default configuration for services in this file
+    _defaults:
+        autowire: true
+        autoconfigure: true
 
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+    # State Providers
+    App\State\FolderState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
 
-        api:
-            pattern: ^/api
-            stateless: true
-            provider: user_account_provider
-            custom_authenticators:
-                - App\Security\ApiTokenAuthenticator
-            entry_point: App\Security\ApiTokenAuthenticator
+    App\State\SenderState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
 
-        main:
-            lazy: true
-            provider: user_account_provider
+    App\State\SignatureRequestState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
 
-    access_control:
-        # ⚠️ Autoriser l'accès à TOUTE l'API temporairement sans authentification
-        - { path: ^/api, roles: PUBLIC_ACCESS }
+    App\State\DocumentState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
 
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-            algorithm: auto
+    App\State\SignerState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
+
+    App\State\AuditTrailState:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_provider' ]
+
+    # State Processors
+    App\State\FolderProcessor:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_processor' ]
+
+    App\State\SenderProcessor:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_processor' ]
+
+    App\State\SignatureRequestProcessor:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_processor' ]
+
+    App\State\DocumentProcessor:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+        tags: [ 'api_platform.state_processor' ]
+
+    App\State\SignerProcessor:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+            - '@mailer.mailer'
+            - '@twig'
+        tags: [ 'api_platform.state_processor' ]

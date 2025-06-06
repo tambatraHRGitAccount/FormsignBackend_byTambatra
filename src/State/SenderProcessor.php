@@ -42,7 +42,6 @@ class SenderProcessor implements ProcessorInterface
         }
 
         $sender->setEmail($data->email);
-        $sender->setStatus($data->status);
         $sender->setUpdatedAt(new \DateTime());
 
         try {
@@ -53,8 +52,8 @@ class SenderProcessor implements ProcessorInterface
             $this->logger->info('Sender persisted successfully', ['id' => $sender->getId()]);
         } catch (\Exception $e) {
             $this->entityManager->rollback();
-            $this->logger->error('Failed to persist Sender', ['exception' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            throw new BadRequestHttpException('Failed to persist Sender: ' . $e->getMessage());
+            $this->logger->error('Failed to persist Sender', ['exception' => $e->getMessage()]);
+            throw new BadRequestHttpException('Failed to persist: ' . $e->getMessage());
         }
 
         $resource = new SenderResource();

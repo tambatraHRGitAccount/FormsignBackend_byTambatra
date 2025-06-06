@@ -38,14 +38,16 @@ class DocumentState implements ProviderInterface
         $resource = new DocumentResource();
         $resource->id = $document->getId();
         $resource->signatureRequestId = $document->getSignatureRequest()->getId();
-        $resource->insertAfterId = $document->getInsertAfter() ? $document->getInsertAfter()->getId() : null;
-        $resource->file = $document->getFile();
         $resource->name = $document->getName();
+        $resource->content = $document->getContent();
         $resource->isSignable = $document->isSignable();
         $resource->initialHash = $document->getInitialHash();
         $resource->signedHash = $document->getSignedHash();
-        $resource->mimeType = $document->getMimeType();
+        $resource->signatureSettings = $document->getSignatureSettings();
+        $resource->initialSettings = $document->getInitialSettings();
+        $resource->insertAfterId = $document->getInsertAfterId();
         $resource->createdAt = $document->getCreatedAt();
+        $resource->updatedAt = $document->getUpdatedAt();
         return $resource;
     }
 }

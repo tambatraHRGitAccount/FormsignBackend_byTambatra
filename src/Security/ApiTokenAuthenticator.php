@@ -2,8 +2,8 @@
 
 namespace App\Security;
 
-use App\Repository\UserAccountRepository;
-use Psr\Log\LoggerInterface;
+use App\Entity\UserAccount;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,42 +11,34 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
 class ApiTokenAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
-    private UserAccountRepository $userAccountRepository;
-    private LoggerInterface $logger;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(UserAccountRepository $userAccountRepository, LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->userAccountRepository = $userAccountRepository;
-        $this->logger = $logger;
+        $this->entityManager = $entityManager;
     }
 
     public function supports(Request $request): ?bool
     {
-        return $request->headers->has('Authorization') &&
-               str_starts_with($request->headers->get('Authorization'), 'Bearer ');
+        return $request->headers->has('Authorization') && str_starts_with($request->headers->get('Authorization'), 'Bearer ');
     }
 
-    public function authenticate(Request $request): SelfValidatingPassport
+    public function authenticate(Request $request): Passport
     {
-        $authHeader = $request->headers->get('Authorization');
-        $apiToken = substr($authHeader, 7); // Supprime 'Bearer '
-
-        $this->logger->info('Authenticating with API token', ['token_preview' => substr($apiToken, 0, 10) . '...']);
+        $apiToken = substr($request->headers->get('Authorization'), 7);
+        if (!$apiToken) {
+            throw new AuthenticationException('No API token provided');
+        }
 
         return new SelfValidatingPassport(
             new UserBadge($apiToken, function ($apiToken) {
-                $user = $this->userAccountRepository->findByApiToken($apiToken);
-                if (!$user) {
-                    $this->logger->warning('Invalid API token', ['token' => substr($apiToken, 0, 10) . '...']);
-                    throw new AuthenticationException('Invalid API token');
-                }
-                $this->logger->info('User authenticated successfully', ['user_id' => $user->getId()]);
-                return $user;
+                return $this->entityManager->getRepository(UserAccount::class)->findOneBy(['apiToken' => $apiToken]);
             })
         );
     }
@@ -58,17 +50,11 @@ class ApiTokenAuthenticator extends AbstractAuthenticator implements Authenticat
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        return new JsonResponse([
-            'error' => 'Authentication failed',
-            'message' => $exception->getMessage()
-        ], Response::HTTP_UNAUTHORIZED);
+        return new JsonResponse(['error' => 'Invalid API token'], Response::HTTP_UNAUTHORIZED);
     }
 
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
-        return new JsonResponse([
-            'error' => 'Authentication required',
-            'message' => $authException?->getMessage()
-        ], Response::HTTP_UNAUTHORIZED);
+        return new JsonResponse(['error' => 'Authentication required'], Response::HTTP_UNAUTHORIZED);
     }
 }

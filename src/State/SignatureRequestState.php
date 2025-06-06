@@ -39,14 +39,19 @@ class SignatureRequestState implements ProviderInterface
         $resource->id = $signatureRequest->getId();
         $resource->senderId = $signatureRequest->getSender()->getId();
         $resource->folderId = $signatureRequest->getFolder() ? $signatureRequest->getFolder()->getId() : null;
+        $resource->name = $signatureRequest->getName();
         $resource->emailMessage = $signatureRequest->getEmailMessage();
         $resource->expirationDate = $signatureRequest->getExpirationDate();
-        $resource->createdAt = $signatureRequest->getCreatedAt();
-        $resource->updatedAt = $signatureRequest->getUpdatedAt();
-        $resource->name = $signatureRequest->getName();
         $resource->timezone = $signatureRequest->getTimezone();
         $resource->signersAllowedToDecline = $signatureRequest->isSignersAllowedToDecline();
         $resource->status = $signatureRequest->getStatus();
+        $resource->reminderSettings = $signatureRequest->getReminderSettings();
+        $resource->webhooks = $signatureRequest->getWebhooks();
+        $resource->auditEvents = $signatureRequest->getAuditEvents();
+        $resource->createdAt = $signatureRequest->getCreatedAt();
+        $resource->updatedAt = $signatureRequest->getUpdatedAt();
+        $resource->documents = $signatureRequest->getDocuments()->toArray();
+        $resource->signers = $signatureRequest->getSigners()->toArray();
         return $resource;
     }
 }

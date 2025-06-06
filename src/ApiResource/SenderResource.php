@@ -42,7 +42,7 @@ class SenderResource
     #[Groups(['read', 'write'])]
     public string $email;
 
-    #[Groups(['read', 'write'])]
+    #[Groups(['read'])]
     public string $status;
 
     #[Groups(['read'])]

@@ -9,18 +9,9 @@ class SignerDto
 {
     #[Assert\NotBlank]
     #[Groups(['write'])]
-    public string $signatureRequestId;
-
-    #[Groups(['write'])]
-    public ?string $insertAfterId;
-
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 100)]
-    #[Groups(['write'])]
     public string $firstName;
 
     #[Assert\NotBlank]
-    #[Assert\Length(max: 100)]
     #[Groups(['write'])]
     public string $lastName;
 
@@ -29,28 +20,30 @@ class SignerDto
     #[Groups(['write'])]
     public string $email;
 
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 20)]
     #[Groups(['write'])]
-    public string $phoneNumber;
+    public ?string $phoneNumber = null;
 
-    #[Assert\NotBlank]
-    #[Assert\Choice(['email', 'sms', 'none'])]
     #[Groups(['write'])]
-    public string $signatureAuthenticationMode;
+    public string $signatureAuthenticationMode = 'email';
 
-    #[Assert\Type('boolean')]
+    #[Groups(['write'])]
+    public ?string $insertAfterId = null;
+
+    #[Groups(['write'])]
+    public ?string $smsMessage = null;
+
     #[Groups(['write'])]
     public bool $hasSigned = false;
 
-    #[Assert\NotBlank]
-    #[Assert\Ip]
     #[Groups(['write'])]
-    public string $ipAddress;
+    public ?string $ipAddress = null;
 
     #[Groups(['write'])]
-    public ?string $authenticationDatetime;
+    public ?string $status = 'pending';
 
     #[Groups(['write'])]
-    public ?string $signatureDatetime;
+    public ?\DateTimeInterface $authenticationDatetime = null;
+
+    #[Groups(['write'])]
+    public ?\DateTimeInterface $signatureDatetime = null;
 }
