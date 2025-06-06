@@ -1,87 +1,68 @@
-# config/services.yaml
 services:
-    # Default configuration for services in this file
+    # Auto-configuration par défaut
     _defaults:
         autowire: true
         autoconfigure: true
+        bind:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $logger: '@monolog.logger'
+
+    # Charger tous les services du dossier src/
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # Charger explicitement les repositories
+    App\Repository\:
+        resource: '../src/Repository'
+        tags: ['doctrine.repository_service']
+
+    # Authenticator personnalisé
+    App\Security\ApiTokenAuthenticator:
+        autowire: true
+        autoconfigure: true
+        tags:
+            - { name: 'security.authenticator' }
 
     # State Providers
     App\State\FolderState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
         tags: [ 'api_platform.state_provider' ]
 
     App\State\SenderState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
         tags: [ 'api_platform.state_provider' ]
 
     App\State\SignatureRequestState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
         tags: [ 'api_platform.state_provider' ]
 
     App\State\DocumentState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
         tags: [ 'api_platform.state_provider' ]
 
     App\State\SignerState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
         tags: [ 'api_platform.state_provider' ]
 
-
-    App\State\UserAccountProcessor:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
-
     App\State\UserAccountState:
-        arguments:
-            $entityManager: '@doctrine.orm.entity_manager'
-            $logger: '@monolog.logger'
+        tags: [ 'api_platform.state_provider' ]
 
     App\State\AuditTrailState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
         tags: [ 'api_platform.state_provider' ]
 
     # State Processors
     App\State\FolderProcessor:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
         tags: [ 'api_platform.state_processor' ]
 
     App\State\SenderProcessor:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
         tags: [ 'api_platform.state_processor' ]
 
     App\State\SignatureRequestProcessor:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
         tags: [ 'api_platform.state_processor' ]
 
     App\State\DocumentProcessor:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
         tags: [ 'api_platform.state_processor' ]
 
     App\State\SignerProcessor:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-            - '@mailer.mailer'
-            - '@twig'
         tags: [ 'api_platform.state_processor' ]
+
+    App\State\UserAccountProcessor: ~

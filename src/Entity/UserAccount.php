@@ -5,10 +5,11 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'useraccounts')]
-class UserAccount
+class UserAccount implements UserInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: 'string', length: 36)]
@@ -75,5 +76,21 @@ class UserAccount
     {
         $this->updatedAt = $updatedAt;
         return $this;
+    }
+
+    // Implémentation de UserInterface
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Pas de données sensibles à effacer
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->apiToken;
     }
 }

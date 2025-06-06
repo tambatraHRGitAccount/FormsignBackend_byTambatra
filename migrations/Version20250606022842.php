@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250605211342 extends AbstractMigration
+final class Version20250606022842 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,7 +21,7 @@ final class Version20250605211342 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            CREATE TABLE documents (id VARCHAR(36) NOT NULL, signature_request_id VARCHAR(36) NOT NULL, name VARCHAR(255) NOT NULL, content LONGTEXT NOT NULL, is_signable TINYINT(1) NOT NULL, initial_hash VARCHAR(64) NOT NULL, signed_hash VARCHAR(64) DEFAULT NULL, signature_settings JSON DEFAULT NULL, initial JSON DEFAULT NULL, insert_after_id VARCHAR(36) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, INDEX IDX_A2B07288BB7BB225 (signature_request_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE documents (id VARCHAR(36) NOT NULL, signature_request_id VARCHAR(36) NOT NULL, name VARCHAR(255) NOT NULL, content LONGTEXT NOT NULL, is_signable TINYINT(1) NOT NULL, initial_hash VARCHAR(64) NOT NULL, signed_hash VARCHAR(64) DEFAULT NULL, signature_settings JSON DEFAULT NULL, initial_settings JSON DEFAULT NULL, insert_after_id VARCHAR(36) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, INDEX IDX_A2B07288BB7BB225 (signature_request_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE folders (id VARCHAR(36) NOT NULL, name VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB

@@ -1,76 +1,12 @@
-# config/services.yaml
-services:
-    # Default configuration for services in this file
-    _defaults:
-        autowire: true
-        autoconfigure: true
-
-    # State Providers
-    App\State\FolderState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-        tags: [ 'api_platform.state_provider' ]
-
-    App\State\SenderState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-        tags: [ 'api_platform.state_provider' ]
-
-    App\State\SignatureRequestState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-        tags: [ 'api_platform.state_provider' ]
-
-    App\State\DocumentState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-        tags: [ 'api_platform.state_provider' ]
-
-    App\State\SignerState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-        tags: [ 'api_platform.state_provider' ]
-
-    App\State\AuditTrailState:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-        tags: [ 'api_platform.state_provider' ]
-
-    # State Processors
-    App\State\FolderProcessor:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-        tags: [ 'api_platform.state_processor' ]
-
-    App\State\SenderProcessor:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-        tags: [ 'api_platform.state_processor' ]
-
-    App\State\SignatureRequestProcessor:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-        tags: [ 'api_platform.state_processor' ]
-
-    App\State\DocumentProcessor:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-        tags: [ 'api_platform.state_processor' ]
-
-    App\State\SignerProcessor:
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@logger'
-            - '@mailer.mailer'
-            - '@twig'
-        tags: [ 'api_platform.state_processor' ]
+security:
+    providers:
+        user_account_provider:
+            entity:
+                class: App\Entity\UserAccount
+                property: apiToken
+    firewalls:
+        api:
+            pattern: ^/api
+            stateless: true
+            custom_authenticators:
+                - App\Security\ApiTokenAuthenticator
