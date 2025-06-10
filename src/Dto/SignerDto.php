@@ -3,47 +3,64 @@
 namespace App\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
-class SignerDto
+class SignerDTO
 {
     #[Assert\NotBlank]
-    #[Groups(['write'])]
+    #[Assert\Length(max: 255)]
     public string $firstName;
 
     #[Assert\NotBlank]
-    #[Groups(['write'])]
+    #[Assert\Length(max: 255)]
     public string $lastName;
 
     #[Assert\NotBlank]
     #[Assert\Email]
-    #[Groups(['write'])]
     public string $email;
 
-    #[Groups(['write'])]
-    public ?string $phoneNumber = null;
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 20)]
+    // #[Assert\Regex(pattern: '/^\+?[1-9]\d{1,14}$/', message: 'Invalid phone number format')]
+    public string $phoneNumber;
 
-    #[Groups(['write'])]
-    public string $signatureAuthenticationMode = 'email';
+    #[Assert\NotBlank]
+    #[Assert\Choice(choices: ['email', 'sms'])]
+    public string $signatureAuthenticationMode;
 
-    #[Groups(['write'])]
-    public ?string $insertAfterId = null;
+    #[Assert\NotBlank]
+    #[Assert\Positive]
+    public int $insertAfterId;
 
-    #[Groups(['write'])]
-    public ?string $smsMessage = null;
+    #[Assert\When(
+        expression: 'this.smsNotification !== null',
+        constraints: [
+            new Assert\Collection(
+                fields: [
+                    'message' => [
+                        new Assert\NotBlank,
+                        new Assert\Length(max: 160, maxMessage: 'SMS message cannot exceed 160 characters')
+                    ]
+                ]
+            )
+        ]
+    )]
+    public ?array $smsNotification;
 
-    #[Groups(['write'])]
-    public bool $hasSigned = false;
-
-    #[Groups(['write'])]
-    public ?string $ipAddress = null;
-
-    #[Groups(['write'])]
-    public ?string $status = 'pending';
-
-    #[Groups(['write'])]
-    public ?\DateTimeInterface $authenticationDatetime = null;
-
-    #[Groups(['write'])]
-    public ?\DateTimeInterface $signatureDatetime = null;
+    public function __construct(
+        string $firstName,
+        string $lastName,
+        string $email,
+        string $phoneNumber,
+        string $signatureAuthenticationMode,
+        int $insertAfterId,
+        ?array $smsNotification
+    ) {
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->email = $email;
+        $this->phoneNumber = $phoneNumber;
+        $this->signatureAuthenticationMode = $signatureAuthenticationMode;
+        $this->insertAfterId = $insertAfterId;
+        $this->smsNotification = $smsNotification;
+    }
 }

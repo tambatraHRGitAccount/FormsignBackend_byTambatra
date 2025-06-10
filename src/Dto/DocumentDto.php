@@ -3,45 +3,60 @@
 namespace App\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
-class DocumentDto
+class DocumentDTO
 {
     #[Assert\NotBlank]
-    #[Groups(['write'])]
+    public string $file;
+
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     public string $name;
 
     #[Assert\NotBlank]
-    #[Assert\Regex(
-        pattern: '/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/',
-        message: 'The content must be a valid Base64 encoded string'
+    #[Assert\Positive]
+    public int $insertAfterId;
+
+    #[Assert\When(
+        expression: 'this.signatureSettings !== null',
+        constraints: [
+            new Assert\Collection(
+                fields: [
+                    'page' => [new Assert\Positive],
+                    'x' => [new Assert\PositiveOrZero],
+                    'y' => [new Assert\PositiveOrZero],
+                    'height' => [new Assert\Positive],
+                    'width' => [new Assert\Positive],
+                ]
+            )
+        ]
     )]
-    #[Groups(['write'])]
-    public string $content;
+    public ?array $signatureSettings;
 
-    #[Groups(['write'])]
-    public bool $isSignable = true;
-
-    #[Groups(['write'])]
-    public ?string $signedHash = null;
-
-    #[Groups(['write'])]
-    #[Assert\Type('array')]
-    #[Assert\Collection(
-        fields: [
-            'page' => [new Assert\Type('int'), new Assert\GreaterThanOrEqual(1)],
-            'x' => [new Assert\Type('int'), new Assert\GreaterThanOrEqual(0)],
-            'y' => [new Assert\Type('int'), new Assert\GreaterThanOrEqual(0)],
-            'height' => [new Assert\Type('int'), new Assert\GreaterThan(0)],
-            'width' => [new Assert\Type('int'), new Assert\GreaterThan(0)]
-        ],
-        allowMissingFields: true
+    #[Assert\When(
+        expression: 'this.initial !== null',
+        constraints: [
+            new Assert\Collection(
+                fields: [
+                    'alignment' => [new Assert\Choice(choices: ['bottom-right', 'bottom-left', 'top-right', 'top-left'])],
+                    'y' => [new Assert\PositiveOrZero],
+                ]
+            )
+        ]
     )]
-    public ?array $signatureSettings = null;
+    public ?array $initial;
 
-    #[Groups(['write'])]
-    public ?array $initialSettings = null;
-
-    #[Groups(['write'])]
-    public ?string $insertAfterId = null;
+    public function __construct(
+        string $file,
+        string $name,
+        int $insertAfterId,
+        ?array $signatureSettings,
+        ?array $initial
+    ) {
+        $this->file = $file;
+        $this->name = $name;
+        $this->insertAfterId = $insertAfterId;
+        $this->signatureSettings = $signatureSettings;
+        $this->initial = $initial;
+    }
 }

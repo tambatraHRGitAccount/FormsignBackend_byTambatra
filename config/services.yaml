@@ -37,9 +37,6 @@ services:
     App\State\SignatureRequestState:
         tags: [ 'api_platform.state_provider' ]
 
-    App\State\DocumentState:
-        tags: [ 'api_platform.state_provider' ]
-
     App\State\SignerState:
         tags: [ 'api_platform.state_provider' ]
 
@@ -64,5 +61,9 @@ services:
 
     App\State\SignerProcessor:
         tags: [ 'api_platform.state_processor' ]
+    
+    App\OpenApi\CustomOpenApiFactory:
+        decorates: 'api_platform.openapi.factory'
+        arguments: ['@App\OpenApi\CustomOpenApiFactory.inner']
 
     App\State\UserAccountProcessor: ~

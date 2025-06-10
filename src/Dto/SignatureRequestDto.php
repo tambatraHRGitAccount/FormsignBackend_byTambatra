@@ -3,37 +3,74 @@
 namespace App\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
-class SignatureRequestDto
+class SignatureRequestDTO
 {
     #[Assert\NotBlank]
-    #[Groups(['write'])]
+    #[Assert\Length(max: 255)]
     public string $name;
 
     #[Assert\NotBlank]
-    #[Groups(['write'])]
+    #[Assert\Collection(
+        fields: [
+            'sender' => [new Assert\NotBlank, new Assert\Uuid],
+            'message' => [new Assert\NotBlank, new Assert\Length(max: 1000)]
+        ]
+    )]
     public array $email;
 
-    #[Groups(['write'])]
-    public ?\DateTimeInterface $expirationDate = null;
+    #[Assert\Date]
+    #[Assert\Regex(
+        pattern: '/^\d{4}-\d{2}-\d{2}$/',
+        message: 'The expiration_date must be in YYYY-MM-DD format'
+    )]
+    public ?string $expirationDate;
 
-    #[Groups(['write'])]
-    public string $timezone = 'Europe/Paris';
+    #[Assert\When(
+        expression: 'this.reminderSettings !== null',
+        constraints: [
+            new Assert\Collection(
+                fields: [
+                    'interval_in_days' => [new Assert\Positive],
+                    'max_occurrences' => [new Assert\Positive]
+                ]
+            )
+        ]
+    )]
+    public ?array $reminderSettings;
 
-    #[Groups(['write'])]
-    public bool $signersAllowedToDecline = false;
+    #[Assert\Timezone]
+    public ?string $timezone;
 
-    #[Groups(['write'])]
-    public array $reminderSettings = ['interval_in_days' => 1, 'max_occurrences' => 5];
+    #[Assert\Type('bool')]
+    public bool $signersAllowedToDecline;
 
-    #[Groups(['write'])]
-    public array $webhooks = [];
+    #[Assert\All([
+        new Assert\Collection(
+            fields: [
+                'event' => [new Assert\NotBlank, new Assert\Choice(choices: ['signature_request.approved', 'signature_request.declined', 'signature_request.signed'])],
+                'url' => [new Assert\NotBlank, new Assert\Url],
+                'method' => [new Assert\NotBlank, new Assert\Choice(choices: ['post', 'get'])]
+            ]
+        )
+    ])]
+    public ?array $webhooks;
 
-    #[Assert\NotBlank]
-    #[Groups(['write'])]
-    public string $senderId;
-
-    #[Groups(['write'])]
-    public ?string $folderId = null;
+    public function __construct(
+        string $name,
+        array $email,
+        ?string $expirationDate,
+        ?array $reminderSettings,
+        ?string $timezone,
+        bool $signersAllowedToDecline,
+        ?array $webhooks
+    ) {
+        $this->name = $name;
+        $this->email = $email;
+        $this->expirationDate = $expirationDate;
+        $this->reminderSettings = $reminderSettings;
+        $this->timezone = $timezone ?? 'Europe/Paris';
+        $this->signersAllowedToDecline = $signersAllowedToDecline;
+        $this->webhooks = $webhooks;
+    }
 }

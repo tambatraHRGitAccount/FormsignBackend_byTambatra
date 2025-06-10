@@ -1,25 +1,6 @@
 
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/var/
+
+
 /vendor/
-###< symfony/framework-bundle ###
-
-###> lexik/jwt-authentication-bundle ###
-/config/jwt/*.pem
-###< lexik/jwt-authentication-bundle ###
-
-
-# Ignorer tous les fichiers .env, même .env.local, .env.test, etc.
-.env
-.env.*
-!.env.example  # Facultatif : ne pas ignorer .env.example si tu veux le garder dans Git
-
-# Ignorer tout le dossier config/
-
-# Symfony & vendor/ (déjà présent)
 /var/
-/vendor/
+

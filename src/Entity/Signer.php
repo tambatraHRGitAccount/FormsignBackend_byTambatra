@@ -2,91 +2,93 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Post;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\SignerController;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'signers')]
+#[ORM\Table(name: 'signer')]
+#[ApiResource(
+    operations: [
+        new Post(
+            uriTemplate: '/signature_request/{signatureRequestId}/signer',
+            controller: SignerController::class.'::addSigner',
+            inputFormats: ['json' => ['application/json']],
+            deserialize: false,
+            normalizationContext: ['groups' => ['signer:read']],
+            denormalizationContext: ['groups' => ['signer:write']],
+            description: 'Adds a signer to a specific signature request',
+            processor: \App\State\SignerProcessor::class,
+            requirements: ['signatureRequestId' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
+            uriVariables: [
+                'signatureRequestId' => [
+                    'from_class' => SignatureRequest::class,
+                    'from_property' => 'id',
+                    'description' => 'The ID of the signature request',
+                    'required' => true,
+                    'openapi' => [
+                        'type' => 'string',
+                        'format' => 'uuid',
+                        'description' => 'UUID of the signature request',
+                    ],
+                ],
+            ],
+        ),
+    ],
+    normalizationContext: ['groups' => ['signer:read']],
+    denormalizationContext: ['groups' => ['signer:write']]
+)]
 class Signer
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'string', length: 36)]
-    private string $id;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['signer:read'])]
+    private ?Uuid $id = null;
 
-    #[ORM\ManyToOne(targetEntity: SignatureRequest::class, inversedBy: 'signers')]
-    #[ORM\JoinColumn(nullable: false)]
-    private SignatureRequest $signatureRequest;
+    #[ORM\Column(length: 255)]
+    #[Groups(['signer:read', 'signer:write'])]
+    private ?string $firstName = null;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    #[Assert\NotBlank]
-    private string $firstName;
+    #[ORM\Column(length: 255)]
+    #[Groups(['signer:read', 'signer:write'])]
+    private ?string $lastName = null;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    #[Assert\NotBlank]
-    private string $lastName;
+    #[ORM\Column(length: 255)]
+    #[Groups(['signer:read', 'signer:write'])]
+    private ?string $email = null;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Assert\NotBlank]
-    #[Assert\Email]
-    private string $email;
-
-    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    #[ORM\Column(length: 20)]
+    #[Groups(['signer:read', 'signer:write'])]
     private ?string $phoneNumber = null;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private string $signatureAuthenticationMode = 'email';
+    #[ORM\Column(length: 50)]
+    #[Groups(['signer:read', 'signer:write'])]
+    private ?string $signatureAuthenticationMode = null;
 
-    #[ORM\Column(type: 'string', length: 36, nullable: true)]
-    private ?string $insertAfterId = null;
+    #[ORM\Column]
+    #[Groups(['signer:read', 'signer:write'])]
+    private ?int $insertAfterId = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $smsMessage = null;
+    #[ORM\Column(type: 'json', nullable: true)]
+    #[Groups(['signer:read', 'signer:write'])]
+    private ?array $smsNotification = null;
 
-    #[ORM\Column(type: 'boolean')]
-    private bool $hasSigned = false;
+    #[ORM\ManyToOne(targetEntity: SignatureRequest::class, inversedBy: 'signers')]
+    #[ORM\JoinColumn(name: 'signature_request_id', referencedColumnName: 'id', nullable: false)]
+    #[Groups(['signer:read'])]
+    private ?SignatureRequest $signatureRequest = null;
 
-    #[ORM\Column(type: 'string', length: 45, nullable: true)]
-    private ?string $ipAddress = null;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $authenticationDatetime = null;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $signatureDatetime = null;
-
-    #[ORM\Column(type: 'string', length: 50)]
-    private string $status = 'pending';
-
-    #[ORM\Column(type: 'datetime')]
-    private \DateTimeInterface $createdAt;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $updatedAt = null;
-
-    public function __construct()
-    {
-        $this->id = Uuid::v1()->toRfc4122();
-        $this->createdAt = new \DateTime();
-    }
-
-    public function getId(): string
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
 
-    public function getSignatureRequest(): SignatureRequest
-    {
-        return $this->signatureRequest;
-    }
-
-    public function setSignatureRequest(SignatureRequest $signatureRequest): self
-    {
-        $this->signatureRequest = $signatureRequest;
-        return $this;
-    }
-
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -97,7 +99,7 @@ class Signer
         return $this;
     }
 
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
@@ -108,7 +110,7 @@ class Signer
         return $this;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -124,13 +126,13 @@ class Signer
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(?string $phoneNumber): self
+    public function setPhoneNumber(string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
         return $this;
     }
 
-    public function getSignatureAuthenticationMode(): string
+    public function getSignatureAuthenticationMode(): ?string
     {
         return $this->signatureAuthenticationMode;
     }
@@ -141,96 +143,36 @@ class Signer
         return $this;
     }
 
-    public function getInsertAfterId(): ?string
+    public function getInsertAfterId(): ?int
     {
         return $this->insertAfterId;
     }
 
-    public function setInsertAfterId(?string $insertAfterId): self
+    public function setInsertAfterId(int $insertAfterId): self
     {
         $this->insertAfterId = $insertAfterId;
         return $this;
     }
 
-    public function getSmsMessage(): ?string
+    public function getSmsNotification(): ?array
     {
-        return $this->smsMessage;
+        return $this->smsNotification;
     }
 
-    public function setSmsMessage(?string $smsMessage): self
+    public function setSmsNotification(?array $smsNotification): self
     {
-        $this->smsMessage = $smsMessage;
+        $this->smsNotification = $smsNotification;
         return $this;
     }
 
-    public function hasSigned(): bool
+    public function getSignatureRequest(): ?SignatureRequest
     {
-        return $this->hasSigned;
+        return $this->signatureRequest;
     }
 
-    public function setHasSigned(bool $hasSigned): self
+    public function setSignatureRequest(?SignatureRequest $signatureRequest): self
     {
-        $this->hasSigned = $hasSigned;
-        return $this;
-    }
-
-    public function getIpAddress(): ?string
-    {
-        return $this->ipAddress;
-    }
-
-    public function setIpAddress(?string $ipAddress): self
-    {
-        $this->ipAddress = $ipAddress;
-        return $this;
-    }
-
-    public function getAuthenticationDatetime(): ?\DateTimeInterface
-    {
-        return $this->authenticationDatetime;
-    }
-
-    public function setAuthenticationDatetime(?\DateTimeInterface $authenticationDatetime): self
-    {
-        $this->authenticationDatetime = $authenticationDatetime;
-        return $this;
-    }
-
-    public function getSignatureDatetime(): ?\DateTimeInterface
-    {
-        return $this->signatureDatetime;
-    }
-
-    public function setSignatureDatetime(?\DateTimeInterface $signatureDatetime): self
-    {
-        $this->signatureDatetime = $signatureDatetime;
-        return $this;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    public function getCreatedAt(): \DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
+        $this->signatureRequest = $signatureRequest;
         return $this;
     }
 }
