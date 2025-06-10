@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\Post;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Controller\SignerController;
 
 #[ORM\Entity]
@@ -22,7 +23,6 @@ use App\Controller\SignerController;
             denormalizationContext: ['groups' => ['signer:write']],
             description: 'Adds a signer to a specific signature request',
             processor: \App\State\SignerProcessor::class,
-            requirements: ['signatureRequestId' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'],
             uriVariables: [
                 'signatureRequestId' => [
                     'from_class' => SignatureRequest::class,
@@ -44,34 +44,44 @@ use App\Controller\SignerController;
 class Signer
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[ORM\Column(type: 'string', length: 36)]
     #[Groups(['signer:read'])]
-    private ?Uuid $id = null;
+    private string $id;
 
     #[ORM\Column(length: 255)]
     #[Groups(['signer:read', 'signer:write'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['signer:read', 'signer:write'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['signer:read', 'signer:write'])]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 20)]
     #[Groups(['signer:read', 'signer:write'])]
+    #[Assert\NotBlank]
+    #[Assert\Regex("/^\+?[1-9]\d{1,18}$/")]
     private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 50)]
     #[Groups(['signer:read', 'signer:write'])]
+    #[Assert\NotBlank]
+    #[Assert\Choice(['email', 'sms', 'otp'])]
     private ?string $signatureAuthenticationMode = null;
 
     #[ORM\Column]
     #[Groups(['signer:read', 'signer:write'])]
+    #[Assert\NotNull]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $insertAfterId = null;
 
     #[ORM\Column(type: 'json', nullable: true)]
@@ -81,9 +91,15 @@ class Signer
     #[ORM\ManyToOne(targetEntity: SignatureRequest::class, inversedBy: 'signers')]
     #[ORM\JoinColumn(name: 'signature_request_id', referencedColumnName: 'id', nullable: false)]
     #[Groups(['signer:read'])]
+    #[Assert\NotNull]
     private ?SignatureRequest $signatureRequest = null;
 
-    public function getId(): ?Uuid
+    public function __construct()
+    {
+        $this->id = Uuid::v1()->toRfc4122();
+    }
+
+    public function getId(): string
     {
         return $this->id;
     }
